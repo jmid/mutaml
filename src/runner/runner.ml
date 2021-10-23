@@ -23,14 +23,7 @@ Adjust env-variable value to include path+filename+mut:
 let print_usage_and_exit () =
   Printf.printf "Usage: %s <test-command>\n" (Sys.argv.(0));
   exit 1
-(*
-let ensure_output_dir dir_name =
-  (*let dir_name = defaults.output_file_prefix in *)
-  try
-    if not (Sys.is_directory dir_name)
-    then fail_and_exit (Printf.sprintf "Expected directory %s is not a directory" dir_name)
-  with Sys_error _ -> Sys.mkdir dir_name 0o755
-*)
+
 let rec ensure_output_dir dir_name =
   try (* base case: directory exists *)
     if not (Sys.is_directory dir_name)
