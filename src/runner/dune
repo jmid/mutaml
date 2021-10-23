@@ -1,0 +1,7 @@
+(executable
+ (name runner)
+ (public_name mutaml-runner)
+ (package mutaml)
+ (libraries unix mutaml.common)
+ (promote (until-clean) (into ../..))
+)

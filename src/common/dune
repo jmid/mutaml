@@ -1,0 +1,7 @@
+(library
+ (name mutaml_common)
+ (public_name mutaml.common)
+ (synopsis "Mutaml internal functions (internal)")
+ (libraries ppxlib)
+ (preprocess (pps ppx_yojson_conv))
+)

@@ -1,0 +1,18 @@
+(library
+ (name lib1)
+ (modules lib1)
+ (instrumentation (backend mutaml))
+)
+
+(library
+ (name lib2)
+ (modules lib2)
+ (instrumentation (backend mutaml))
+)
+
+(executable
+ (name main)
+ (modules main)
+ (libraries lib1 lib2)
+ (promote (until-clean) (into ..))
+)

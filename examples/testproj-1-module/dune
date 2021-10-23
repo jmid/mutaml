@@ -1,0 +1,14 @@
+(library
+ (name lib)
+ (modules lib)
+ (instrumentation (backend mutaml)))
+
+(executable
+ (name main)
+ (modules main)
+ (libraries lib))
+
+(test
+  (name ounittest)
+  (modules ounittest)
+  (libraries lib ounit2))

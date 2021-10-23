@@ -1,0 +1,8 @@
+(library
+ (name mutaml_ppx)
+ (public_name mutaml)
+ (wrapped false)
+ (kind ppx_rewriter)
+ (instrumentation.backend (ppx mutaml))
+ (libraries mutaml.common ppxlib)
+ (preprocess (pps ppxlib.metaquot)))

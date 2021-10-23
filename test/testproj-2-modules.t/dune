@@ -1,0 +1,11 @@
+(cram
+  (deps
+    src/dune
+    src/lib1.ml
+    src/lib2.ml
+    src/main.ml
+    test/dune
+    test/ounittest.ml
+    (package mutaml)
+  )
+)

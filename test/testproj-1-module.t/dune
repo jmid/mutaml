@@ -1,0 +1,8 @@
+(cram
+  (deps
+    main.ml
+    lib.ml
+    ounittest.ml
+    (package mutaml)
+  )
+)

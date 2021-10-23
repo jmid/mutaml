@@ -1,0 +1,4 @@
+(test
+  (name ounittest)
+  (libraries lib1 lib2 ounit2)
+)
