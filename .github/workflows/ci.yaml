@@ -18,7 +18,6 @@ jobs:
           - ubuntu-latest
 
         ocaml-compiler:
-          - 4.07.x
           - 4.08.x
           - 4.09.x
           - 4.10.x
