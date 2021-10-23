@@ -1,11 +1,11 @@
 Mutaml: A Mutation Tester for OCaml
 ===================================
 
-Mutaml is a mutation testing tool for OCaml. 
+Mutaml is a mutation testing tool for OCaml.  
 Briefly, that means Mutaml tries to change your code randomly to see
 if the changes are caught.
 
-In more detail: 
+In more detail:  
 [Mutation testing](https://en.wikipedia.org/wiki/Mutation_testing) is
 a form of fault injection used to assess the quality of a program's
 testsuite. Mutation testing works by repeatedly making small, breaking
