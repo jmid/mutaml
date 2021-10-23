@@ -41,7 +41,7 @@ Preprocess, check for attribute and error
   Created 0 mutations of test.ml
   Writing mutation info to test.muts
         ocamlc .test.eobjs/byte/dune__exe__Test.{cmi,cmo,cmt} (exit 2)
-  (cd _build/default && /home/jmi/.opam/default/bin/ocamlc.opt -w @1..3@5..28@30..39@43@46..47@49..57@61..62-40 -strict-sequence -strict-formats -short-paths -keep-locs -dsource -bin-annot -I .test.eobjs/byte -no-alias-deps -opaque -o .test.eobjs/byte/dune__exe__Test.cmo -c -impl test.pp.ml)
+  (cd _build/default && /home/.../bin/ocamlc.opt -w @1..3@5..28@30..39@43@46..47@49..57@61..62-40 -strict-sequence -strict-formats -short-paths -keep-locs -dsource -bin-annot -I .test.eobjs/byte -no-alias-deps -opaque -o .test.eobjs/byte/dune__exe__Test.cmo -c -impl test.pp.ml)
   
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
   let greet () = print_endline ("Hello," ^ " world!")[@@ppwarning
@@ -110,7 +110,7 @@ Preprocess, check that attribute triggers deprecation error
   Created 0 mutations of test.ml
   Writing mutation info to test.muts
         ocamlc .test.eobjs/byte/dune__exe__Test.{cmi,cmo,cmt} (exit 2)
-  (cd _build/default && /home/jmi/.opam/default/bin/ocamlc.opt -w @1..3@5..28@30..39@43@46..47@49..57@61..62-40 -strict-sequence -strict-formats -short-paths -keep-locs -dsource -alert +deprecated -bin-annot -I .test.eobjs/byte -no-alias-deps -opaque -o .test.eobjs/byte/dune__exe__Test.cmo -c -impl test.pp.ml)
+  (cd _build/default && /home/.../bin/ocamlc.opt -w @1..3@5..28@30..39@43@46..47@49..57@61..62-40 -strict-sequence -strict-formats -short-paths -keep-locs -dsource -alert +deprecated -bin-annot -I .test.eobjs/byte -no-alias-deps -opaque -o .test.eobjs/byte/dune__exe__Test.cmo -c -impl test.pp.ml)
   
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
   module T :
