@@ -24,6 +24,11 @@ let print_usage_and_exit () =
   Printf.printf "Usage: %s <test-command>\n" (Sys.argv.(0));
   exit 1
 
+let ensure_output_dir dir_name =
+  if 0 <> Sys.command ("mkdir -p " ^ dir_name)
+  then fail_and_exit (Printf.sprintf "Failed to create directory %s" dir_name)
+(* Sys.mkdir is a 4.12 addition. Use a crude Sys.command for backwards compat. for now *)
+(*
 let rec ensure_output_dir dir_name =
   try (* base case: directory exists *)
     if not (Sys.is_directory dir_name)
@@ -33,6 +38,7 @@ let rec ensure_output_dir dir_name =
     let par_name = Filename.dirname dir_name in
     ensure_output_dir par_name;
     Sys.mkdir dir_name 0o755
+*)
 
 let test_results = ref []
 
