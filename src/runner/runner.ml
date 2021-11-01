@@ -20,8 +20,9 @@ Adjust env-variable value to include path+filename+mut:
  src/other/foo.ml:0    <--  path should distinguish these
 *)
 
+let usage_string = "Usage: mutaml-runner [options] <test-command>"
 let print_usage_and_exit () =
-  Printf.printf "Usage: %s <test-command>\n" (Sys.argv.(0));
+  Printf.printf "%s\n" usage_string;
   exit 1
 
 let ensure_output_dir dir_name =
@@ -42,7 +43,7 @@ let rec ensure_output_dir dir_name =
 
 let test_results = ref []
 
-let read_instrumentation_overview file_name =
+let read_instrumentation_overview ppx_output_prefix file_name =
   let rec read_loop ch acc =
     try
       let file_name = input_line ch in
@@ -50,16 +51,16 @@ let read_instrumentation_overview file_name =
     with End_of_file -> List.rev acc
   in
   try
-    let ch = open_in (full_ppx_path file_name) in
+    let ch = open_in (full_ppx_path ppx_output_prefix file_name) in
     let file_names = read_loop ch [] in
     let () = close_in ch in
     file_names
   with Sys_error msg ->
     fail_and_exit (Printf.sprintf "Could not read file %s - %s" file_name msg)
 
-let read_module_mutations_json file_name =
+let read_module_mutations_json ppx_output_prefix file_name =
   try
-    let ch = open_in (full_ppx_path file_name) in
+    let ch = open_in (full_ppx_path ppx_output_prefix file_name) in
     let mutants = match Yojson.Safe.from_channel ch with
       | `List ys -> List.map mutant_of_yojson ys
       | _        -> fail_and_exit ("Could not parse " ^ file_name)
@@ -68,10 +69,10 @@ let read_module_mutations_json file_name =
   with Sys_error msg ->
     fail_and_exit (Printf.sprintf "Could not read file %s - %s" file_name msg)
 
-let read_all_mutations file_name =
-  let mut_files = read_instrumentation_overview file_name in
+let read_all_mutations ppx_output_prefix file_name =
+  let mut_files = read_instrumentation_overview ppx_output_prefix file_name in
   List.iter (fun fname -> Printf.printf "read mut file %s\n%!" fname) mut_files;
-  List.map (fun f -> (f, read_module_mutations_json f)) mut_files
+  List.map (fun f -> (f, read_module_mutations_json ppx_output_prefix f)) mut_files
 
 let validate_mutants file_name muts =
   if muts=[]
@@ -137,18 +138,24 @@ let rec run_all_mutation_tests test_cmd muts = match muts with
 
 (** Executable entry point *)
 
+let build_ctx = ref ""
+let arg_spec = [ ("-build-context", Arg.Set_string build_ctx, "Specify the build context to read from") ]
+
 let () =
-  if Array.length Sys.argv != 2
-  then print_usage_and_exit ()
-  else
   if 0 <> Sys.command ("which " ^ timeout_cmd ^ " > /dev/null")
   then fail_and_exit ("Could not find time-out command: " ^ timeout_cmd)
   else
-    let test_cmd = Sys.argv.(1) in
+    let test_cmd = ref "" in
+    let set_test_cmd str = if "" = !test_cmd then test_cmd := str else print_usage_and_exit () in
+    let () = Arg.parse arg_spec set_test_cmd usage_string in
+    if "" = !test_cmd then print_usage_and_exit () else
+    let ppx_output_prefix = match !build_ctx, Sys.getenv_opt "MUTAML_BUILD_CONTEXT" with
+      | "", opt -> Option.fold ~some:Fun.id opt ~none:defaults.ppx_output_prefix
+      | s, _opt -> s in
     let mut_file = defaults.mutaml_mut_file in
-    let mutants = read_all_mutations mut_file in
+    let mutants = read_all_mutations ppx_output_prefix mut_file in
     validate_mutants mut_file mutants;
     ensure_output_dir defaults.output_file_prefix;
-    run_all_mutation_tests test_cmd mutants;
+    run_all_mutation_tests !test_cmd mutants;
     write_report_file defaults.mutaml_report_file;
     ()

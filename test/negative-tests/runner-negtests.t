@@ -4,7 +4,7 @@ Check that only the `runner-negtests.t` file is present:
 
 Check that report tool fails when run without a test command:
   $ mutaml-runner
-  Usage: mutaml-runner <test-command>
+  Usage: mutaml-runner [options] <test-command>
   [1]
 
 Try to supply an invalid command as argument, but still missing a mutation file:
@@ -62,4 +62,19 @@ Now try running again with a broken command:
   $ mutaml-runner scooby-doo.sh
   read mut file somefile.muts
   Testing mutant somefile:0 ... Command not found: failed to run the test command "scooby-doo.sh"
+  [1]
+
+
+
+Run with an unknown build context passed as environment variable:
+  $ export MUTAML_BUILD_CONTEXT="_build/in-a-galaxy-far-far-away"
+  $ mutaml-runner true
+  Could not read file mutaml-mut-files.txt - _build/in-a-galaxy-far-far-away/mutaml-mut-files.txt: No such file or directory
+  [1]
+
+
+
+Run with an unknown build context passed as command line option:
+  $ mutaml-runner -build-context _build/foofoo true
+  Could not read file mutaml-mut-files.txt - _build/foofoo/mutaml-mut-files.txt: No such file or directory
   [1]

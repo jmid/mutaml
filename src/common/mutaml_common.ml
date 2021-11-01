@@ -9,16 +9,15 @@ type defaults =
 let defaults =
   {
     (* filenames to communicate through *)
-    (*output_file_prefix  = Filename.concat "_build" "default";*)
     ppx_output_prefix   = Filename.concat "_build" "default";
     output_file_prefix  = "_mutations";
     mutaml_mut_file     = "mutaml-mut-files.txt";
     mutaml_report_file  = "mutaml-report.json"
   }
 
-let full_ppx_path fname =
+let full_ppx_path ppx_output_prefix fname =
   if Filename.is_implicit fname
-  then Filename.concat defaults.ppx_output_prefix fname
+  then Filename.concat ppx_output_prefix fname
   else fname
 
 let full_path fname =

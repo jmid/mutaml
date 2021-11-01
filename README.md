@@ -134,6 +134,15 @@ If you do both, the values passed in the `dune` file takes precedence.
 
 
 
+By default, `mutaml-runner` expects to find the preprocessor's output
+files in the default build context `_build/default`. This can be
+configured via an environment variable or a command line option, e.g.,
+if [instrumentation is enabled via another `dune-workspace` build context](https://dune.readthedocs.io/en/stable/instrumentation.html#enabling-disabling-instrumentation):
+
+- `MUTAML_BUILD_CONTEXT` - a path prefix string (overridden by option `-build-context`)
+
+
+
 Status
 ------
 

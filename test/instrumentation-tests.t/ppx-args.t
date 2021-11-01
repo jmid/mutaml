@@ -349,3 +349,54 @@ Repeat with a few other seeds:
   Randomness seed: 9825453   Mutation rate: 0   GADTs enabled: false
   Created 0 mutations of test.ml
   Writing mutation info to test.muts
+
+-----------------------------------------------------------------------
+Test behaviour with another building context
+-----------------------------------------------------------------------
+
+Create a dune-workspace file with another build context:
+  $ cat > dune-workspace <<'EOF'
+  > (lang dune 2.9)
+  > (context default)
+  > (context (default (name mutation) (instrument_with mutaml)))
+  > EOF
+
+And a dune file:
+  $ cat > dune <<'EOF'
+  > (executable
+  >  (name test)
+  >  (modes byte)
+  >  (instrumentation (backend mutaml))
+  > )
+  > EOF
+
+
+
+  $ dune clean
+  $ export MUTAML_SEED=896745231
+  $ dune build _build/mutation/test.bc --force
+           ppx test.pp.ml [mutation]
+  Running mutaml instrumentation on "test.ml"
+  Randomness seed: 896745231   Mutation rate: 50   GADTs enabled: false
+  Created 7 mutations of test.ml
+  Writing mutation info to test.muts
+
+
+  $ ls _build/mutation
+  mutaml-mut-files.txt
+  test.bc
+  test.ml
+  test.muts
+  test.pp.ml
+
+  $ export MUTAML_BUILD_CONTEXT="_build/mutation"
+  $ mutaml-runner _build/mutation/test.bc
+  read mut file test.muts
+  Testing mutant test:0 ... passed
+  Testing mutant test:1 ... passed
+  Testing mutant test:2 ... passed
+  Testing mutant test:3 ... passed
+  Testing mutant test:4 ... passed
+  Testing mutant test:5 ... passed
+  Testing mutant test:6 ... passed
+  Writing report data to mutaml-report.json
