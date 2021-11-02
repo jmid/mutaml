@@ -18,8 +18,8 @@ jobs:
           - ubuntu-latest
 
         ocaml-compiler:
-          - 4.08.x
-#          - 4.09.x
+#          - 4.08.x
+          - 4.09.x
 #          - 4.10.x
 #          - 4.11.x
           - 4.12.x
@@ -34,6 +34,14 @@ jobs:
         uses: ocaml/setup-ocaml@v2
         with:
           ocaml-compiler: ${{ matrix.ocaml-compiler }}
+
+      - name: Setup timeout
+        if: ${{ matrix.os == 'macos-latest' }}
+        run: |
+	  brew update
+	  brew install binutils
+	  ln -s  `which gtimeout` $HOME/.local/bin/timeout
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
 
       - run: opam install . --deps-only --with-test
 
