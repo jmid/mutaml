@@ -41,7 +41,12 @@ jobs:
           brew update
           brew install binutils
           ln -s  `which gtimeout` $HOME/.local/bin/timeout
+          echo "$PATH"
           echo "$HOME/.local/bin" >> $GITHUB_PATH
+          echo "$PATH"
+          echo "$PATH:/usr/local/opt/binutils/bin" >> $GITHUB_PATH
+          echo "$PATH"
+          ls /usr/local/opt/binutils/bin
 
       - run: opam install . --deps-only --with-test
 
