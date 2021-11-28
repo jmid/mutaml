@@ -1,13 +1,12 @@
-name: CI
+name: Main CI workflow
 
 on:
-  push:
-    branches:
-      - main
   pull_request:
-    types:
-      - opened
-      - synchronize
+  push:
+  schedule:
+    # Prime the caches every Monday
+    - cron: 0 1 * * MON
+
 jobs:
   build:
     strategy:
@@ -19,10 +18,11 @@ jobs:
 
         ocaml-compiler:
 #          - 4.08.x
-          - 4.09.x
+#          - 4.09.x
 #          - 4.10.x
 #          - 4.11.x
           - 4.12.x
+#          - 4.13.x
 
     runs-on: ${{ matrix.os }}
 
@@ -38,9 +38,9 @@ jobs:
       - name: Setup timeout
         if: ${{ matrix.os == 'macos-latest' }}
         run: |
-	  brew update
-	  brew install binutils
-	  ln -s  `which gtimeout` $HOME/.local/bin/timeout
+          brew update
+          brew install binutils
+          ln -s  `which gtimeout` $HOME/.local/bin/timeout
           echo "$HOME/.local/bin" >> $GITHUB_PATH
 
       - run: opam install . --deps-only --with-test
