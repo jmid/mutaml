@@ -72,32 +72,33 @@ let file_contents file_name =
       Buffer.contents buf in
   loop ()
 
+let write_mutated_version output_file ~start ~stop contents repl =
+    let ch =
+      try open_out output_file
+      with Sys_error msg -> fail_and_exit (Printf.sprintf "Could not open file %s" msg)
+    in
+    output_string ch (String.sub contents 0 start.pos_cnum);
+    output_string ch repl;
+    output_string ch (String.sub contents stop.pos_cnum (String.length contents - stop.pos_cnum));
+    close_out ch
 
 (** prints details for a mutation that passed, i.e., flew under the radar *)
 let print_passed print_diff (res:test_result) =
-  let loc = res.mutant.loc in
-  let mut_number = res.mutant.number in
-  let output_file = output_file_name loc.loc_start.pos_fname mut_number in
-
+  let loc,mut_number = res.mutant.loc,res.mutant.number in
+  let test_output_file = output_file_name loc.loc_start.pos_fname mut_number in
   let file_name = loc.loc_start.pos_fname in
   let mut_name = Printf.sprintf "%s-mutant%i" file_name mut_number in
   let full_mut_name = full_path mut_name in
   let repl = match res.mutant.repl with None -> "" | Some repl -> repl in
-  let ppx_repl = Ppxlib__Reconcile.Replacement.make_text ~start:loc.loc_start ~stop:loc.loc_end ~repl () in
-  Ppxlib__Reconcile.reconcile (*~styler:""*)
-    [ppx_repl]
-    ~kind:Ppxlib__.Utils.Kind.Impl
-    ~contents:(file_contents file_name)
-    ~input_filename:file_name (* name of the processed file *)
-    ~output:(Some full_mut_name) (*output file for mutation code *)
-    ~input_name:file_name
-    ~target:Ppxlib__.Reconcile.Corrected;
-
+  let contents = file_contents file_name in
+  write_mutated_version full_mut_name ~start:loc.loc_start ~stop:loc.loc_end contents repl;
   if print_diff
   then
     begin
-      Printf.printf "Mutation \"%s\" passed (see \"%s\"):\n\n%!" mut_name output_file;
-      let cmd = Printf.sprintf "diff --color -u --label \"%s\" %s --label \"%s\" %s 1>&2" file_name file_name mut_name full_mut_name in
+      Printf.printf "Mutation \"%s\" passed (see \"%s\"):\n\n%!" mut_name test_output_file;
+      let cmd =
+        Printf.sprintf "diff --color -u --label \"%s\" %s --label \"%s\" %s 1>&2"
+          file_name file_name mut_name full_mut_name in
       let () = match Sys.command cmd with
         | 1 -> ()
         | 0   -> fail_and_exit "The two source code files did not differ, despite mutation"
@@ -108,7 +109,7 @@ let print_passed print_diff (res:test_result) =
       Format.printf "%s\n\n" (String.make 75 '-');
     end
   else
-    Printf.printf "Mutation \"%s\" passed (see \"%s\")\n%!" mut_name output_file
+    Printf.printf "Mutation \"%s\" passed (see \"%s\")\n%!" mut_name test_output_file
 
 let part_files results =
   let files = List.map (fun r -> r.mutant.loc.loc_start.pos_fname) results
