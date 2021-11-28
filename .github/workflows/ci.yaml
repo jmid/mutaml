@@ -46,6 +46,8 @@ jobs:
           echo "$PATH"
           echo "$PATH:/usr/local/opt/binutils/bin" >> $GITHUB_PATH
           echo "$PATH"
+          which gtimeout
+          which timeout
           ls /usr/local/opt/binutils/bin
 
       - run: opam install . --deps-only --with-test
