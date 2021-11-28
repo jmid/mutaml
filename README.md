@@ -5,8 +5,7 @@ Mutaml is a mutation testing tool for OCaml.
 Briefly, that means Mutaml tries to change your code randomly to see
 if the changes are caught.
 
-In more detail:  
-[Mutation testing](https://en.wikipedia.org/wiki/Mutation_testing) is
+In more detail: [Mutation testing](https://en.wikipedia.org/wiki/Mutation_testing) is
 a form of fault injection used to assess the quality of a program's
 testsuite. Mutation testing works by repeatedly making small, breaking
 changes to a program's text, such as turning a `+` into `-`, negating
@@ -18,7 +17,7 @@ limitations of an existing testsuite and indirectly suggest
 improvements.
 
 Since OCaml already prevents many potential programming errors at compile
-time (strong type system, pattern-match compiler warnings, ...) Mutaml
+time due to its strong type system, pattern-match compiler warnings, etc. Mutaml
 favors mutations that
 - preserve typing and
 - would not be caught statically, e.g., changes in the values computed.
@@ -27,9 +26,9 @@ Mutaml consists of:
 
  - a [`pxxlib`](https://github.com/ocaml-ppx/ppxlib)-preprocessor that
    first transforms the program under test.
- - a runner that loops through a range of possible program mutations,
-   saving the output of each individual test
- - a reporter that prints a test report to the console.
+ - `mutaml-runner` that loops through a range of possible program mutations,
+   and saves the output from running the test suite on each of the mutants
+ - `mutaml-report` that prints a test report to the console.
 
 
 Installation:
@@ -38,7 +37,7 @@ Installation:
 Installing Mutaml
 
 ```
-$ clone https://github.com/jmid/mutaml.git
+$ git clone https://github.com/jmid/mutaml.git
 $ cd mutaml
 $ opam install .
 ```
@@ -48,8 +47,9 @@ Instructions:
 -------------
 
 How you can use `mutaml` depends on your project's build setup.
-Preferably it should support an explicit two-staged build process.
-For now it has only been tested it with `dune`:
+For now it has only been tested it with `dune`, but it should work
+with other build systems which support an explicit two-staged build
+process.
 
 
 ### Using Mutaml with `dune`
@@ -93,30 +93,32 @@ For now it has only been tested it with `dune`:
    $ mutaml-report
    ```
    By default this prints `diff`s for each mutation that flew under
-   the radar of your test suite. This output can be suppressed by
+   the radar of your test suite. Thee `diff` output can be suppressed by
    passing `-no-diff`.
 
 
 Steps 3 and 4 output a number of additional files.
-These are all written to a dedicated directory named `_mutations`
+These are all written to a dedicated directory named `_mutations`.
 
 
 
-Options and Environment Variables
----------------------------------
+Environment Variables and Instrumentation Options
+-------------------------------------------------
 
-The `mutaml` preprocessor's behaviour can be configured through either
-environment variables or parameters in the `dune` file:
+The preprocessor's behaviour can be configured through either
+environment variables or instrumentation options in the `dune` file:
 
-- `MUTAML_SEED` - an integer value to seed mutaml-ppx's randomized
-  mutations (overridden by option `-seed`)
+- `MUTAML_SEED` - an integer value to seed `mutaml-ppx`'s randomized
+  mutations (overridden by instrumentation option `-seed`)
 - `MUTAML_MUT_RATE` - a integer between 0 and 100 to specify the
-  mutation frequency (0 means never and 100 means always, overridden by option `-mut-rate`)
+  mutation frequency (0 means never and 100 means always - overridden
+  by instrumentation option `-mut-rate`)
 - `MUTAML_GADT` - allow only pattern mutations compatible with GADTs
-  (`true` or `false`, overridden by option `-gadt`)
+  (`true` or `false`, overridden by instrumentation option `-gadt`)
 
 
-For example, the following `dune` sets all three options:
+For example, the following `dune` file sets all three instrumentation
+options:
 ```
  (executable
   (name test)
@@ -130,16 +132,18 @@ variables:
   $ export MUTAML_MUT_RATE=75
   $ export MUTAML_GADT=true
 ```
-If you do both, the values passed in the `dune` file takes precedence.
+If you do both, the values passed as instrumentation options in the
+`dune` file takes precedence.
 
 
 
 By default, `mutaml-runner` expects to find the preprocessor's output
 files in the default build context `_build/default`. This can be
-configured via an environment variable or a command line option, e.g.,
+configured via an environment variable or a command-line option, e.g.,
 if [instrumentation is enabled via another `dune-workspace` build context](https://dune.readthedocs.io/en/stable/instrumentation.html#enabling-disabling-instrumentation):
 
-- `MUTAML_BUILD_CONTEXT` - a path prefix string (overridden by option `-build-context`)
+- `MUTAML_BUILD_CONTEXT` - a path prefix string (overridden by
+  command-line option `-build-context`)
 
 
 
@@ -157,7 +161,7 @@ This is an *alpha* release. There are therefore rough edges:
   ```
   The preprocessor in this case only writes the relevant files when
   `mutaml-runner` first calls the command, and thus *after* it needs the
-  information  contained in the files...
+  information contained in the files...
 
 - There are [issues to force `dune` to
 rebuild](https://github.com/ocaml/dune/issues/4390). This can affect
@@ -173,7 +177,8 @@ rebuild](https://github.com/ocaml/dune/issues/4390). This can affect
 
 
 Mutations should not introduce compiler errors, be it type errors or
-from the pattern-match compiler (if so: please report it in an issue).
+from the pattern-match compiler. Should you encounter a situation where
+this happens please report it in an issue.
 
 
 Acknowledgements
