@@ -35,12 +35,12 @@ jobs:
         with:
           ocaml-compiler: ${{ matrix.ocaml-compiler }}
 
-      - name: Setup timeout, GNU diff w/color, and newer bash
+      - name: Setup timeout, GNU diff w.color, and newer bash
         if: ${{ matrix.os == 'macos-latest' }}
         run: |
           brew update
           brew install bash
-	  brew install diffutils
+          brew install diffutils
           brew install coreutils
           echo "/usr/local/opt/coreutils/libexec/gnubin" >> $GITHUB_PATH
           echo "$PATH"
