@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # breakdown:
 #   filter [@@@ocaml.ppx.context whitespace {  0-or-more not-close-brace-chars }]
