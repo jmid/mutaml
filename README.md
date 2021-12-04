@@ -1,9 +1,9 @@
-Mutaml: A Mutation Tester for OCaml
-===================================
+Mutaml: A Mutation Tester for OCaml [![Main CI workflow](https://github.com/jmid/mutaml/actions/workflows/ci.yaml/badge.svg)](https://github.com/jmid/mutaml/actions/workflows/ci.yaml)
+===============================================
 
 Mutaml is a mutation testing tool for OCaml.  
 Briefly, that means Mutaml tries to change your code randomly to see
-if the changes are caught.
+if the changes are caught by your tests.
 
 In more detail: [Mutation testing](https://en.wikipedia.org/wiki/Mutation_testing) is
 a form of fault injection used to assess the quality of a program's
