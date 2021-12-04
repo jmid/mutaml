@@ -35,11 +35,12 @@ jobs:
         with:
           ocaml-compiler: ${{ matrix.ocaml-compiler }}
 
-      - name: Setup timeout, GNU diff w.color, and newer bash
+      - name: Install GNU bash, sed, diff w/color, and setup timeout
         if: ${{ matrix.os == 'macos-latest' }}
         run: |
           brew update
           brew install bash
+          brew install gnu-sed --with-default-names
           brew install diffutils
           brew install coreutils
           echo "/usr/local/opt/coreutils/libexec/gnubin" >> $GITHUB_PATH
