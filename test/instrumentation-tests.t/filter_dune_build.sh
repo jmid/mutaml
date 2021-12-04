@@ -5,4 +5,5 @@
 #   and normalize file system paths
 dune build $@ 2>&1 | \
     sed  -E 'H;1h;$!d;x;s/\[@@@ocaml\.ppx\.context\s+\{[^}]*\}\]//g' | \
-    sed 's/home[^ ]*bin\//home\/...\/bin\//'
+    sed 's/home[^ ]*bin\//some\/path\/...\/bin\//' | \
+    sed 's/Users[^ ]*bin\//some\/path\/...\/bin\//'
