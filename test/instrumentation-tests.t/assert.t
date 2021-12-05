@@ -80,7 +80,7 @@ Make an .ml-file:
            ppx test.pp.ml
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
-  Created 2 mutations of test.ml
+  Created 3 mutations of test.ml
   Writing mutation info to test.muts
         ocamlc .test.eobjs/byte/dune__exe__Test.{cmi,cmo,cmt}
   
@@ -89,7 +89,8 @@ Make an .ml-file:
     match Sys.word_size with
     | 32 -> if __MUTAML_MUTANT__ = (Some "test:0") then 33 else 32
     | _ ->
-        (assert (1 > 0); if __MUTAML_MUTANT__ = (Some "test:1") then 1 else 0)
+        (if __MUTAML_MUTANT__ = (Some "test:2") then () else assert (1 > 0);
+         if __MUTAML_MUTANT__ = (Some "test:1") then 1 else 0)
 
 
   $ MUTAML_MUTANT="test:0" dune exec --no-build -- ./test.bc

@@ -434,6 +434,18 @@ class mutate_mapper (rs : RS.t) =
              (string_of_exp [%expr not [%e e0]])) in
         { e with pexp_desc = Pexp_ifthenelse (e0'_guarded,e1',e2_opt') }
 
+    (* omit a unit-expression in a sequence:
+
+                             (if __MUTAML_MUTANT__ = Some [%e mut_id_exp]
+       e0; e1  ~~>            then ()
+                              else e0'); e'  *)
+    | _, Pexp_sequence (e0,e1) when self#choose_to_mutate ->
+      let e0' = self#expression ctx e0 in
+      let e1' = self#expression ctx e1 in
+      let e0'' =
+        self#mutaml_mutant ctx loc(*e0.pexp_loc*) [%expr ()] e0' (string_of_exp e1) in
+      { e0 with pexp_desc = Pexp_sequence (e0'',e1') }
+
     | _, Pexp_function cases ->
       let cases_pure = self#cases ctx cases in (* all cases are pure in 'function' *)
       let function_ = { e with pexp_desc = Pexp_function cases_pure } in
@@ -444,6 +456,7 @@ class mutate_mapper (rs : RS.t) =
             attr_payload = PStr [[%stri "-8"]];
             attr_loc = loc }
       else function_
+
     | _, Pexp_match (me,cases) ->
       let me = super#expression ctx me in
       let cases = self#cases ctx cases in
