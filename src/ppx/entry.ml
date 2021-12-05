@@ -26,9 +26,7 @@ module Env =
 struct
   (* select a CLI-arg, an environment variable, or a default value -- in that order *)
   let select_param cli_arg env_var conversion init_default =
-    let env_opt = match Sys.getenv_opt env_var with
-      | None   -> None
-      | Some s -> Some (conversion s) in
+    let env_opt = Option.map conversion (Sys.getenv_opt env_var) in
     match cli_arg, env_opt with
     | Some v, _      -> v
     | None  , Some s -> s
