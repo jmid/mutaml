@@ -267,7 +267,7 @@ Instrument and check that it was received
     --cookie                    Same as -cookie
     -seed                       Set randomness seed for mutaml's instrumentation
     -mut-rate                   Set probability in % of mutating a syntax tree node (default: 50%)
-    -gadt                       Only allow pattern mutations compatible GADTs (default: off)
+    -gadt                       Allow only pattern mutations compatible with GADTs (default: true)
     -help                       Display this list of options
     --help                      Display this list of options
   File "dune", line 4, characters 1-42:

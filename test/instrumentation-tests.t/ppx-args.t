@@ -25,7 +25,7 @@ Test default behaviour when passing only seed as environment variable
   $ dune build ./test.bc --instrument-with mutaml
            ppx test.pp.ml
   Running mutaml instrumentation on "test.ml"
-  Randomness seed: 896745231   Mutation rate: 50   GADTs enabled: false
+  Randomness seed: 896745231   Mutation rate: 50   GADTs enabled: true
   Created 1 mutation of test.ml
   Writing mutation info to test.muts
 
@@ -38,7 +38,7 @@ Try passing another seed value:
   $ dune build ./test.bc --instrument-with mutaml
            ppx test.pp.ml
   Running mutaml instrumentation on "test.ml"
-  Randomness seed: 4231   Mutation rate: 50   GADTs enabled: false
+  Randomness seed: 4231   Mutation rate: 50   GADTs enabled: true
   Created 1 mutation of test.ml
   Writing mutation info to test.muts
 
@@ -76,7 +76,7 @@ Instrument and check that it was received
   Writing mutation info to test.muts
 
 -----------------------------------------------------------------------
-Create a dune file passing only -gadt
+Create a dune file passing only -gadt true
 Instrument and check that it was received
 -----------------------------------------------------------------------
 
@@ -87,7 +87,7 @@ Instrument and check that it was received
   > (executable
   >  (name test)
   >  (modes byte)
-  >  (instrumentation (backend mutaml -gadt))
+  >  (instrumentation (backend mutaml -gadt true))
   > )
   > EOF
 
@@ -97,6 +97,31 @@ Instrument and check that it was received
   Randomness seed: 896745231   Mutation rate: 50   GADTs enabled: true
   Created 1 mutation of test.ml
   Writing mutation info to test.muts
+
+
+-----------------------------------------------------------------------
+Create a dune file passing only -gadt false
+Instrument and check that it was received
+-----------------------------------------------------------------------
+
+  $ dune clean
+  $ unset MUTAML_GADT
+
+  $ cat > dune <<'EOF'
+  > (executable
+  >  (name test)
+  >  (modes byte)
+  >  (instrumentation (backend mutaml -gadt false))
+  > )
+  > EOF
+
+  $ dune build ./test.bc --instrument-with mutaml
+           ppx test.pp.ml
+  Running mutaml instrumentation on "test.ml"
+  Randomness seed: 896745231   Mutation rate: 50   GADTs enabled: false
+  Created 1 mutation of test.ml
+  Writing mutation info to test.muts
+
 
 -----------------------------------------------------------------------
 Same dune file passing a seed + environment variable seed
@@ -111,10 +136,11 @@ Force dune to rebuild
   $ dune build ./test.bc --force --instrument-with mutaml
            ppx test.pp.ml
   Running mutaml instrumentation on "test.ml"
-  Randomness seed: 896745231   Mutation rate: 50   GADTs enabled: true
+  Randomness seed: 896745231   Mutation rate: 50   GADTs enabled: false
   Created 1 mutation of test.ml
   Writing mutation info to test.muts
 
+  $ unset MUTAML_GADT
 
 
 
@@ -144,7 +170,7 @@ Instrument and check that it was received
   $ dune build ./test.bc --instrument-with mutaml
            ppx test.pp.ml
   Running mutaml instrumentation on "test.ml"
-  Randomness seed: 42   Mutation rate: 50   GADTs enabled: false
+  Randomness seed: 42   Mutation rate: 50   GADTs enabled: true
   Created 0 mutations of test.ml
   Writing mutation info to test.muts
 
@@ -161,7 +187,7 @@ Force dune to rebuild
   $ dune build ./test.bc --force --instrument-with mutaml
            ppx test.pp.ml
   Running mutaml instrumentation on "test.ml"
-  Randomness seed: 42   Mutation rate: 50   GADTs enabled: false
+  Randomness seed: 42   Mutation rate: 50   GADTs enabled: true
   Created 0 mutations of test.ml
   Writing mutation info to test.muts
 
@@ -193,7 +219,7 @@ Instrument and check that it was received
   $ dune build ./test.bc --instrument-with mutaml
            ppx test.pp.ml
   Running mutaml instrumentation on "test.ml"
-  Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: false
+  Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 1 mutation of test.ml
   Writing mutation info to test.muts
 
@@ -204,7 +230,7 @@ Try with another value - 33:
   $ dune build ./test.bc --instrument-with mutaml
            ppx test.pp.ml
   Running mutaml instrumentation on "test.ml"
-  Randomness seed: 896745231   Mutation rate: 33   GADTs enabled: false
+  Randomness seed: 896745231   Mutation rate: 33   GADTs enabled: true
   Created 0 mutations of test.ml
   Writing mutation info to test.muts
 
@@ -215,7 +241,7 @@ Try with another value - 0:
   $ dune build ./test.bc --instrument-with mutaml
            ppx test.pp.ml
   Running mutaml instrumentation on "test.ml"
-  Randomness seed: 896745231   Mutation rate: 0   GADTs enabled: false
+  Randomness seed: 896745231   Mutation rate: 0   GADTs enabled: true
   Created 0 mutations of test.ml
   Writing mutation info to test.muts
 
@@ -238,7 +264,7 @@ Instrument and check that it was received
   $ dune build ./test.bc --instrument-with mutaml
            ppx test.pp.ml
   Running mutaml instrumentation on "test.ml"
-  Randomness seed: 896745231   Mutation rate: 75   GADTs enabled: false
+  Randomness seed: 896745231   Mutation rate: 75   GADTs enabled: true
   Created 1 mutation of test.ml
   Writing mutation info to test.muts
 
@@ -254,7 +280,7 @@ Here the dune file parameter should take precedence
   $ dune build ./test.bc --instrument-with mutaml
            ppx test.pp.ml
   Running mutaml instrumentation on "test.ml"
-  Randomness seed: 896745231   Mutation rate: 75   GADTs enabled: false
+  Randomness seed: 896745231   Mutation rate: 75   GADTs enabled: true
   Created 1 mutation of test.ml
   Writing mutation info to test.muts
 
@@ -276,7 +302,7 @@ Instrument and check that they were received
   $ dune build ./test.bc --instrument-with mutaml
            ppx test.pp.ml
   Running mutaml instrumentation on "test.ml"
-  Randomness seed: 42   Mutation rate: 75   GADTs enabled: false
+  Randomness seed: 42   Mutation rate: 75   GADTs enabled: true
   Created 0 mutations of test.ml
   Writing mutation info to test.muts
 
@@ -314,7 +340,7 @@ Instrument and check that it was received - with no mutation
   $ dune build ./test.bc --instrument-with mutaml
            ppx test.pp.ml
   Running mutaml instrumentation on "test.ml"
-  Randomness seed: 896745231   Mutation rate: 0   GADTs enabled: false
+  Randomness seed: 896745231   Mutation rate: 0   GADTs enabled: true
   Created 0 mutations of test.ml
   Writing mutation info to test.muts
 
@@ -326,7 +352,7 @@ Repeat with a few other seeds:
   $ dune build ./test.bc --instrument-with mutaml
            ppx test.pp.ml
   Running mutaml instrumentation on "test.ml"
-  Randomness seed: 325   Mutation rate: 0   GADTs enabled: false
+  Randomness seed: 325   Mutation rate: 0   GADTs enabled: true
   Created 0 mutations of test.ml
   Writing mutation info to test.muts
 
@@ -336,7 +362,7 @@ Repeat with a few other seeds:
   $ dune build ./test.bc --instrument-with mutaml
            ppx test.pp.ml
   Running mutaml instrumentation on "test.ml"
-  Randomness seed: 87324   Mutation rate: 0   GADTs enabled: false
+  Randomness seed: 87324   Mutation rate: 0   GADTs enabled: true
   Created 0 mutations of test.ml
   Writing mutation info to test.muts
 
@@ -346,7 +372,7 @@ Repeat with a few other seeds:
   $ dune build ./test.bc --instrument-with mutaml
            ppx test.pp.ml
   Running mutaml instrumentation on "test.ml"
-  Randomness seed: 9825453   Mutation rate: 0   GADTs enabled: false
+  Randomness seed: 9825453   Mutation rate: 0   GADTs enabled: true
   Created 0 mutations of test.ml
   Writing mutation info to test.muts
 
@@ -377,7 +403,7 @@ And a dune file:
   $ dune build _build/mutation/test.bc --force
            ppx test.pp.ml [mutation]
   Running mutaml instrumentation on "test.ml"
-  Randomness seed: 896745231   Mutation rate: 50   GADTs enabled: false
+  Randomness seed: 896745231   Mutation rate: 50   GADTs enabled: true
   Created 7 mutations of test.ml
   Writing mutation info to test.muts
 

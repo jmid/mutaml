@@ -17,7 +17,7 @@ Test + 1:
   $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml
            ppx test.pp.ml
   Running mutaml instrumentation on "test.ml"
-  Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: false
+  Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 1 mutation of test.ml
   Writing mutation info to test.muts
         ocamlc .test.eobjs/byte/dune__exe__Test.{cmi,cmo,cmt}
@@ -46,7 +46,7 @@ Test - 1:
   $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml
            ppx test.pp.ml
   Running mutaml instrumentation on "test.ml"
-  Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: false
+  Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 1 mutation of test.ml
   Writing mutation info to test.muts
         ocamlc .test.eobjs/byte/dune__exe__Test.{cmi,cmo,cmt}
@@ -73,7 +73,7 @@ Test 1 +:
   $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml
            ppx test.pp.ml
   Running mutaml instrumentation on "test.ml"
-  Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: false
+  Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 1 mutation of test.ml
   Writing mutation info to test.muts
         ocamlc .test.eobjs/byte/dune__exe__Test.{cmi,cmo,cmt}
@@ -100,7 +100,7 @@ Test addition:
   $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml
            ppx test.pp.ml
   Running mutaml instrumentation on "test.ml"
-  Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: false
+  Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 1 mutation of test.ml
   Writing mutation info to test.muts
         ocamlc .test.eobjs/byte/dune__exe__Test.{cmi,cmo,cmt}
@@ -198,7 +198,7 @@ Test subtraction mutation:
   $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml
            ppx test.pp.ml
   Running mutaml instrumentation on "test.ml"
-  Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: false
+  Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 1 mutation of test.ml
   Writing mutation info to test.muts
         ocamlc .test.eobjs/byte/dune__exe__Test.{cmi,cmo,cmt}
@@ -225,7 +225,7 @@ Test multiplication mutation:
   $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml
            ppx test.pp.ml
   Running mutaml instrumentation on "test.ml"
-  Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: false
+  Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 1 mutation of test.ml
   Writing mutation info to test.muts
         ocamlc .test.eobjs/byte/dune__exe__Test.{cmi,cmo,cmt}
@@ -248,7 +248,7 @@ Test division mutation:
   $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml
            ppx test.pp.ml
   Running mutaml instrumentation on "test.ml"
-  Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: false
+  Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 1 mutation of test.ml
   Writing mutation info to test.muts
         ocamlc .test.eobjs/byte/dune__exe__Test.{cmi,cmo,cmt}
@@ -275,7 +275,7 @@ Test modulo mutation:
   $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml
            ppx test.pp.ml
   Running mutaml instrumentation on "test.ml"
-  Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: false
+  Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 1 mutation of test.ml
   Writing mutation info to test.muts
         ocamlc .test.eobjs/byte/dune__exe__Test.{cmi,cmo,cmt}

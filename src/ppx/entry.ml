@@ -4,7 +4,7 @@ struct
   (* this part is primarily for the CLI *)
   let seed     = ref None
   let mut_rate = ref None
-  let gadt     = ref false
+  let gadt     = ref None
 
   let invalid_rate rate = rate < 0 || rate > 100
   let set_seed s = (seed := Some s)
@@ -12,12 +12,12 @@ struct
     if invalid_rate rate
     then raise (Arg.Bad (Printf.sprintf "Invalid mutation rate: %i" rate))
     else mut_rate := Some rate
-  let set_gadt s = (seed := Some s)
+  let set_gadt s = (gadt := Some s)
 
   let arg_spec = [
-    ("-seed",     Arg.Int set_seed, " Set randomness seed for mutaml's instrumentation");
-    ("-mut-rate", Arg.Int set_rate, " Set probability in % of mutating a syntax tree node (default: 50%)");
-    ("-gadt",     Arg.Set gadt,     " Only allow pattern mutations compatible GADTs (default: off)");
+    ("-seed",     Arg.Int set_seed,  " Set randomness seed for mutaml's instrumentation");
+    ("-mut-rate", Arg.Int set_rate,  " Set probability in % of mutating a syntax tree node (default: 50%)");
+    ("-gadt",     Arg.Bool set_gadt, " Allow only pattern mutations compatible with GADTs (default: true)");
   ]
 end
 
@@ -26,9 +26,12 @@ module Env =
 struct
   (* select a CLI-arg, an environment variable, or a default value -- in that order *)
   let select_param cli_arg env_var conversion init_default =
-    match cli_arg, Sys.getenv_opt env_var with
+    let env_opt = match Sys.getenv_opt env_var with
+      | None   -> None
+      | Some s -> Some (conversion s) in
+    match cli_arg, env_opt with
     | Some v, _      -> v
-    | None  , Some s -> conversion s
+    | None  , Some s -> s
     | None  , None   -> init_default()
 
   let parse_seed s = match int_of_string_opt s with
@@ -52,10 +55,12 @@ let () =
 
 let instrumentation =
   let impl_mapper ctx ast =
-    Mutaml_ppx.Options.seed     := Env.select_param !CLI.seed "MUTAML_SEED" Env.parse_seed RS.make_random_seed;
-    Mutaml_ppx.Options.mut_rate := Env.select_param !CLI.mut_rate "MUTAML_MUT_RATE" Env.parse_mut_rate (fun () -> 50);
-    Mutaml_ppx.Options.gadt     := Env.select_param (if !CLI.gadt then Some true else None)
-                                               "MUTAML_GADT"     Env.parse_gadt (fun () -> false);
+    Mutaml_ppx.Options.seed :=
+      Env.select_param !CLI.seed "MUTAML_SEED" Env.parse_seed RS.make_random_seed;
+    Mutaml_ppx.Options.mut_rate :=
+      Env.select_param !CLI.mut_rate "MUTAML_MUT_RATE" Env.parse_mut_rate (fun () -> 50);
+    Mutaml_ppx.Options.gadt :=
+      Env.select_param !CLI.gadt "MUTAML_GADT" Env.parse_gadt (fun () -> true);
     let mapper_obj = new Mutaml_ppx.mutate_mapper (RS.init !Mutaml_ppx.Options.seed) in
     mapper_obj#transform_impl_file ctx ast in
   Ppxlib.Driver.Instrument.V2.make ~position:Before impl_mapper

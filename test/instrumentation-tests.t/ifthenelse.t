@@ -13,7 +13,7 @@ Example with a simple if-then-else:
   $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml
            ppx test.pp.ml
   Running mutaml instrumentation on "test.ml"
-  Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: false
+  Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 3 mutations of test.ml
   Writing mutation info to test.muts
         ocamlc .test.eobjs/byte/dune__exe__Test.{cmi,cmo,cmt}
@@ -119,7 +119,7 @@ An example with nested ifs:
   $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml
            ppx test.pp.ml
   Running mutaml instrumentation on "test.ml"
-  Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: false
+  Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 7 mutations of test.ml
   Writing mutation info to test.muts
         ocamlc .test.eobjs/byte/dune__exe__Test.{cmi,cmo,cmt}

@@ -44,7 +44,7 @@ Set seed and (full) mutation rate as environment variables, for repeatability
   $ dune build ./ounittest.exe --instrument-with mutaml
            ppx lib.pp.ml
   Running mutaml instrumentation on "lib.ml"
-  Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: false
+  Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 13 mutations of lib.ml
   Writing mutation info to lib.muts
 
@@ -393,7 +393,7 @@ Create a dune-workspace file with another build context:
   $ dune build ./ounittest.exe
            ppx lib.pp.ml [mutation]
   Running mutaml instrumentation on "lib.ml"
-  Randomness seed: 896745231   Mutation rate: 50   GADTs enabled: false
+  Randomness seed: 896745231   Mutation rate: 50   GADTs enabled: true
   Created 9 mutations of lib.ml
   Writing mutation info to lib.muts
 
@@ -489,7 +489,7 @@ Similar, but by passing a command line option:
   $ dune build ./ounittest.exe
            ppx lib.pp.ml [mutation]
   Running mutaml instrumentation on "lib.ml"
-  Randomness seed: 896745231   Mutation rate: 50   GADTs enabled: false
+  Randomness seed: 896745231   Mutation rate: 50   GADTs enabled: true
   Created 9 mutations of lib.ml
   Writing mutation info to lib.muts
 
@@ -568,7 +568,7 @@ Similar, but by passing a command line option:
   $ dune build ./ounittest.exe
            ppx lib.pp.ml [mutation]
   Running mutaml instrumentation on "lib.ml"
-  Randomness seed: 896745231   Mutation rate: 50   GADTs enabled: false
+  Randomness seed: 896745231   Mutation rate: 50   GADTs enabled: true
   Created 9 mutations of lib.ml
   Writing mutation info to lib.muts
 

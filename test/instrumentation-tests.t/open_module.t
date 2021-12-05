@@ -50,12 +50,12 @@ Test mutation of an 'assert false':
   $ bash filter_dune_build.sh ./b.bc --instrument-with mutaml
            ppx a.pp.ml
   Running mutaml instrumentation on "a.ml"
-  Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: false
+  Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 4 mutations of a.ml
   Writing mutation info to a.muts
            ppx b.pp.ml
   Running mutaml instrumentation on "b.ml"
-  Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: false
+  Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 1 mutation of b.ml
   Writing mutation info to b.muts
         ocamlc .b.eobjs/byte/dune__exe__A.{cmi,cmo,cmt}

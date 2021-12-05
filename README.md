@@ -71,6 +71,7 @@ process.
    ```
    $ dune build test --instrument-with mutaml
    ```
+   assuming you have a `test/mytests.ml` test driver.
    This creates/overwrites an individual `lib.muts` file for each
    instrumented `lib.ml` file and an overview file
    `mutaml-mut-files.txt` listing them.
@@ -86,7 +87,7 @@ process.
    You can also pass a command that runs the executable through `dune`
    if you prefer:
    ```
-   $ mutaml-runner "dune exec --no-build test/mytest.exe"
+   $ mutaml-runner "dune exec --no-build test/mytests.exe"
    ```
 
 4. Generate a report, optionally passing the json-file
@@ -124,7 +125,7 @@ options:
 ```
  (executable
   (name test)
-  (instrumentation (backend mutaml -seed 42 -mut-rate 75 -gadt))
+  (instrumentation (backend mutaml -seed 42 -mut-rate 75 -gadt false))
  )
 ```
 We could achieve the same behaviour by setting three environment
@@ -132,7 +133,7 @@ variables:
 ```bash
   $ export MUTAML_SEED=42
   $ export MUTAML_MUT_RATE=75
-  $ export MUTAML_GADT=true
+  $ export MUTAML_GADT=false
 ```
 If you do both, the values passed as instrumentation options in the
 `dune` file takes precedence.

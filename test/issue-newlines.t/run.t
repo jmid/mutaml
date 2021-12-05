@@ -41,7 +41,7 @@ Set seed and (full) mutation rate as environment variables, for repeatability
   $ bash filter_dune_build.sh ./test.exe --instrument-with mutaml
            ppx test.pp.ml
   Running mutaml instrumentation on "test.ml"
-  Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: false
+  Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 1 mutation of test.ml
   Writing mutation info to test.muts
         ocamlc .test.eobjs/byte/dune__exe__Test.{cmi,cmo,cmt}
