@@ -1,15 +1,15 @@
---------------------------------------------------------------------------------
+Notes on Pattern Matching Mutations
+===================================
 
-Addendum:
+Below we motivate the initial pattern matching mutations.
+These are enabled with `MUTAML_GADT=false`.
 
 Unfortunately, many of these pattern mutations are invalid in the
-presence of GADTs -- see gadts.t for examples.
-
---------------------------------------------------------------------------------
+presence of GADTs -- see [gadts.t](gadts.t) for examples.
 
 
-Mutating pattern matching:
-==========================
+Mutating pattern matching
+-------------------------
 
 How can the following program be mutated?
 
@@ -173,8 +173,8 @@ Overall mutation (2) - rhs-swapping:
 
 
 
-Mutation idea: drop a pattern when a later pattern is catch all _:
-==================================================================
+Mutation idea: drop a pattern when a later pattern is catch all `_`
+-------------------------------------------------------------------
 
 > match f x with
 > | A -> g y
