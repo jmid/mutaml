@@ -254,10 +254,10 @@ class mutate_mapper (rs : RS.t) =
     (* problem:  duplication between the recursively mutated e' (exp1 + exp2')
                  and the original e (exp + exp')
        solution: let-name locally:
-                 let __mutaml_tmp25 = exp1 in
-                 let __mutaml_tmp26 = exp2 in
+                 let __mutaml_tmp25 = exp2 in
+                 let __mutaml_tmp26 = exp1 in
                  if __MUTAML_MUTANT__ = Some 17
-                 then __mutaml_tmp25 - __mutaml_tmp26
+                 then __mutaml_tmp26 - __mutaml_tmp26
                  else __mutaml_tmp25 + __mutaml_tmp26  *)
     match e with
     (* A special case mutations: omit 1+ *)
@@ -290,9 +290,10 @@ class mutate_mapper (rs : RS.t) =
           | _ ->
             failwith ("mutaml_ppx, mutate_arithmetic: found some other operator case: " ^  (string_of_exp op))
         )} in
-         let k1, tmp_var1 = self#let_bind ~loc:exp1.pexp_loc (self#expression ctx exp1) in
+         (* Note: we bind exp2 before exp1 to preserve the current (unspecified) OCaml evaluation order. *)
          let k2, tmp_var2 = self#let_bind ~loc:exp2.pexp_loc (self#expression ctx exp2) in
-         k1 (k2 (self#mutaml_mutant ctx loc
+         let k1, tmp_var1 = self#let_bind ~loc:exp1.pexp_loc (self#expression ctx exp1) in
+         k2 (k1 (self#mutaml_mutant ctx loc
                    { e with pexp_desc = [%expr [%e mut_op] [%e tmp_var1] [%e tmp_var2]].pexp_desc }
                    { e with pexp_desc = [%expr [%e op]     [%e tmp_var1] [%e tmp_var2]].pexp_desc }
                          (string_of_exp [%expr [%e mut_op] [%e exp1]     [%e exp2]])))
