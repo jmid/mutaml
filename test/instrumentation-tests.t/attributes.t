@@ -99,7 +99,7 @@ Create a test.ml file with a module attribute
   >   let greet () = print_endline ("Hello," ^ " world!")
   > end
   > let () = T.greet()
-
+  > EOF
 
 Preprocess, check that attribute triggers deprecation error
 

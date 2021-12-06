@@ -519,7 +519,7 @@ A test with exceptions:
   > my_find h 1 |> print_endline;;
   > my_find h 2 |> print_endline;;
   > my_find h 3 |> print_endline;;
-
+  > EOF
 
   $ export MUTAML_SEED=896745231
 
