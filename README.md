@@ -26,7 +26,7 @@ favors mutations that
 
 Mutaml consists of:
 
- - a [`pxxlib`](https://github.com/ocaml-ppx/ppxlib)-preprocessor that
+ - a [`ppxlib`](https://github.com/ocaml-ppx/ppxlib)-preprocessor that
    first transforms the program under test.
  - `mutaml-runner` that loops through a range of possible program mutations,
    and saves the output from running the test suite on each of the mutants
