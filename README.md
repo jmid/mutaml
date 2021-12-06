@@ -49,8 +49,8 @@ Instructions:
 -------------
 
 How you can use `mutaml` depends on your project's build setup.
-For now it has only been tested it with `dune`, but it should work
-with other build systems which support an explicit two-staged build
+For now it has only been tested with `dune`, but it should work
+with other build systems supporting an explicit two-staged build
 process.
 
 
@@ -96,7 +96,7 @@ process.
    $ mutaml-report
    ```
    By default this prints `diff`s for each mutation that flew under
-   the radar of your test suite. Thee `diff` output can be suppressed by
+   the radar of your test suite. The `diff` output can be suppressed by
    passing `-no-diff`.
 
 
@@ -158,7 +158,7 @@ This is an *alpha* release. There are therefore rough edges:
 - Mutaml is designed to avoid repeated recompilation for each
   mutation. It does so by writing files during preprocessing which are
   later read during the `mutaml-runner` testing loop. As a consequence,
-  if you attempt to merge steps 2 and 3 above into one this will not work:
+  if you attempt to merge steps 2 and 3 above into one step this will not work:
   ```
   $ mutaml-runner "dune test --force --instrument-with mutaml"
   ```
@@ -180,7 +180,7 @@ rebuild](https://github.com/ocaml/dune/issues/4390). This can affect
 
 
 Mutations should not introduce compiler errors, be it type errors or
-from the pattern-match compiler. Should you encounter a situation where
+from the pattern-match compiler. If you encounter a situation where
 this happens please report it in an issue.
 
 
