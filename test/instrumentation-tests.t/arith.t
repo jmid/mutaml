@@ -299,7 +299,7 @@ In OCaml the evaluation order of `a` and `b` in `a + b` in unspecified,
 but in practice it is currently right-to-left.
 
 We want to make sure that instrumented programs have the same evaluation
-order than non-instrumented programs.
+order as non-instrumented programs.
 
   $ cat > test.ml <<'EOF'
   > let f x y =

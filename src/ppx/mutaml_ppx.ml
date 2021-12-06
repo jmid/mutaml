@@ -257,8 +257,8 @@ class mutate_mapper (rs : RS.t) =
                  let __mutaml_tmp25 = exp2 in
                  let __mutaml_tmp26 = exp1 in
                  if __MUTAML_MUTANT__ = Some 17
-                 then __mutaml_tmp26 - __mutaml_tmp26
-                 else __mutaml_tmp25 + __mutaml_tmp26  *)
+                 then __mutaml_tmp26 - __mutaml_tmp25
+                 else __mutaml_tmp26 + __mutaml_tmp25  *)
     match e with
     (* A special case mutations: omit 1+ *)
     | [%expr 1 + [%e? exp]] ->
