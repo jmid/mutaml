@@ -221,7 +221,7 @@ Instrument and check that it was received
   > )
   > EOF
 
-  $ dune build ./test.bc --instrument-with mutaml
+  $ dune build ./test.bc --instrument-with mutaml 2>&1 | grep -v "no-merge"
            ppx test.pp.ml
   ppx.exe [extra_args] [<files>]
     -as-ppx                     Run as a -ppx rewriter (must be the first argument)
@@ -262,7 +262,6 @@ Instrument and check that it was received
     -locations-check            Enable locations check only
     -apply <names>              Apply these transformations in order (comma-separated list)
     -dont-apply <names>         Exclude these transformations
-    -no-merge                   Do not merge context free transformations (better for debugging rewriters)
     -cookie NAME=EXPR           Set the cookie NAME to EXPR
     --cookie                    Same as -cookie
     -seed                       Set randomness seed for mutaml's instrumentation
@@ -275,4 +274,3 @@ Instrument and check that it was received
        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   Error: Rule failed to generate the following targets:
   - test.pp.ml
-  [1]
