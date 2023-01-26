@@ -4,7 +4,7 @@ synopsis:    "A mutation tester for OCaml"
 license:     "BSD-2-Clause"
 homepage:    "https://github.com/jmid/mutaml"
 doc:         "https://github.com/jmid/mutaml"
-bug-reports: "http://jmid.github.io/mutaml/issues"
+bug-reports: "https://github.com/jmid/mutaml/issues"
 
 dev-repo:    "git+https://github.com/jmid/mutaml.git"
 authors:     "Jan Midtgaard <mail@janmidtgaard.dk>"
