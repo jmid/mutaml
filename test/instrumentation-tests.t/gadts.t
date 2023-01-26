@@ -50,7 +50,7 @@ This shouldn't fail. It should just fail to mutate the patterns.
 
 Parse tree of GADT example
 
-  $ ocamlc -dparsetree test.ml
+  $ ocamlc -dparsetree test.ml 2>&1 | sed -e 's/ ghost//'
   [
     structure_item (test.ml[1,0+0]..[3,27+17])
       Pstr_type Rec
@@ -101,7 +101,7 @@ Parse tree of GADT example
             Ppat_var "f" (test.ml[5,46+4]..[5,46+5])
           expression (test.ml[5,46+6]..[7,96+16])
             Pexp_newtype "a"
-            expression (test.ml[5,46+15]..[7,96+16]) ghost
+            expression (test.ml[5,46+15]..[7,96+16])
               Pexp_constraint
               expression (test.ml[5,46+28]..[7,96+16])
                 Pexp_function
@@ -260,7 +260,7 @@ This shouldn't fail. It should just fail to mutate the patterns.
 
 Parse tree of GADT example with refutation case
 
-  $ ocamlc -dparsetree test.ml
+  $ ocamlc -dparsetree test.ml 2>&1 | sed -e 's/ ghost//'
   [
     structure_item (test.ml[1,0+0]..[3,27+17])
       Pstr_type Rec
@@ -307,11 +307,11 @@ Parse tree of GADT example with refutation case
       Pstr_value Nonrec
       [
         <def>
-          pattern (test.ml[5,46+4]..[5,46+40]) ghost
+          pattern (test.ml[5,46+4]..[5,46+40])
             Ppat_constraint
             pattern (test.ml[5,46+4]..[5,46+8])
               Ppat_var "deep" (test.ml[5,46+4]..[5,46+8])
-            core_type (test.ml[5,46+11]..[5,46+40]) ghost
+            core_type (test.ml[5,46+11]..[5,46+40])
               Ptyp_poly
               core_type (test.ml[5,46+11]..[5,46+40])
                 Ptyp_arrow
@@ -337,7 +337,7 @@ Parse tree of GADT example with refutation case
                 core_type (test.ml[5,46+36]..[5,46+40])
                   Ptyp_constr "char" (test.ml[5,46+36]..[5,46+40])
                   []
-          expression (test.ml[5,46+4]..[7,113+9]) ghost
+          expression (test.ml[5,46+4]..[7,113+9])
             Pexp_constraint
             expression (test.ml[5,46+43]..[7,113+9])
               Pexp_function
