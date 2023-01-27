@@ -11,6 +11,7 @@ Let us try something:
   > (library
   >  (name lib)
   >  (modules lib)
+  >  (libraries stdlib-random.v4)
   >  (instrumentation (backend mutaml))
   > )
   > 
@@ -90,7 +91,7 @@ Set seed and (full) mutation rate as environment variables, for repeatability
   
   --- lib.ml
   +++ lib.ml-mutant6
-  @@ -19,7 +19,7 @@
+  @@ -21,7 +21,7 @@
    
    let pi total =
      let rec loop n inside =
@@ -106,7 +107,7 @@ Set seed and (full) mutation rate as environment variables, for repeatability
   
   --- lib.ml
   +++ lib.ml-mutant12
-  @@ -28,4 +28,4 @@
+  @@ -30,4 +30,4 @@
          then loop (n-1) (inside+1)
          else loop (n-1) (inside)
      in
@@ -175,7 +176,7 @@ Similarly for the reporter:
   
   --- lib.ml
   +++ lib.ml-mutant6
-  @@ -19,7 +19,7 @@
+  @@ -21,7 +21,7 @@
    
    let pi total =
      let rec loop n inside =
@@ -191,7 +192,7 @@ Similarly for the reporter:
   
   --- lib.ml
   +++ lib.ml-mutant12
-  @@ -28,4 +28,4 @@
+  @@ -30,4 +30,4 @@
          then loop (n-1) (inside+1)
          else loop (n-1) (inside)
      in
@@ -221,7 +222,7 @@ Try a second run to check that we get the same:
   
   --- lib.ml
   +++ lib.ml-mutant6
-  @@ -19,7 +19,7 @@
+  @@ -21,7 +21,7 @@
    
    let pi total =
      let rec loop n inside =
@@ -237,7 +238,7 @@ Try a second run to check that we get the same:
   
   --- lib.ml
   +++ lib.ml-mutant12
-  @@ -28,4 +28,4 @@
+  @@ -30,4 +30,4 @@
          then loop (n-1) (inside+1)
          else loop (n-1) (inside)
      in
@@ -268,7 +269,7 @@ Try without providing an explicit file name:
   
   --- lib.ml
   +++ lib.ml-mutant6
-  @@ -19,7 +19,7 @@
+  @@ -21,7 +21,7 @@
    
    let pi total =
      let rec loop n inside =
@@ -284,7 +285,7 @@ Try without providing an explicit file name:
   
   --- lib.ml
   +++ lib.ml-mutant12
-  @@ -28,4 +28,4 @@
+  @@ -30,4 +30,4 @@
          then loop (n-1) (inside+1)
          else loop (n-1) (inside)
      in
@@ -464,7 +465,7 @@ Create a dune-workspace file with another build context:
   
   --- lib.ml
   +++ lib.ml-mutant4
-  @@ -19,7 +19,7 @@
+  @@ -21,7 +21,7 @@
    
    let pi total =
      let rec loop n inside =
@@ -480,7 +481,7 @@ Create a dune-workspace file with another build context:
   
   --- lib.ml
   +++ lib.ml-mutant8
-  @@ -28,4 +28,4 @@
+  @@ -30,4 +30,4 @@
          then loop (n-1) (inside+1)
          else loop (n-1) (inside)
      in
@@ -540,7 +541,7 @@ Similar, but by passing a command line option:
   
   --- lib.ml
   +++ lib.ml-mutant4
-  @@ -19,7 +19,7 @@
+  @@ -21,7 +21,7 @@
    
    let pi total =
      let rec loop n inside =
@@ -556,7 +557,7 @@ Similar, but by passing a command line option:
   
   --- lib.ml
   +++ lib.ml-mutant8
-  @@ -28,4 +28,4 @@
+  @@ -30,4 +30,4 @@
          then loop (n-1) (inside+1)
          else loop (n-1) (inside)
      in
@@ -618,7 +619,7 @@ Similar, but by passing a command line option:
   
   --- lib.ml
   +++ lib.ml-mutant4
-  @@ -19,7 +19,7 @@
+  @@ -21,7 +21,7 @@
    
    let pi total =
      let rec loop n inside =
@@ -634,7 +635,7 @@ Similar, but by passing a command line option:
   
   --- lib.ml
   +++ lib.ml-mutant8
-  @@ -28,4 +28,4 @@
+  @@ -30,4 +30,4 @@
          then loop (n-1) (inside+1)
          else loop (n-1) (inside)
      in
@@ -651,7 +652,7 @@ Here's an example of a manual diff from the console:
   $ diff -u --label "lib.ml" -u lib.ml --label "lib.ml-mutant6" _mutations/lib.ml-mutant6
   --- lib.ml
   +++ lib.ml-mutant6
-  @@ -19,7 +19,7 @@
+  @@ -21,7 +21,7 @@
    
    let pi total =
      let rec loop n inside =

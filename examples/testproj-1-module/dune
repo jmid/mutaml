@@ -1,6 +1,7 @@
 (library
  (name lib)
  (modules lib)
+ (libraries stdlib-random.v4)
  (instrumentation (backend mutaml)))
 
 (executable
