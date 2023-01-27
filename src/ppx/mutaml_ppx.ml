@@ -106,7 +106,7 @@ module Match =
         | Ppat_array ps -> List.for_all pat_bind_free ps
         | Ppat_record (es,_) -> List.for_all (fun (_,p) -> pat_bind_free p) es
         | Ppat_or (p1,p2) -> pat_bind_free p1 && pat_bind_free p2
-        | Ppat_construct (_,Some p')
+        | Ppat_construct (_,Some (_,p'))
         | Ppat_constraint (p',_)
         | Ppat_lazy p'
         | Ppat_exception p'  (* exceptions should have been filtered *)
@@ -140,7 +140,7 @@ module Match =
         x.txt = y.txt && patterns_agree p p'
 
       (* GADT constructor can carry existential hidden types *)
-      | Ppat_construct (c,Some p1), Ppat_construct (c',Some p2) ->
+      | Ppat_construct (c,Some (_,p1)), Ppat_construct (c',Some (_,p2)) ->
         c.txt = c'.txt && patterns_agree p1 p2
 
       | Ppat_any, Ppat_record (es,_fl) ->

@@ -249,7 +249,7 @@ Same example but with GADT-unsafe mutations enabled:
    | A -> "A"
   -| B -> "B"
   -| C -> "C"
-  +| B|C -> "C"
+  +| B | C -> "C"
    
    let () = f A |> print_endline
    let () = f B |> print_endline
@@ -266,7 +266,7 @@ Same example but with GADT-unsafe mutations enabled:
    let f x = match x with
   -| A -> "A"
   -| B -> "B"
-  +| A|B -> "B"
+  +| A | B -> "B"
    | C -> "C"
    
    let () = f A |> print_endline
@@ -425,7 +425,7 @@ Instead we trigger the collapse-consecutive-patterns mutation:
      | [] -> 0
   -  | 0::xs -> 1 + (count_zeroes xs)
   -  | _::xs -> count_zeroes xs
-  +  | 0::xs|_::xs -> count_zeroes xs
+  +  | 0::xs | _::xs -> count_zeroes xs
    let () = count_zeroes [] |> Printf.printf "%i\n"
    let () = count_zeroes [1;0] |> Printf.printf "%i\n"
    let () = count_zeroes [0;1;0] |> Printf.printf "%i\n"
@@ -861,7 +861,7 @@ Same example that triggers merge-of-consecutive-patterns w/GADT false:
   -    let v1 = interpret xval ae1 in
   -    v0 + v1
   -  | Binop (ae0, Mul, ae1) ->
-  +  | Binop (ae0, Add, ae1)|Binop (ae0, Mul, ae1) ->
+  +  | Binop (ae0, Add, ae1) | Binop (ae0, Mul, ae1) ->
        let v0 = interpret xval ae0 in
        let v1 = interpret xval ae1 in
        v0 * v1
