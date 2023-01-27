@@ -25,12 +25,10 @@ Check that the example typechecks
   $ export MUTAML_MUT_RATE=100
   $ export MUTAML_GADT=true
   $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml
-           ppx test.pp.ml
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 2 mutations of test.ml
   Writing mutation info to test.muts
-        ocamlc .test.eobjs/byte/dune__exe__Test.{cmi,cmo,cmt}
   
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
   type _ t =
@@ -199,12 +197,10 @@ Check that the example typechecks
   $ export MUTAML_SEED=896745231
   $ export MUTAML_GADT=true
   $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml
-           ppx test.pp.ml
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 2 mutations of test.ml
   Writing mutation info to test.muts
-        ocamlc .test.eobjs/byte/dune__exe__Test.{cmi,cmo,cmt}
   
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
   type _ t =
@@ -241,12 +237,10 @@ Check that the example typechecks
   $ export MUTAML_SEED=896745231
   $ export MUTAML_GADT=true
   $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml
-           ppx test.pp.ml
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 0 mutations of test.ml
   Writing mutation info to test.muts
-        ocamlc .test.eobjs/byte/dune__exe__Test.{cmi,cmo,cmt}
   
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
   type _ t =
@@ -405,12 +399,10 @@ Check that the example typechecks
   $ export MUTAML_SEED=896745231
   $ export MUTAML_GADT=true
   $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml
-           ppx test.pp.ml
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 0 mutations of test.ml
   Writing mutation info to test.muts
-        ocamlc .test.eobjs/byte/dune__exe__Test.{cmi,cmo,cmt}
   
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
   type _ t =
@@ -443,12 +435,10 @@ Check that the example typechecks
   $ ocamlc -stop-after typing test.ml
   $ export MUTAML_SEED=896745231
   $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml
-           ppx test.pp.ml
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 0 mutations of test.ml
   Writing mutation info to test.muts
-        ocamlc .test.eobjs/byte/dune__exe__Test.{cmi,cmo,cmt}
   
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
   type _ t =
@@ -485,12 +475,10 @@ Check that the example typechecks
   $ export MUTAML_SEED=896745231
   $ export MUTAML_GADT=true
   $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml
-           ppx test.pp.ml
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 4 mutations of test.ml
   Writing mutation info to test.muts
-        ocamlc .test.eobjs/byte/dune__exe__Test.{cmi,cmo,cmt}
   
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
   type _ t =
@@ -537,15 +525,13 @@ Check that the example typechecks
   (However, some guarded clause may match this value.)
   $ export MUTAML_SEED=896745231
   $ export MUTAML_GADT=true
-  $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml
-           ppx test.pp.ml
+  $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml 2>&1 > output.txt
+  $ head -n 4 output.txt && echo "ERROR MESSAGE" && tail -n 25 output.txt
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 4 mutations of test.ml
   Writing mutation info to test.muts
-        ocamlc .test.eobjs/byte/dune__exe__Test.{cmi,cmo,cmt} (exit 2)
-  (cd _build/default && /some/path/.../bin/ocamlc.opt -w @1..3@5..28@30..39@43@46..47@49..57@61..62-40 -strict-sequence -strict-formats -short-paths -keep-locs -dsource -bin-annot -I .test.eobjs/byte -no-alias-deps -opaque -o .test.eobjs/byte/dune__exe__Test.cmo -c -impl test.pp.ml)
-  
+  ERROR MESSAGE
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
   type _ t =
     | Int: int t 
@@ -592,12 +578,10 @@ Check that the example typechecks
   $ export MUTAML_SEED=896745231
   $ export MUTAML_GADT=true
   $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml
-           ppx test.pp.ml
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 4 mutations of test.ml
   Writing mutation info to test.muts
-        ocamlc .test.eobjs/byte/dune__exe__Test.{cmi,cmo,cmt}
   
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
   type _ t =
@@ -631,12 +615,10 @@ Check that the example typechecks
   $ export MUTAML_SEED=896745231
   $ export MUTAML_GADT=true
   $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml
-           ppx test.pp.ml
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 10 mutations of test.ml
   Writing mutation info to test.muts
-        ocamlc .test.eobjs/byte/dune__exe__Test.{cmi,cmo,cmt}
   
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
   type _ t =
@@ -682,12 +664,10 @@ Check that the example typechecks
   $ export MUTAML_SEED=896745231
   $ export MUTAML_GADT=true
   $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml
-           ppx test.pp.ml
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 3 mutations of test.ml
   Writing mutation info to test.muts
-        ocamlc .test.eobjs/byte/dune__exe__Test.{cmi,cmo,cmt}
   
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
   type _ t =
@@ -731,12 +711,10 @@ Check that the example typechecks
   $ export MUTAML_SEED=896745231
   $ export MUTAML_GADT=true
   $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml
-           ppx test.pp.ml
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 0 mutations of test.ml
   Writing mutation info to test.muts
-        ocamlc .test.eobjs/byte/dune__exe__Test.{cmi,cmo,cmt}
   
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
   type _ typ =

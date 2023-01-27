@@ -23,12 +23,10 @@ An example with only conservative, GADT-safe mutations:
 
   $ export MUTAML_SEED=896745231
   $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml
-           ppx test.pp.ml
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 0 mutations of test.ml
   Writing mutation info to test.muts
-        ocamlc .test.eobjs/byte/dune__exe__Test.{cmi,cmo,cmt}
   
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
   type t =
@@ -57,12 +55,10 @@ Same example but allowing GADT-unsafe mutations:
   $ export MUTAML_SEED=896745231
 
   $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml
-           ppx test.pp.ml
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: false
   Created 2 mutations of test.ml
   Writing mutation info to test.muts
-        ocamlc .test.eobjs/byte/dune__exe__Test.{cmi,cmo,cmt}
   
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
   type t =
@@ -185,12 +181,10 @@ Instead we trigger the collapse-consecutive-patterns mutation:
   $ export MUTAML_SEED=896745231
 
   $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml
-           ppx test.pp.ml
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 13 mutations of test.ml
   Writing mutation info to test.muts
-        ocamlc .test.eobjs/byte/dune__exe__Test.{cmi,cmo,cmt}
   
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
   let rec count_zeroes =
@@ -484,12 +478,10 @@ Another example would triggers merge-of-consecutive-patterns w/GADTs true
 
   $ export MUTAML_SEED=896745231
   $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml
-           ppx test.pp.ml
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 5 mutations of test.ml
   Writing mutation info to test.muts
-        ocamlc .test.eobjs/byte/dune__exe__Test.{cmi,cmo,cmt}
   
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
   type binop =
@@ -634,12 +626,10 @@ Same example that triggers merge-of-consecutive-patterns w/GADTs false
   $ export MUTAML_SEED=896745231
 
   $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml
-           ppx test.pp.ml
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: false
   Created 6 mutations of test.ml
   Writing mutation info to test.muts
-        ocamlc .test.eobjs/byte/dune__exe__Test.{cmi,cmo,cmt}
   
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
   type binop =

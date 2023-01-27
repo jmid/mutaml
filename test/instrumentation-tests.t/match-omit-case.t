@@ -81,12 +81,10 @@ Make an .ml-file:
   $ export MUTAML_MUT_RATE=100
 
   $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml
-           ppx test.pp.ml
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 3 mutations of test.ml
   Writing mutation info to test.muts
-        ocamlc .test.eobjs/byte/dune__exe__Test.{cmi,cmo,cmt}
   
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
   let identify_char c =
@@ -216,12 +214,10 @@ Test that same example with a variable will be instrumented with this mutation:
   $ export MUTAML_SEED=896745231
 
   $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml
-           ppx test.pp.ml
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 4 mutations of test.ml
   Writing mutation info to test.muts
-        ocamlc .test.eobjs/byte/dune__exe__Test.{cmi,cmo,cmt}
   
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
   let identify_char c =
@@ -374,12 +370,10 @@ Another test w/tuples and wildcards:
   $ export MUTAML_SEED=896745231
 
   $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml
-           ppx test.pp.ml
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 2 mutations of test.ml
   Writing mutation info to test.muts
-        ocamlc .test.eobjs/byte/dune__exe__Test.{cmi,cmo,cmt}
   
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
   let prioritize p fallback =
@@ -481,12 +475,10 @@ Same example without wildcards will not be instrumented with this mutation:
   $ export MUTAML_SEED=896745231
 
   $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml
-           ppx test.pp.ml
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 0 mutations of test.ml
   Writing mutation info to test.muts
-        ocamlc .test.eobjs/byte/dune__exe__Test.{cmi,cmo,cmt}
   
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
   let prioritize p fallback =
@@ -524,12 +516,10 @@ A test with exceptions:
   $ export MUTAML_SEED=896745231
 
   $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml
-           ppx test.pp.ml
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 10 mutations of test.ml
   Writing mutation info to test.muts
-        ocamlc .test.eobjs/byte/dune__exe__Test.{cmi,cmo,cmt}
   
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
   let my_find h key =

@@ -17,12 +17,10 @@ Set seed and (full) mutation rate as environment variables, for repeatability
   $ export MUTAML_MUT_RATE=100
 
   $ dune build test/ounittest.exe --instrument-with mutaml
-           ppx src/lib1.pp.ml
   Running mutaml instrumentation on "src/lib1.ml"
   Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 3 mutations of src/lib1.ml
   Writing mutation info to src/lib1.muts
-           ppx src/lib2.pp.ml
   Running mutaml instrumentation on "src/lib2.ml"
   Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 6 mutations of src/lib2.ml
