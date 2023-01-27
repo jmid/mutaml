@@ -11,12 +11,10 @@ Example with a simple if-then-else:
   $ export MUTAML_SEED=896745231
   $ export MUTAML_MUT_RATE=100
   $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml
-           ppx test.pp.ml
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 3 mutations of test.ml
   Writing mutation info to test.muts
-        ocamlc .test.eobjs/byte/dune__exe__Test.{cmi,cmo,cmt}
   
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
   let test x =
@@ -31,16 +29,16 @@ Example with a simple if-then-else:
       print_endline
 
 
-  $ dune exec --no-build ./test.bc
+  $ _build/default/test.bc
   true
   false
 
-  $ MUTAML_MUTANT="test:0" dune exec --no-build ./test.bc
+  $ MUTAML_MUTANT="test:0" _build/default/test.bc
   false
   true
 
 
-  $ mutaml-runner "dune exec --no-build ./test.bc"
+  $ mutaml-runner _build/default/test.bc
   read mut file test.muts
   Testing mutant test:0 ... passed
   Testing mutant test:1 ... passed
@@ -117,12 +115,10 @@ An example with nested ifs:
 
   $ export MUTAML_SEED=896745231
   $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml
-           ppx test.pp.ml
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 7 mutations of test.ml
   Writing mutation info to test.muts
-        ocamlc .test.eobjs/byte/dune__exe__Test.{cmi,cmo,cmt}
   
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
   let test i =
@@ -153,24 +149,24 @@ An example with nested ifs:
       print_endline
 
 
-  $ dune exec --no-build ./test.bc
+  $ _build/default/test.bc
   negative
   zero
   positive
 
-  $ MUTAML_MUTANT="test:3" dune exec --no-build ./test.bc
+  $ MUTAML_MUTANT="test:3" _build/default/test.bc
   zero
   negative
   negative
 
-  $ MUTAML_MUTANT="test:2" dune exec --no-build ./test.bc
+  $ MUTAML_MUTANT="test:2" _build/default/test.bc
   negative
   positive
   zero
 
 
 
-  $ mutaml-runner "dune exec --no-build ./test.bc"
+  $ mutaml-runner _build/default/test.bc
   read mut file test.muts
   Testing mutant test:0 ... passed
   Testing mutant test:1 ... passed

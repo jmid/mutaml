@@ -21,8 +21,9 @@ Test invalid environment variables
 
   $ export MUTAML_GADT=sometimes
   $ dune build ./test.bc --instrument-with mutaml 2>&1 | head | sed -e 's/ppx\/[^\/]*\/ppx\.exe/ppx\/path\/ppx\.exe/g'
-           ppx test.pp.ml (exit 1)
-  (cd _build/default && .ppx/path/ppx.exe -o test.pp.ml --impl test.ml -corrected-suffix .ppx-corrected -diff-cmd - -dump-ast)
+  File "dune", line 4, characters 1-35:
+  4 |  (instrumentation (backend mutaml))
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   Invalid gadt string: sometimes
 
 
@@ -30,24 +31,27 @@ Test invalid environment variables
   $ unset MUTAML_GADT
   $ export MUTAML_SEED=-4611686018427387905
   $ dune build ./test.bc --instrument-with mutaml 2>&1 | head | sed -e 's/ppx\/[^\/]*\/ppx\.exe/ppx\/path\/ppx\.exe/g'
-           ppx test.pp.ml (exit 1)
-  (cd _build/default && .ppx/path/ppx.exe -o test.pp.ml --impl test.ml -corrected-suffix .ppx-corrected -diff-cmd - -dump-ast)
+  File "dune", line 4, characters 1-35:
+  4 |  (instrumentation (backend mutaml))
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   Invalid randomness seed: -4611686018427387905
 
 
   $ dune clean
   $ export MUTAML_SEED=4611686018427387904
   $ dune build ./test.bc --instrument-with mutaml 2>&1 | head | sed -e 's/ppx\/[^\/]*\/ppx\.exe/ppx\/path\/ppx\.exe/g'
-           ppx test.pp.ml (exit 1)
-  (cd _build/default && .ppx/path/ppx.exe -o test.pp.ml --impl test.ml -corrected-suffix .ppx-corrected -diff-cmd - -dump-ast)
+  File "dune", line 4, characters 1-35:
+  4 |  (instrumentation (backend mutaml))
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   Invalid randomness seed: 4611686018427387904
 
 
   $ dune clean
   $ export MUTAML_SEED=12likeREEEAALLLYrandom34
   $ dune build ./test.bc --instrument-with mutaml 2>&1 | head | sed -e 's/ppx\/[^\/]*\/ppx\.exe/ppx\/path\/ppx\.exe/g'
-           ppx test.pp.ml (exit 1)
-  (cd _build/default && .ppx/path/ppx.exe -o test.pp.ml --impl test.ml -corrected-suffix .ppx-corrected -diff-cmd - -dump-ast)
+  File "dune", line 4, characters 1-35:
+  4 |  (instrumentation (backend mutaml))
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   Invalid randomness seed: 12likeREEEAALLLYrandom34
 
 
@@ -55,24 +59,27 @@ Test invalid environment variables
   $ unset MUTAML_SEED
   $ export MUTAML_MUT_RATE=110
   $ dune build ./test.bc --instrument-with mutaml 2>&1 | head | sed -e 's/ppx\/[^\/]*\/ppx\.exe/ppx\/path\/ppx\.exe/g'
-           ppx test.pp.ml (exit 1)
-  (cd _build/default && .ppx/path/ppx.exe -o test.pp.ml --impl test.ml -corrected-suffix .ppx-corrected -diff-cmd - -dump-ast)
+  File "dune", line 4, characters 1-35:
+  4 |  (instrumentation (backend mutaml))
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   Invalid mutation rate: 110
 
 
   $ dune clean
   $ export MUTAML_MUT_RATE=-10
   $ dune build ./test.bc --instrument-with mutaml 2>&1 | head | sed -e 's/ppx\/[^\/]*\/ppx\.exe/ppx\/path\/ppx\.exe/g'
-           ppx test.pp.ml (exit 1)
-  (cd _build/default && .ppx/path/ppx.exe -o test.pp.ml --impl test.ml -corrected-suffix .ppx-corrected -diff-cmd - -dump-ast)
+  File "dune", line 4, characters 1-35:
+  4 |  (instrumentation (backend mutaml))
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   Invalid mutation rate: -10
 
 
   $ dune clean
   $ export MUTAML_MUT_RATE=always
   $ dune build ./test.bc --instrument-with mutaml 2>&1 | head | sed -e 's/ppx\/[^\/]*\/ppx\.exe/ppx\/path\/ppx\.exe/g'
-           ppx test.pp.ml (exit 1)
-  (cd _build/default && .ppx/path/ppx.exe -o test.pp.ml --impl test.ml -corrected-suffix .ppx-corrected -diff-cmd - -dump-ast)
+  File "dune", line 4, characters 1-35:
+  4 |  (instrumentation (backend mutaml))
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   Invalid mutation rate: always
 
 
@@ -92,8 +99,9 @@ Instrument and check that it is rejected
   > EOF
 
   $ dune build ./test.bc --instrument-with mutaml 2>&1 | head | sed -e 's/ppx\/[^\/]*\/ppx\.exe/ppx\/path\/ppx\.exe/g'
-           ppx test.pp.ml (exit 2)
-  (cd _build/default && .ppx/path/ppx.exe -mut-rate 110 -o test.pp.ml --impl test.ml -corrected-suffix .ppx-corrected -diff-cmd - -dump-ast)
+  File "dune", line 4, characters 1-49:
+  4 |  (instrumentation (backend mutaml -mut-rate 110))
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   .ppx/path/ppx.exe: Invalid mutation rate: 110.
   ppx.exe [extra_args] [<files>]
     -as-ppx                     Run as a -ppx rewriter (must be the first argument)
@@ -101,7 +109,6 @@ Instrument and check that it is rejected
     -as-pp                      Shorthand for: -dump-ast -embed-errors
     --as-pp                     Same as -as-pp
     -o <filename>               Output file (use '-' for stdout)
-    -                           Read input from stdin
 
 
 -----------------------------------------------------------------------
@@ -118,8 +125,9 @@ Instrument and check that it is rejected
   > EOF
 
   $ dune build ./test.bc --instrument-with mutaml 2>&1 | head | sed -e 's/ppx\/[^\/]*\/ppx\.exe/ppx\/path\/ppx\.exe/g'
-           ppx test.pp.ml (exit 2)
-  (cd _build/default && .ppx/path/ppx.exe -mut-rate -10 -o test.pp.ml --impl test.ml -corrected-suffix .ppx-corrected -diff-cmd - -dump-ast)
+  File "dune", line 4, characters 1-49:
+  4 |  (instrumentation (backend mutaml -mut-rate -10))
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   .ppx/path/ppx.exe: Invalid mutation rate: -10.
   ppx.exe [extra_args] [<files>]
     -as-ppx                     Run as a -ppx rewriter (must be the first argument)
@@ -127,7 +135,6 @@ Instrument and check that it is rejected
     -as-pp                      Shorthand for: -dump-ast -embed-errors
     --as-pp                     Same as -as-pp
     -o <filename>               Output file (use '-' for stdout)
-    -                           Read input from stdin
 
 
 -----------------------------------------------------------------------
@@ -144,8 +151,9 @@ Instrument and check that it is rejected
   > EOF
 
   $ dune build ./test.bc --instrument-with mutaml 2>&1 | head | sed -e 's/ppx\/[^\/]*\/ppx\.exe/ppx\/path\/ppx\.exe/g'
-           ppx test.pp.ml (exit 2)
-  (cd _build/default && .ppx/path/ppx.exe -mut-rate eeeEEEEEXTREMELYHIGH -o test.pp.ml --impl test.ml -corrected-suffix .ppx-corrected -diff-cmd - -dump-ast)
+  File "dune", line 4, characters 1-66:
+  4 |  (instrumentation (backend mutaml -mut-rate eeeEEEEEXTREMELYHIGH))
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   .ppx/path/ppx.exe: wrong argument 'eeeEEEEEXTREMELYHIGH'; option '-mut-rate' expects an integer.
   ppx.exe [extra_args] [<files>]
     -as-ppx                     Run as a -ppx rewriter (must be the first argument)
@@ -153,7 +161,6 @@ Instrument and check that it is rejected
     -as-pp                      Shorthand for: -dump-ast -embed-errors
     --as-pp                     Same as -as-pp
     -o <filename>               Output file (use '-' for stdout)
-    -                           Read input from stdin
 
 
 -----------------------------------------------------------------------
@@ -170,8 +177,9 @@ Instrument and check that it is rejected
   > EOF
 
   $ dune build ./test.bc --instrument-with mutaml 2>&1 | head | sed -e 's/ppx\/[^\/]*\/ppx\.exe/ppx\/path\/ppx\.exe/g'
-           ppx test.pp.ml (exit 2)
-  (cd _build/default && .ppx/path/ppx.exe -seed 4611686018427387904 -o test.pp.ml --impl test.ml -corrected-suffix .ppx-corrected -diff-cmd - -dump-ast)
+  File "dune", line 4, characters 1-61:
+  4 |  (instrumentation (backend mutaml -seed 4611686018427387904))
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   .ppx/path/ppx.exe: wrong argument '4611686018427387904'; option '-seed' expects an integer.
   ppx.exe [extra_args] [<files>]
     -as-ppx                     Run as a -ppx rewriter (must be the first argument)
@@ -179,7 +187,6 @@ Instrument and check that it is rejected
     -as-pp                      Shorthand for: -dump-ast -embed-errors
     --as-pp                     Same as -as-pp
     -o <filename>               Output file (use '-' for stdout)
-    -                           Read input from stdin
 
 
 -----------------------------------------------------------------------
@@ -196,8 +203,9 @@ Instrument and check that it is rejected
   > EOF
 
   $ dune build ./test.bc --instrument-with mutaml 2>&1 | head | sed -e 's/ppx\/[^\/]*\/ppx\.exe/ppx\/path\/ppx\.exe/g'
-           ppx test.pp.ml (exit 2)
-  (cd _build/default && .ppx/path/ppx.exe -seed 324random345 -o test.pp.ml --impl test.ml -corrected-suffix .ppx-corrected -diff-cmd - -dump-ast)
+  File "dune", line 4, characters 1-54:
+  4 |  (instrumentation (backend mutaml -seed 324random345))
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   .ppx/path/ppx.exe: wrong argument '324random345'; option '-seed' expects an integer.
   ppx.exe [extra_args] [<files>]
     -as-ppx                     Run as a -ppx rewriter (must be the first argument)
@@ -205,7 +213,6 @@ Instrument and check that it is rejected
     -as-pp                      Shorthand for: -dump-ast -embed-errors
     --as-pp                     Same as -as-pp
     -o <filename>               Output file (use '-' for stdout)
-    -                           Read input from stdin
 
 
 -----------------------------------------------------------------------
@@ -221,8 +228,7 @@ Instrument and check that it was received
   > )
   > EOF
 
-  $ dune build ./test.bc --instrument-with mutaml
-           ppx test.pp.ml
+  $ dune build ./test.bc --instrument-with mutaml 2>&1 | grep -v "no-merge"
   ppx.exe [extra_args] [<files>]
     -as-ppx                     Run as a -ppx rewriter (must be the first argument)
     --as-ppx                    Same as -as-ppx
@@ -262,7 +268,6 @@ Instrument and check that it was received
     -locations-check            Enable locations check only
     -apply <names>              Apply these transformations in order (comma-separated list)
     -dont-apply <names>         Exclude these transformations
-    -no-merge                   Do not merge context free transformations (better for debugging rewriters)
     -cookie NAME=EXPR           Set the cookie NAME to EXPR
     --cookie                    Same as -cookie
     -seed                       Set randomness seed for mutaml's instrumentation
@@ -275,4 +280,3 @@ Instrument and check that it was received
        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   Error: Rule failed to generate the following targets:
   - test.pp.ml
-  [1]

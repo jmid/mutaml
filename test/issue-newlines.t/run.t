@@ -1,8 +1,7 @@
 Let us try something:
 
-  $ ls
+  $ ls filter_dune_build.sh
   filter_dune_build.sh
-  run.t
 
 Create the central file with initial newline characters:
   $ cat > test.ml <<'EOF'
@@ -27,11 +26,9 @@ Create the dune files:
   > EOF
 
 Check that files were created as expected:
-  $ ls
+  $ ls dune* test.ml
   dune
   dune-project
-  filter_dune_build.sh
-  run.t
   test.ml
 
 Set seed and (full) mutation rate as environment variables, for repeatability
@@ -39,24 +36,18 @@ Set seed and (full) mutation rate as environment variables, for repeatability
   $ export MUTAML_MUT_RATE=100
 
   $ bash filter_dune_build.sh ./test.exe --instrument-with mutaml
-           ppx test.pp.ml
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 1 mutation of test.ml
   Writing mutation info to test.muts
-        ocamlc .test.eobjs/byte/dune__exe__Test.{cmi,cmo,cmt}
   
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
   let add a b = if __MUTAML_MUTANT__ = (Some "test:0") then a - b else a + b
   ;;assert ((add 4 3) >= 0)
 
-  $ ls
-  _build
-  dune
-  dune-project
-  filter_dune_build.sh
-  run.t
-  test.ml
+  $ ls _build
+  default
+  log
 
   $ ls _build/default
   mutaml-mut-files.txt

@@ -1,10 +1,9 @@
 Let us try something:
 
-  $ ls
+  $ ls *.ml
   lib.ml
   main.ml
   ounittest.ml
-  run.t
 
   $ echo "(lang dune 2.9)" > dune-project
 
@@ -12,6 +11,7 @@ Let us try something:
   > (library
   >  (name lib)
   >  (modules lib)
+  >  (libraries stdlib-random.v4)
   >  (instrumentation (backend mutaml))
   > )
   > 
@@ -29,43 +29,30 @@ Let us try something:
   > EOF
 
 Check that files were created as expected:
-  $ ls
+  $ ls dune* *.ml
   dune
   dune-project
   lib.ml
   main.ml
   ounittest.ml
-  run.t
 
 Set seed and (full) mutation rate as environment variables, for repeatability
   $ export MUTAML_SEED=896745231
   $ export MUTAML_MUT_RATE=100
 
   $ dune build ./ounittest.exe --instrument-with mutaml
-           ppx lib.pp.ml
   Running mutaml instrumentation on "lib.ml"
   Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 13 mutations of lib.ml
   Writing mutation info to lib.muts
 
-  $ ls
-  _build
-  dune
-  dune-project
-  lib.ml
-  main.ml
-  ounittest.ml
-  run.t
-
-  $ ls _build/default
-  lib.a
-  lib.cmxa
-  lib.ml
-  lib.muts
-  lib.pp.ml
-  mutaml-mut-files.txt
-  ounittest.exe
-  ounittest.ml
+  $ ls _build/default/*.exe _build/default/*.ml _build/default/*.muts _build/default/*.txt
+  _build/default/lib.ml
+  _build/default/lib.muts
+  _build/default/lib.pp.ml
+  _build/default/mutaml-mut-files.txt
+  _build/default/ounittest.exe
+  _build/default/ounittest.ml
 
   $ mutaml-runner _build/default/ounittest.exe
   read mut file lib.muts
@@ -102,7 +89,7 @@ Set seed and (full) mutation rate as environment variables, for repeatability
   
   --- lib.ml
   +++ lib.ml-mutant6
-  @@ -19,7 +19,7 @@
+  @@ -21,7 +21,7 @@
    
    let pi total =
      let rec loop n inside =
@@ -118,7 +105,7 @@ Set seed and (full) mutation rate as environment variables, for repeatability
   
   --- lib.ml
   +++ lib.ml-mutant12
-  @@ -28,4 +28,4 @@
+  @@ -30,4 +30,4 @@
          then loop (n-1) (inside+1)
          else loop (n-1) (inside)
      in
@@ -187,7 +174,7 @@ Similarly for the reporter:
   
   --- lib.ml
   +++ lib.ml-mutant6
-  @@ -19,7 +19,7 @@
+  @@ -21,7 +21,7 @@
    
    let pi total =
      let rec loop n inside =
@@ -203,7 +190,7 @@ Similarly for the reporter:
   
   --- lib.ml
   +++ lib.ml-mutant12
-  @@ -28,4 +28,4 @@
+  @@ -30,4 +30,4 @@
          then loop (n-1) (inside+1)
          else loop (n-1) (inside)
      in
@@ -233,7 +220,7 @@ Try a second run to check that we get the same:
   
   --- lib.ml
   +++ lib.ml-mutant6
-  @@ -19,7 +19,7 @@
+  @@ -21,7 +21,7 @@
    
    let pi total =
      let rec loop n inside =
@@ -249,7 +236,7 @@ Try a second run to check that we get the same:
   
   --- lib.ml
   +++ lib.ml-mutant12
-  @@ -28,4 +28,4 @@
+  @@ -30,4 +30,4 @@
          then loop (n-1) (inside+1)
          else loop (n-1) (inside)
      in
@@ -280,7 +267,7 @@ Try without providing an explicit file name:
   
   --- lib.ml
   +++ lib.ml-mutant6
-  @@ -19,7 +19,7 @@
+  @@ -21,7 +21,7 @@
    
    let pi total =
      let rec loop n inside =
@@ -296,7 +283,7 @@ Try without providing an explicit file name:
   
   --- lib.ml
   +++ lib.ml-mutant12
-  @@ -28,4 +28,4 @@
+  @@ -30,4 +30,4 @@
          then loop (n-1) (inside+1)
          else loop (n-1) (inside)
      in
@@ -391,40 +378,54 @@ Create a dune-workspace file with another build context:
   $ unset MUTAML_MUT_RATE
   $ export MUTAML_SEED=896745231
   $ dune build ./ounittest.exe
-           ppx lib.pp.ml [mutation]
   Running mutaml instrumentation on "lib.ml"
   Randomness seed: 896745231   Mutation rate: 50   GADTs enabled: true
   Created 9 mutations of lib.ml
   Writing mutation info to lib.muts
 
-  $ ls
-  _build
-  _mutations
+  $ ls _* dune* *.ml some-report-name.json
   dune
   dune-project
   dune-workspace
   lib.ml
   main.ml
   ounittest.ml
-  run.t
   some-report-name.json
+  
+  _build:
+  default
+  log
+  mutation
+  
+  _mutations:
+  lib.ml-mutant12
+  lib.ml-mutant6
+  lib.muts-mutant0.output
+  lib.muts-mutant1.output
+  lib.muts-mutant10.output
+  lib.muts-mutant11.output
+  lib.muts-mutant12.output
+  lib.muts-mutant2.output
+  lib.muts-mutant3.output
+  lib.muts-mutant4.output
+  lib.muts-mutant5.output
+  lib.muts-mutant6.output
+  lib.muts-mutant7.output
+  lib.muts-mutant8.output
+  lib.muts-mutant9.output
 
-  $ ls _build/default
-  lib.a
-  lib.cmxa
-  lib.ml
-  ounittest.exe
-  ounittest.ml
+  $ ls _build/default/*.exe _build/default/*.ml
+  _build/default/lib.ml
+  _build/default/ounittest.exe
+  _build/default/ounittest.ml
 
-  $ ls _build/mutation
-  lib.a
-  lib.cmxa
-  lib.ml
-  lib.muts
-  lib.pp.ml
-  mutaml-mut-files.txt
-  ounittest.exe
-  ounittest.ml
+  $ ls _build/mutation/*.exe _build/mutation/*.ml _build/mutation/*.muts _build/mutation/*.txt
+  _build/mutation/lib.ml
+  _build/mutation/lib.muts
+  _build/mutation/lib.pp.ml
+  _build/mutation/mutaml-mut-files.txt
+  _build/mutation/ounittest.exe
+  _build/mutation/ounittest.ml
 
   $ export MUTAML_BUILD_CONTEXT="_build/mutation"
   $ mutaml-runner _build/mutation/ounittest.exe
@@ -458,7 +459,7 @@ Create a dune-workspace file with another build context:
   
   --- lib.ml
   +++ lib.ml-mutant4
-  @@ -19,7 +19,7 @@
+  @@ -21,7 +21,7 @@
    
    let pi total =
      let rec loop n inside =
@@ -474,7 +475,7 @@ Create a dune-workspace file with another build context:
   
   --- lib.ml
   +++ lib.ml-mutant8
-  @@ -28,4 +28,4 @@
+  @@ -30,4 +30,4 @@
          then loop (n-1) (inside+1)
          else loop (n-1) (inside)
      in
@@ -487,21 +488,18 @@ Similar, but by passing a command line option:
 
   $ dune clean
   $ dune build ./ounittest.exe
-           ppx lib.pp.ml [mutation]
   Running mutaml instrumentation on "lib.ml"
   Randomness seed: 896745231   Mutation rate: 50   GADTs enabled: true
   Created 9 mutations of lib.ml
   Writing mutation info to lib.muts
 
-  $ ls _build/mutation
-  lib.a
-  lib.cmxa
-  lib.ml
-  lib.muts
-  lib.pp.ml
-  mutaml-mut-files.txt
-  ounittest.exe
-  ounittest.ml
+  $ ls _build/mutation/*.exe _build/mutation/*.ml _build/mutation/*.muts _build/mutation/*.txt
+  _build/mutation/lib.ml
+  _build/mutation/lib.muts
+  _build/mutation/lib.pp.ml
+  _build/mutation/mutaml-mut-files.txt
+  _build/mutation/ounittest.exe
+  _build/mutation/ounittest.ml
 
   $ unset MUTAML_BUILD_CONTEXT
   $ mutaml-runner -build-context "_build/mutation" _build/mutation/ounittest.exe
@@ -535,7 +533,7 @@ Similar, but by passing a command line option:
   
   --- lib.ml
   +++ lib.ml-mutant4
-  @@ -19,7 +19,7 @@
+  @@ -21,7 +21,7 @@
    
    let pi total =
      let rec loop n inside =
@@ -551,7 +549,7 @@ Similar, but by passing a command line option:
   
   --- lib.ml
   +++ lib.ml-mutant8
-  @@ -28,4 +28,4 @@
+  @@ -30,4 +30,4 @@
          then loop (n-1) (inside+1)
          else loop (n-1) (inside)
      in
@@ -566,21 +564,18 @@ Similar, but by passing a command line option:
 
   $ dune clean
   $ dune build ./ounittest.exe
-           ppx lib.pp.ml [mutation]
   Running mutaml instrumentation on "lib.ml"
   Randomness seed: 896745231   Mutation rate: 50   GADTs enabled: true
   Created 9 mutations of lib.ml
   Writing mutation info to lib.muts
 
-  $ ls _build/mutation
-  lib.a
-  lib.cmxa
-  lib.ml
-  lib.muts
-  lib.pp.ml
-  mutaml-mut-files.txt
-  ounittest.exe
-  ounittest.ml
+  $ ls _build/mutation/*.exe _build/mutation/*.ml _build/mutation/*.muts _build/mutation/*.txt
+  _build/mutation/lib.ml
+  _build/mutation/lib.muts
+  _build/mutation/lib.pp.ml
+  _build/mutation/mutaml-mut-files.txt
+  _build/mutation/ounittest.exe
+  _build/mutation/ounittest.ml
 
   $ export MUTAML_BUILD_CONTEXT="_build/in-a-galaxy-far-far-away"
   $ mutaml-runner -build-context "_build/mutation" _build/mutation/ounittest.exe
@@ -614,7 +609,7 @@ Similar, but by passing a command line option:
   
   --- lib.ml
   +++ lib.ml-mutant4
-  @@ -19,7 +19,7 @@
+  @@ -21,7 +21,7 @@
    
    let pi total =
      let rec loop n inside =
@@ -630,7 +625,7 @@ Similar, but by passing a command line option:
   
   --- lib.ml
   +++ lib.ml-mutant8
-  @@ -28,4 +28,4 @@
+  @@ -30,4 +30,4 @@
          then loop (n-1) (inside+1)
          else loop (n-1) (inside)
      in
@@ -647,7 +642,7 @@ Here's an example of a manual diff from the console:
   $ diff -u --label "lib.ml" -u lib.ml --label "lib.ml-mutant6" _mutations/lib.ml-mutant6
   --- lib.ml
   +++ lib.ml-mutant6
-  @@ -19,7 +19,7 @@
+  @@ -21,7 +21,7 @@
    
    let pi total =
      let rec loop n inside =

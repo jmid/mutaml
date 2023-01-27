@@ -4,5 +4,5 @@
  (wrapped false)
  (kind ppx_rewriter)
  (instrumentation.backend (ppx mutaml))
- (libraries mutaml.common ppxlib)
+ (libraries mutaml.common ppxlib stdlib-random.v4)
  (preprocess (pps ppxlib.metaquot)))

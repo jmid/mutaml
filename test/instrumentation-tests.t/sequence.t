@@ -24,12 +24,10 @@ Test a sequence mutation:
   > EOF
 
   $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml
-           ppx test.pp.ml
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 4 mutations of test.ml
   Writing mutation info to test.muts
-        ocamlc .test.eobjs/byte/dune__exe__Test.{cmi,cmo,cmt}
   
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
   let f () =
@@ -42,22 +40,22 @@ Test a sequence mutation:
 
 
 Check that instrumentation hasn't changed the program's behaviour
-  $ dune exec --no-build ./test.bc
+  $ _build/default/test.bc
 
 
-  $ MUTAML_MUTANT="test:0" dune exec --no-build ./test.bc
+  $ MUTAML_MUTANT="test:0" _build/default/test.bc
   Fatal error: exception Assert_failure("test.ml", 9, 0)
   [2]
 
-  $ MUTAML_MUTANT="test:1" dune exec --no-build ./test.bc
+  $ MUTAML_MUTANT="test:1" _build/default/test.bc
   Fatal error: exception Assert_failure("test.ml", 9, 0)
   [2]
 
-  $ MUTAML_MUTANT="test:2" dune exec --no-build ./test.bc
+  $ MUTAML_MUTANT="test:2" _build/default/test.bc
   Fatal error: exception Assert_failure("test.ml", 9, 0)
   [2]
 
-  $ MUTAML_MUTANT="test:3" dune exec --no-build ./test.bc
+  $ MUTAML_MUTANT="test:3" _build/default/test.bc
   Fatal error: exception Assert_failure("test.ml", 9, 0)
   [2]
 
@@ -89,12 +87,10 @@ Test uncaught sequence mutation:
   > EOF
 
   $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml
-           ppx test.pp.ml
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 4 mutations of test.ml
   Writing mutation info to test.muts
-        ocamlc .test.eobjs/byte/dune__exe__Test.{cmi,cmo,cmt}
   
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
   let f () =
@@ -107,16 +103,16 @@ Test uncaught sequence mutation:
 
 
 Check that instrumentation hasn't changed the program's behaviour
-  $ dune exec --no-build ./test.bc
+  $ _build/default/test.bc
 
 
-  $ MUTAML_MUTANT="test:0" dune exec --no-build ./test.bc
+  $ MUTAML_MUTANT="test:0" _build/default/test.bc
 
-  $ MUTAML_MUTANT="test:1" dune exec --no-build ./test.bc
+  $ MUTAML_MUTANT="test:1" _build/default/test.bc
 
-  $ MUTAML_MUTANT="test:2" dune exec --no-build ./test.bc
+  $ MUTAML_MUTANT="test:2" _build/default/test.bc
 
-  $ MUTAML_MUTANT="test:3" dune exec --no-build ./test.bc
+  $ MUTAML_MUTANT="test:3" _build/default/test.bc
 
 
   $ mutaml-runner _build/default/test.bc

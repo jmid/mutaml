@@ -1,7 +1,3 @@
-Check that only the `runner-negtests.t` file is present:
-  $ ls
-  runner-negtests.t
-
 Check that report tool fails when run without a test command:
   $ mutaml-runner
   Usage: mutaml-runner [options] <test-command>

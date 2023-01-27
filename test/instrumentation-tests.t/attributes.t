@@ -34,14 +34,13 @@ Set seed and (full) mutation rate as environment variables, for repeatability
 
 
 Preprocess, check for attribute and error
-  $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml
-           ppx test.pp.ml
+  $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml 2>&1 > output.txt
+  $ head -n 4 output.txt && echo "ERROR MESSAGE" && tail -n 9 output.txt
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 0 mutations of test.ml
   Writing mutation info to test.muts
-        ocamlc .test.eobjs/byte/dune__exe__Test.{cmi,cmo,cmt} (exit 2)
-  (cd _build/default && /some/path/.../bin/ocamlc.opt -w @1..3@5..28@30..39@43@46..47@49..57@61..62-40 -strict-sequence -strict-formats -short-paths -keep-locs -dsource -bin-annot -I .test.eobjs/byte -no-alias-deps -opaque -o .test.eobjs/byte/dune__exe__Test.cmo -c -impl test.pp.ml)
+  ERROR MESSAGE
   
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
   let greet () = print_endline ("Hello," ^ " world!")[@@ppwarning
@@ -69,7 +68,6 @@ Try same example, but disabling warning 22 via the dune file:
 Preprocess, check that attribute no longer triggers an error
 
   $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml
-        ocamlc .test.eobjs/byte/dune__exe__Test.{cmi,cmo,cmt}
   
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
   let greet () = print_endline ("Hello," ^ " world!")[@@ppwarning
@@ -103,15 +101,13 @@ Create a test.ml file with a module attribute
 
 Preprocess, check that attribute triggers deprecation error
 
-  $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml
-           ppx test.pp.ml
+  $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml 2>&1 > output.txt
+  $ head -n 4 output.txt && echo "ERROR MESSAGE" && tail -n 10 output.txt
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 0 mutations of test.ml
   Writing mutation info to test.muts
-        ocamlc .test.eobjs/byte/dune__exe__Test.{cmi,cmo,cmt} (exit 2)
-  (cd _build/default && /some/path/.../bin/ocamlc.opt -w @1..3@5..28@30..39@43@46..47@49..57@61..62-40 -strict-sequence -strict-formats -short-paths -keep-locs -dsource -alert +deprecated -bin-annot -I .test.eobjs/byte -no-alias-deps -opaque -o .test.eobjs/byte/dune__exe__Test.cmo -c -impl test.pp.ml)
-  
+  ERROR MESSAGE
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
   module T :
     sig val greet : unit -> unit[@@deprecated "Please stop using that example"]
@@ -147,12 +143,10 @@ Create a test.ml file with an attribute
 
 Preprocess, check for attribute and error
   $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml
-           ppx test.pp.ml
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 0 mutations of test.ml
   Writing mutation info to test.muts
-        ocamlc .test.eobjs/byte/dune__exe__Test.{cmi,cmo,cmt}
   
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
   let v = ((())[@testattr "unit attr"])
@@ -169,12 +163,10 @@ Create a test.ml file with an attribute
 
 Preprocess, check for attribute and error
   $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml
-           ppx test.pp.ml
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 2 mutations of test.ml
   Writing mutation info to test.muts
-        ocamlc .test.eobjs/byte/dune__exe__Test.{cmi,cmo,cmt}
   
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
   let t =
@@ -197,12 +189,10 @@ Create a test.ml file with an attribute
 
 Preprocess, check for attribute and error
   $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml
-           ppx test.pp.ml
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 1 mutation of test.ml
   Writing mutation info to test.muts
-        ocamlc .test.eobjs/byte/dune__exe__Test.{cmi,cmo,cmt}
   
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
   let str =
@@ -221,12 +211,10 @@ Create a test.ml file with an attribute
 
 Preprocess, check for attribute and error
   $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml
-           ppx test.pp.ml
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 1 mutation of test.ml
   Writing mutation info to test.muts
-        ocamlc .test.eobjs/byte/dune__exe__Test.{cmi,cmo,cmt}
   
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
   let f x =

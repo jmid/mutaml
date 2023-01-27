@@ -20,12 +20,10 @@ Make an .ml-file:
 
 
   $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml
-           ppx test.pp.ml
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 3 mutations of test.ml
   Writing mutation info to test.muts
-        ocamlc .test.eobjs/byte/dune__exe__Test.{cmi,cmo,cmt}
   
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
   let identify_char =
@@ -43,25 +41,25 @@ Make an .ml-file:
   let () = print_endline (identify_char '_')
 
 
-  $ dune exec --no-build ./test.bc
+  $ _build/default/test.bc
   lower-case letter
   upper-case letter
   digit
   other
 
-  $ MUTAML_MUTANT="test:0" dune exec --no-build ./test.bc
+  $ MUTAML_MUTANT="test:0" _build/default/test.bc
   lower-case letter
   upper-case letter
   other
   other
 
-  $ MUTAML_MUTANT="test:1" dune exec --no-build ./test.bc
+  $ MUTAML_MUTANT="test:1" _build/default/test.bc
   lower-case letter
   other
   digit
   other
 
-  $ MUTAML_MUTANT="test:2" dune exec --no-build ./test.bc
+  $ MUTAML_MUTANT="test:2" _build/default/test.bc
   other
   upper-case letter
   digit
@@ -153,12 +151,10 @@ Test that same example with a variable will be instrumented with this mutation:
 
 
   $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml
-           ppx test.pp.ml
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 4 mutations of test.ml
   Writing mutation info to test.muts
-        ocamlc .test.eobjs/byte/dune__exe__Test.{cmi,cmo,cmt}
   
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
   let identify_char =
@@ -179,31 +175,31 @@ Test that same example with a variable will be instrumented with this mutation:
   let () = print_endline (identify_char '_')
 
 
-  $ dune exec --no-build ./test.bc
+  $ _build/default/test.bc
   lower-case letter
   upper-case letter
   digit
   other char: _
 
-  $ MUTAML_MUTANT="test:0" dune exec --no-build ./test.bc
+  $ MUTAML_MUTANT="test:0" _build/default/test.bc
   lower-case letter
   upper-case letter
   digit
   other char: 
 
-  $ MUTAML_MUTANT="test:1" dune exec --no-build ./test.bc
+  $ MUTAML_MUTANT="test:1" _build/default/test.bc
   lower-case letter
   upper-case letter
   other char: 5
   other char: _
 
-  $ MUTAML_MUTANT="test:2" dune exec --no-build ./test.bc
+  $ MUTAML_MUTANT="test:2" _build/default/test.bc
   lower-case letter
   other char: U
   digit
   other char: _
 
-  $ MUTAML_MUTANT="test:3" dune exec --no-build ./test.bc
+  $ MUTAML_MUTANT="test:3" _build/default/test.bc
   other char: e
   upper-case letter
   digit
@@ -309,12 +305,10 @@ Another test w/tuples and wildcards:
   > EOF
 
   $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml
-           ppx test.pp.ml
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 2 mutations of test.ml
   Writing mutation info to test.muts
-        ocamlc .test.eobjs/byte/dune__exe__Test.{cmi,cmo,cmt}
   
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
   let prioritize fallback =
@@ -327,19 +321,19 @@ Another test w/tuples and wildcards:
   ;;(prioritize "3rd" (None, (Some "2nd"))) |> print_endline
   ;;(prioritize "3rd" (None, None)) |> print_endline
 
-  $ dune exec --no-build ./test.bc
+  $ _build/default/test.bc
   1st
   1st
   2nd
   3rd
 
-  $ MUTAML_MUTANT="test:0" dune exec --no-build ./test.bc
+  $ MUTAML_MUTANT="test:0" _build/default/test.bc
   1st
   1st
   3rd
   3rd
 
-  $ MUTAML_MUTANT="test:1" dune exec --no-build ./test.bc
+  $ MUTAML_MUTANT="test:1" _build/default/test.bc
   2nd
   3rd
   2nd
@@ -414,12 +408,10 @@ Same example without wildcards will not be instrumented with this mutation:
 
 
   $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml
-           ppx test.pp.ml
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 0 mutations of test.ml
   Writing mutation info to test.muts
-        ocamlc .test.eobjs/byte/dune__exe__Test.{cmi,cmo,cmt}
   
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
   let prioritize fallback =

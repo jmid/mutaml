@@ -76,12 +76,10 @@ Set seed and (full) mutation rate as environment variables, for repeatability
   $ export MUTAML_MUT_RATE=100
 
   $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml
-           ppx test.pp.ml
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 0 mutations of test.ml
   Writing mutation info to test.muts
-        ocamlc .test.eobjs/byte/dune__exe__Test.{cmi,cmo,cmt}
   
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
   let () =
@@ -101,12 +99,10 @@ Same example but with GADT-unsafe mutations enabled:
   $ export MUTAML_GADT=false
 
   $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml
-           ppx test.pp.ml
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: false
   Created 1 mutation of test.ml
   Writing mutation info to test.muts
-        ocamlc .test.eobjs/byte/dune__exe__Test.{cmi,cmo,cmt}
   
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
   let () =
@@ -145,12 +141,10 @@ Another example:
 
   $ export MUTAML_SEED=896745231
   $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml
-           ppx test.pp.ml
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 0 mutations of test.ml
   Writing mutation info to test.muts
-        ocamlc .test.eobjs/byte/dune__exe__Test.{cmi,cmo,cmt}
   
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
   type t =
@@ -179,12 +173,10 @@ Same example but with GADT-unsafe mutations enabled:
   $ export MUTAML_SEED=896745231
 
   $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml
-           ppx test.pp.ml
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: false
   Created 2 mutations of test.ml
   Writing mutation info to test.muts
-        ocamlc .test.eobjs/byte/dune__exe__Test.{cmi,cmo,cmt}
   
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
   type t =
@@ -202,17 +194,17 @@ Same example but with GADT-unsafe mutations enabled:
   let () = (f C) |> print_endline
 
 
-  $ dune exec --no-build ./test.bc
+  $ _build/default/test.bc
   A
   B
   C
 
-  $ MUTAML_MUTANT="test:0" dune exec --no-build ./test.bc
+  $ MUTAML_MUTANT="test:0" _build/default/test.bc
   A
   C
   C
 
-  $ MUTAML_MUTANT="test:1" dune exec --no-build ./test.bc
+  $ MUTAML_MUTANT="test:1" _build/default/test.bc
   B
   B
   C
@@ -249,7 +241,7 @@ Same example but with GADT-unsafe mutations enabled:
    | A -> "A"
   -| B -> "B"
   -| C -> "C"
-  +| B|C -> "C"
+  +| B | C -> "C"
    
    let () = f A |> print_endline
    let () = f B |> print_endline
@@ -266,7 +258,7 @@ Same example but with GADT-unsafe mutations enabled:
    let f x = match x with
   -| A -> "A"
   -| B -> "B"
-  +| A|B -> "B"
+  +| A | B -> "B"
    | C -> "C"
    
    let () = f A |> print_endline
@@ -303,12 +295,10 @@ Instead we trigger the collapse-consecutive-patterns mutation:
   $ export MUTAML_SEED=896745231
 
   $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml
-           ppx test.pp.ml
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 13 mutations of test.ml
   Writing mutation info to test.muts
-        ocamlc .test.eobjs/byte/dune__exe__Test.{cmi,cmo,cmt}
   
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
   let rec count_zeroes xs =
@@ -342,13 +332,13 @@ Instead we trigger the collapse-consecutive-patterns mutation:
        if __MUTAML_MUTANT__ = (Some "test:12") then 1 else 0])
       |> (Printf.printf "%i\n")
 
-  $ dune exec --no-build ./test.bc
+  $ _build/default/test.bc
   0
   1
   2
   3
 
-  $ MUTAML_MUTANT="test:2" dune exec --no-build ./test.bc
+  $ MUTAML_MUTANT="test:2" _build/default/test.bc
   0
   0
   0
@@ -425,7 +415,7 @@ Instead we trigger the collapse-consecutive-patterns mutation:
      | [] -> 0
   -  | 0::xs -> 1 + (count_zeroes xs)
   -  | _::xs -> count_zeroes xs
-  +  | 0::xs|_::xs -> count_zeroes xs
+  +  | 0::xs | _::xs -> count_zeroes xs
    let () = count_zeroes [] |> Printf.printf "%i\n"
    let () = count_zeroes [1;0] |> Printf.printf "%i\n"
    let () = count_zeroes [0;1;0] |> Printf.printf "%i\n"
@@ -599,12 +589,10 @@ Another example that would trigger merge-of-consecutive-patterns w/GADT true:
 
   $ export MUTAML_SEED=896745231
   $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml
-           ppx test.pp.ml
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 5 mutations of test.ml
   Writing mutation info to test.muts
-        ocamlc .test.eobjs/byte/dune__exe__Test.{cmi,cmo,cmt}
   
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
   type binop =
@@ -636,10 +624,10 @@ Another example that would trigger merge-of-consecutive-patterns w/GADT true:
       |> (Printf.printf "1 + x*3 = %i\n")
 
 
-  $ dune exec --no-build ./test.bc
+  $ _build/default/test.bc
   1 + x*3 = 7
 
-  $ MUTAML_MUTANT="test:2" dune exec --no-build ./test.bc
+  $ MUTAML_MUTANT="test:2" _build/default/test.bc
   1 + x*3 = 10
 
 
@@ -748,12 +736,10 @@ Same example that triggers merge-of-consecutive-patterns w/GADT false:
   $ export MUTAML_SEED=896745231
 
   $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml
-           ppx test.pp.ml
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: false
   Created 6 mutations of test.ml
   Writing mutation info to test.muts
-        ocamlc .test.eobjs/byte/dune__exe__Test.{cmi,cmo,cmt}
   
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
   type binop =
@@ -786,10 +772,10 @@ Same example that triggers merge-of-consecutive-patterns w/GADT false:
       |> (Printf.printf "1 + x*3 = %i\n")
 
 
-  $ dune exec --no-build ./test.bc
+  $ _build/default/test.bc
   1 + x*3 = 7
 
-  $ MUTAML_MUTANT="test:2" dune exec --no-build ./test.bc
+  $ MUTAML_MUTANT="test:2" _build/default/test.bc
   1 + x*3 = 6
 
 
@@ -861,7 +847,7 @@ Same example that triggers merge-of-consecutive-patterns w/GADT false:
   -    let v1 = interpret xval ae1 in
   -    v0 + v1
   -  | Binop (ae0, Mul, ae1) ->
-  +  | Binop (ae0, Add, ae1)|Binop (ae0, Mul, ae1) ->
+  +  | Binop (ae0, Add, ae1) | Binop (ae0, Mul, ae1) ->
        let v0 = interpret xval ae0 in
        let v1 = interpret xval ae1 in
        v0 * v1
@@ -929,14 +915,13 @@ Another example that would trigger merge-of-consecutive-patterns:
   > EOF
 
   $ export MUTAML_SEED=896745231
-  $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml
-           ppx test.pp.ml
+  $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml 2>&1 > output.txt
+  $ head -n 4 output.txt && echo "ERROR MESSAGE" && tail -n 21 output.txt
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 6 mutations of test.ml
   Writing mutation info to test.muts
-        ocamlc .test.eobjs/byte/dune__exe__Test.{cmi,cmo,cmt} (exit 2)
-  (cd _build/default && /some/path/.../bin/ocamlc.opt -w @1..3@5..28@30..39@43@46..47@49..57@61..62-40 -strict-sequence -strict-formats -short-paths -keep-locs -dsource -bin-annot -I .test.eobjs/byte -no-alias-deps -opaque -o .test.eobjs/byte/dune__exe__Test.cmo -c -impl test.pp.ml)
+  ERROR MESSAGE
   
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
   let _f x =
@@ -970,12 +955,10 @@ Same example but with GADT false:
   $ export MUTAML_SEED=896745231
 
   $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml
-           ppx test.pp.ml
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: false
   Created 9 mutations of test.ml
   Writing mutation info to test.muts
-        ocamlc .test.eobjs/byte/dune__exe__Test.{cmi,cmo,cmt}
   
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
   let _f x =
