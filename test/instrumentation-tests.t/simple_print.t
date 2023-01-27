@@ -12,11 +12,10 @@ s:
   > EOF
 
 Confirm file creations
-  $ ls
+  $ ls dune* test.ml *.sh
   dune
   dune-project
   filter_dune_build.sh
-  simple_print.t
   test.ml
   write_dune_files.sh
 

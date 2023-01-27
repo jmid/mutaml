@@ -1,6 +1,4 @@
-  $ ls *
-  run.t
-  
+  $ ls src test
   src:
   dune
   lib1.ml

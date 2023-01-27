@@ -29,13 +29,12 @@ Make an b.ml-file:
   > EOF
 
 Confirm file creations
-  $ ls
+  $ ls *.ml dune* *.sh
   a.ml
   b.ml
   dune
   dune-project
   filter_dune_build.sh
-  open_module.t
   write_dune_files.sh
 
 Set seed and (full) mutation rate as environment variables, for repeatability

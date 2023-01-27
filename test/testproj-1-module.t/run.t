@@ -1,10 +1,9 @@
 Let us try something:
 
-  $ ls
+  $ ls *.ml
   lib.ml
   main.ml
   ounittest.ml
-  run.t
 
   $ echo "(lang dune 2.9)" > dune-project
 
@@ -29,13 +28,12 @@ Let us try something:
   > EOF
 
 Check that files were created as expected:
-  $ ls
+  $ ls dune* *.ml
   dune
   dune-project
   lib.ml
   main.ml
   ounittest.ml
-  run.t
 
 Set seed and (full) mutation rate as environment variables, for repeatability
   $ export MUTAML_SEED=896745231
@@ -47,15 +45,6 @@ Set seed and (full) mutation rate as environment variables, for repeatability
   Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 13 mutations of lib.ml
   Writing mutation info to lib.muts
-
-  $ ls
-  _build
-  dune
-  dune-project
-  lib.ml
-  main.ml
-  ounittest.ml
-  run.t
 
   $ ls _build/default
   lib.a
@@ -397,17 +386,36 @@ Create a dune-workspace file with another build context:
   Created 9 mutations of lib.ml
   Writing mutation info to lib.muts
 
-  $ ls
-  _build
-  _mutations
+  $ ls _* dune* *.ml some-report-name.json
   dune
   dune-project
   dune-workspace
   lib.ml
   main.ml
   ounittest.ml
-  run.t
   some-report-name.json
+  
+  _build:
+  default
+  log
+  mutation
+  
+  _mutations:
+  lib.ml-mutant12
+  lib.ml-mutant6
+  lib.muts-mutant0.output
+  lib.muts-mutant1.output
+  lib.muts-mutant10.output
+  lib.muts-mutant11.output
+  lib.muts-mutant12.output
+  lib.muts-mutant2.output
+  lib.muts-mutant3.output
+  lib.muts-mutant4.output
+  lib.muts-mutant5.output
+  lib.muts-mutant6.output
+  lib.muts-mutant7.output
+  lib.muts-mutant8.output
+  lib.muts-mutant9.output
 
   $ ls _build/default
   lib.a

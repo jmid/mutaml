@@ -1,7 +1,3 @@
-Check that only the `report-negtests.t` file is present:
-  $ ls
-  report-negtests.t
-
 Check that report tool fails without finding JSON file:
   $ mutaml-report
   Attempting to read from mutaml-report.json...
@@ -22,9 +18,8 @@ Create a non-JSON file:
   > EOF
 
 Check that it was created:
-  $ ls
+  $ ls invalid-input.txt
   invalid-input.txt
-  report-negtests.t
 
 Try to parse `invalid-input.txt` as JSON:
   $ mutaml-report invalid-input.txt
@@ -40,10 +35,8 @@ Create a JSON file in the wrong format:
   > EOF
 
 Check that it was created:
-  $ ls
-  invalid-input.txt
+  $ ls mydoc.json
   mydoc.json
-  report-negtests.t
 
 Now confirm that it is rejected by the report tool:
   $ mutaml-report mydoc.json
