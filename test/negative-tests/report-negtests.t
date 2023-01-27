@@ -14,10 +14,22 @@ Check that report tool fails without finding another inexisting JSON file:
   Could not open file foobar.json: No such file or directory
   [1]
 
-Try to parse `report-negtests.t` as JSON:
-  $ mutaml-report report-negtests.t
-  Attempting to read from report-negtests.t...
-  Could not parse JSON in report-negtests.t: Invalid JSON
+Create a non-JSON file:
+  $ cat > invalid-input.txt <<'EOF'
+  > - finn : 42th birthday
+  > - remember to buy toiletpaper
+  > - æøå
+  > EOF
+
+Check that it was created:
+  $ ls
+  invalid-input.txt
+  report-negtests.t
+
+Try to parse `invalid-input.txt` as JSON:
+  $ mutaml-report invalid-input.txt
+  Attempting to read from invalid-input.txt...
+  Could not parse JSON in invalid-input.txt: Invalid JSON
   [1]
 
 Create a JSON file in the wrong format:
@@ -29,6 +41,7 @@ Create a JSON file in the wrong format:
 
 Check that it was created:
   $ ls
+  invalid-input.txt
   mydoc.json
   report-negtests.t
 
