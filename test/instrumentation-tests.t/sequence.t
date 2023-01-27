@@ -42,22 +42,22 @@ Test a sequence mutation:
 
 
 Check that instrumentation hasn't changed the program's behaviour
-  $ dune exec --no-build ./test.bc
+  $ _build/default/test.bc
 
 
-  $ MUTAML_MUTANT="test:0" dune exec --no-build ./test.bc
+  $ MUTAML_MUTANT="test:0" _build/default/test.bc
   Fatal error: exception Assert_failure("test.ml", 9, 0)
   [2]
 
-  $ MUTAML_MUTANT="test:1" dune exec --no-build ./test.bc
+  $ MUTAML_MUTANT="test:1" _build/default/test.bc
   Fatal error: exception Assert_failure("test.ml", 9, 0)
   [2]
 
-  $ MUTAML_MUTANT="test:2" dune exec --no-build ./test.bc
+  $ MUTAML_MUTANT="test:2" _build/default/test.bc
   Fatal error: exception Assert_failure("test.ml", 9, 0)
   [2]
 
-  $ MUTAML_MUTANT="test:3" dune exec --no-build ./test.bc
+  $ MUTAML_MUTANT="test:3" _build/default/test.bc
   Fatal error: exception Assert_failure("test.ml", 9, 0)
   [2]
 
@@ -107,16 +107,16 @@ Test uncaught sequence mutation:
 
 
 Check that instrumentation hasn't changed the program's behaviour
-  $ dune exec --no-build ./test.bc
+  $ _build/default/test.bc
 
 
-  $ MUTAML_MUTANT="test:0" dune exec --no-build ./test.bc
+  $ MUTAML_MUTANT="test:0" _build/default/test.bc
 
-  $ MUTAML_MUTANT="test:1" dune exec --no-build ./test.bc
+  $ MUTAML_MUTANT="test:1" _build/default/test.bc
 
-  $ MUTAML_MUTANT="test:2" dune exec --no-build ./test.bc
+  $ MUTAML_MUTANT="test:2" _build/default/test.bc
 
-  $ MUTAML_MUTANT="test:3" dune exec --no-build ./test.bc
+  $ MUTAML_MUTANT="test:3" _build/default/test.bc
 
 
   $ mutaml-runner _build/default/test.bc

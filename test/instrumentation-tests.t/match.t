@@ -202,17 +202,17 @@ Same example but with GADT-unsafe mutations enabled:
   let () = (f C) |> print_endline
 
 
-  $ dune exec --no-build ./test.bc
+  $ _build/default/test.bc
   A
   B
   C
 
-  $ MUTAML_MUTANT="test:0" dune exec --no-build ./test.bc
+  $ MUTAML_MUTANT="test:0" _build/default/test.bc
   A
   C
   C
 
-  $ MUTAML_MUTANT="test:1" dune exec --no-build ./test.bc
+  $ MUTAML_MUTANT="test:1" _build/default/test.bc
   B
   B
   C
@@ -342,13 +342,13 @@ Instead we trigger the collapse-consecutive-patterns mutation:
        if __MUTAML_MUTANT__ = (Some "test:12") then 1 else 0])
       |> (Printf.printf "%i\n")
 
-  $ dune exec --no-build ./test.bc
+  $ _build/default/test.bc
   0
   1
   2
   3
 
-  $ MUTAML_MUTANT="test:2" dune exec --no-build ./test.bc
+  $ MUTAML_MUTANT="test:2" _build/default/test.bc
   0
   0
   0
@@ -636,10 +636,10 @@ Another example that would trigger merge-of-consecutive-patterns w/GADT true:
       |> (Printf.printf "1 + x*3 = %i\n")
 
 
-  $ dune exec --no-build ./test.bc
+  $ _build/default/test.bc
   1 + x*3 = 7
 
-  $ MUTAML_MUTANT="test:2" dune exec --no-build ./test.bc
+  $ MUTAML_MUTANT="test:2" _build/default/test.bc
   1 + x*3 = 10
 
 
@@ -786,10 +786,10 @@ Same example that triggers merge-of-consecutive-patterns w/GADT false:
       |> (Printf.printf "1 + x*3 = %i\n")
 
 
-  $ dune exec --no-build ./test.bc
+  $ _build/default/test.bc
   1 + x*3 = 7
 
-  $ MUTAML_MUTANT="test:2" dune exec --no-build ./test.bc
+  $ MUTAML_MUTANT="test:2" _build/default/test.bc
   1 + x*3 = 6
 
 

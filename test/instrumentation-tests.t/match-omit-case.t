@@ -104,25 +104,25 @@ Make an .ml-file:
   let () = print_endline (identify_char '_')
 
 
-  $ dune exec --no-build ./test.bc
+  $ _build/default/test.bc
   lower-case letter
   upper-case letter
   digit
   other
 
-  $ MUTAML_MUTANT="test:0" dune exec --no-build ./test.bc
+  $ MUTAML_MUTANT="test:0" _build/default/test.bc
   lower-case letter
   upper-case letter
   other
   other
 
-  $ MUTAML_MUTANT="test:1" dune exec --no-build ./test.bc
+  $ MUTAML_MUTANT="test:1" _build/default/test.bc
   lower-case letter
   other
   digit
   other
 
-  $ MUTAML_MUTANT="test:2" dune exec --no-build ./test.bc
+  $ MUTAML_MUTANT="test:2" _build/default/test.bc
   other
   upper-case letter
   digit
@@ -242,31 +242,31 @@ Test that same example with a variable will be instrumented with this mutation:
   let () = print_endline (identify_char '_')
 
 
-  $ dune exec --no-build ./test.bc
+  $ _build/default/test.bc
   lower-case letter
   upper-case letter
   digit
   other char: _
 
-  $ MUTAML_MUTANT="test:0" dune exec --no-build ./test.bc
+  $ MUTAML_MUTANT="test:0" _build/default/test.bc
   lower-case letter
   upper-case letter
   digit
   other char: 
 
-  $ MUTAML_MUTANT="test:1" dune exec --no-build ./test.bc
+  $ MUTAML_MUTANT="test:1" _build/default/test.bc
   lower-case letter
   upper-case letter
   other char: 5
   other char: _
 
-  $ MUTAML_MUTANT="test:2" dune exec --no-build ./test.bc
+  $ MUTAML_MUTANT="test:2" _build/default/test.bc
   lower-case letter
   other char: U
   digit
   other char: _
 
-  $ MUTAML_MUTANT="test:3" dune exec --no-build ./test.bc
+  $ MUTAML_MUTANT="test:3" _build/default/test.bc
   other char: e
   upper-case letter
   digit
@@ -392,19 +392,19 @@ Another test w/tuples and wildcards:
   ;;(prioritize (None, (Some "2nd")) "3rd") |> print_endline
   ;;(prioritize (None, None) "3rd") |> print_endline
 
-  $ dune exec --no-build ./test.bc
+  $ _build/default/test.bc
   1st
   1st
   2nd
   3rd
 
-  $ MUTAML_MUTANT="test:0" dune exec --no-build ./test.bc
+  $ MUTAML_MUTANT="test:0" _build/default/test.bc
   1st
   1st
   3rd
   3rd
 
-  $ MUTAML_MUTANT="test:1" dune exec --no-build ./test.bc
+  $ MUTAML_MUTANT="test:1" _build/default/test.bc
   2nd
   3rd
   2nd

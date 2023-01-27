@@ -31,16 +31,16 @@ Example with a simple if-then-else:
       print_endline
 
 
-  $ dune exec --no-build ./test.bc
+  $ _build/default/test.bc
   true
   false
 
-  $ MUTAML_MUTANT="test:0" dune exec --no-build ./test.bc
+  $ MUTAML_MUTANT="test:0" _build/default/test.bc
   false
   true
 
 
-  $ mutaml-runner "dune exec --no-build ./test.bc"
+  $ mutaml-runner _build/default/test.bc
   read mut file test.muts
   Testing mutant test:0 ... passed
   Testing mutant test:1 ... passed
@@ -153,24 +153,24 @@ An example with nested ifs:
       print_endline
 
 
-  $ dune exec --no-build ./test.bc
+  $ _build/default/test.bc
   negative
   zero
   positive
 
-  $ MUTAML_MUTANT="test:3" dune exec --no-build ./test.bc
+  $ MUTAML_MUTANT="test:3" _build/default/test.bc
   zero
   negative
   negative
 
-  $ MUTAML_MUTANT="test:2" dune exec --no-build ./test.bc
+  $ MUTAML_MUTANT="test:2" _build/default/test.bc
   negative
   positive
   zero
 
 
 
-  $ mutaml-runner "dune exec --no-build ./test.bc"
+  $ mutaml-runner _build/default/test.bc
   read mut file test.muts
   Testing mutant test:0 ... passed
   Testing mutant test:1 ... passed
