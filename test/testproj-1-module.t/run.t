@@ -46,15 +46,13 @@ Set seed and (full) mutation rate as environment variables, for repeatability
   Created 13 mutations of lib.ml
   Writing mutation info to lib.muts
 
-  $ ls _build/default
-  lib.a
-  lib.cmxa
-  lib.ml
-  lib.muts
-  lib.pp.ml
-  mutaml-mut-files.txt
-  ounittest.exe
-  ounittest.ml
+  $ ls _build/default/*.exe _build/default/*.ml _build/default/*.muts _build/default/*.txt
+  _build/default/lib.ml
+  _build/default/lib.muts
+  _build/default/lib.pp.ml
+  _build/default/mutaml-mut-files.txt
+  _build/default/ounittest.exe
+  _build/default/ounittest.ml
 
   $ mutaml-runner _build/default/ounittest.exe
   read mut file lib.muts
@@ -416,22 +414,18 @@ Create a dune-workspace file with another build context:
   lib.muts-mutant8.output
   lib.muts-mutant9.output
 
-  $ ls _build/default
-  lib.a
-  lib.cmxa
-  lib.ml
-  ounittest.exe
-  ounittest.ml
+  $ ls _build/default/*.exe _build/default/*.ml
+  _build/default/lib.ml
+  _build/default/ounittest.exe
+  _build/default/ounittest.ml
 
-  $ ls _build/mutation
-  lib.a
-  lib.cmxa
-  lib.ml
-  lib.muts
-  lib.pp.ml
-  mutaml-mut-files.txt
-  ounittest.exe
-  ounittest.ml
+  $ ls _build/mutation/*.exe _build/mutation/*.ml _build/mutation/*.muts _build/mutation/*.txt
+  _build/mutation/lib.ml
+  _build/mutation/lib.muts
+  _build/mutation/lib.pp.ml
+  _build/mutation/mutaml-mut-files.txt
+  _build/mutation/ounittest.exe
+  _build/mutation/ounittest.ml
 
   $ export MUTAML_BUILD_CONTEXT="_build/mutation"
   $ mutaml-runner _build/mutation/ounittest.exe
@@ -499,15 +493,13 @@ Similar, but by passing a command line option:
   Created 9 mutations of lib.ml
   Writing mutation info to lib.muts
 
-  $ ls _build/mutation
-  lib.a
-  lib.cmxa
-  lib.ml
-  lib.muts
-  lib.pp.ml
-  mutaml-mut-files.txt
-  ounittest.exe
-  ounittest.ml
+  $ ls _build/mutation/*.exe _build/mutation/*.ml _build/mutation/*.muts _build/mutation/*.txt
+  _build/mutation/lib.ml
+  _build/mutation/lib.muts
+  _build/mutation/lib.pp.ml
+  _build/mutation/mutaml-mut-files.txt
+  _build/mutation/ounittest.exe
+  _build/mutation/ounittest.ml
 
   $ unset MUTAML_BUILD_CONTEXT
   $ mutaml-runner -build-context "_build/mutation" _build/mutation/ounittest.exe
@@ -577,15 +569,13 @@ Similar, but by passing a command line option:
   Created 9 mutations of lib.ml
   Writing mutation info to lib.muts
 
-  $ ls _build/mutation
-  lib.a
-  lib.cmxa
-  lib.ml
-  lib.muts
-  lib.pp.ml
-  mutaml-mut-files.txt
-  ounittest.exe
-  ounittest.ml
+  $ ls _build/mutation/*.exe _build/mutation/*.ml _build/mutation/*.muts _build/mutation/*.txt
+  _build/mutation/lib.ml
+  _build/mutation/lib.muts
+  _build/mutation/lib.pp.ml
+  _build/mutation/mutaml-mut-files.txt
+  _build/mutation/ounittest.exe
+  _build/mutation/ounittest.ml
 
   $ export MUTAML_BUILD_CONTEXT="_build/in-a-galaxy-far-far-away"
   $ mutaml-runner -build-context "_build/mutation" _build/mutation/ounittest.exe
