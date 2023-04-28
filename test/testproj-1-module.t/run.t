@@ -36,6 +36,9 @@ Check that files were created as expected:
   main.ml
   ounittest.ml
 
+Set diff command to make sure this test also works under macOS
+  $ export MUTAML_DIFF_COMMAND="diff -u"
+
 Set seed and (full) mutation rate as environment variables, for repeatability
   $ export MUTAML_SEED=896745231
   $ export MUTAML_MUT_RATE=100
@@ -340,7 +343,7 @@ And try the -no-diff option without providing an explicit file name:
 --------------------------------------------------------------------------------
 
 
-And try with the MUTAML_DIFF_COMMAND environment variable:
+And try with a different MUTAML_DIFF_COMMAND environment variable:
 
   $ export MUTAML_DIFF_COMMAND="diff -U 2"
   $ mutaml-report
@@ -405,9 +408,9 @@ Also check that MUTAML_DIFF_COMMAND doesn't affect -no-diff:
   Mutation "lib.ml-mutant12" passed (see "_mutations/lib.ml-mutant12.output")
 
 
-Now clean-up MUTAML_DIFF_COMMAND again
+Now clean-up MUTAML_DIFF_COMMAND again to default again
 
-  $ unset MUTAML_DIFF_COMMAND
+  $ export MUTAML_DIFF_COMMAND="diff -u"
 
 --------------------------------------------------------------------------------
 
