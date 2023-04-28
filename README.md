@@ -105,7 +105,7 @@ These are all written to a dedicated directory named `_mutations`.
 
 
 
-Environment Variables and Instrumentation Options
+Instrumentation Options and Environment Variables
 -------------------------------------------------
 
 The preprocessor's behaviour can be configured through either
@@ -139,8 +139,16 @@ If you do both, the values passed as instrumentation options in the
 `dune` file takes precedence.
 
 
+Runner and Report Options and Environment Variables
+---------------------------------------------------
 
-By default, `mutaml-runner` expects to find the preprocessor's output
+`mutaml-runner` by default repeats test suite runs for all
+instrumented `lib.ml` files. An option `--muts muts-file` is available
+to enable more targeted mutation testing.  Running `mutaml-runner
+--muts lib/lib2.muts _build/default/test/mytests.exe` will for example
+only consider mutations of the corresponding library `lib/lib2.ml`.
+
+By default, `mutaml-runner` also expects to find the preprocessor's output
 files in the default build context `_build/default`. This can be
 configured via an environment variable or a command-line option, e.g.,
 if [instrumentation is enabled via another `dune-workspace` build context](https://dune.readthedocs.io/en/stable/instrumentation.html#enabling-disabling-instrumentation):
