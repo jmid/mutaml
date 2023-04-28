@@ -149,6 +149,17 @@ if [instrumentation is enabled via another `dune-workspace` build context](https
   command-line option `-build-context`)
 
 
+Currently `mutaml-report` uses `diff --color -u` as its default
+command to print `diff`s. It falls back to `diff -u` when the
+environment variable `CI` is `true`. The used command can also be
+configured an environment variable:
+
+- `MUTAML_DIFF_COMMAND` - the command and options to use instead,
+  e.g. `MUTAML_DIFF_COMMAND="diff -U 5"` will disable colored outputs
+  and add 5 lines of unified context. Mutaml expects the specified
+  command to support `--label` options.
+
+
 
 Status
 ------
