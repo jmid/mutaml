@@ -340,6 +340,78 @@ And try the -no-diff option without providing an explicit file name:
 --------------------------------------------------------------------------------
 
 
+And try with the MUTAML_DIFF_COMMAND environment variable:
+
+  $ export MUTAML_DIFF_COMMAND="diff -U 2"
+  $ mutaml-report
+  Attempting to read from mutaml-report.json...
+  
+  Mutaml report summary:
+  ----------------------
+  
+   target                          #mutations      #failed      #timeouts      #passed 
+   -------------------------------------------------------------------------------------
+   lib.ml                                13      84.6%   11     0.0%    0    15.4%    2
+   =====================================================================================
+  
+  Mutation programs passing the test suite:
+  -----------------------------------------
+  
+  Mutation "lib.ml-mutant6" passed (see "_mutations/lib.ml-mutant6.output"):
+  
+  --- lib.ml
+  +++ lib.ml-mutant6
+  @@ -22,5 +22,5 @@
+   let pi total =
+     let rec loop n inside =
+  -    if n = 0 then
+  +    if n = 1 then
+         4. *. (float_of_int inside /. float_of_int total)
+       else
+  
+  ---------------------------------------------------------------------------
+  
+  Mutation "lib.ml-mutant12" passed (see "_mutations/lib.ml-mutant12.output"):
+  
+  --- lib.ml
+  +++ lib.ml-mutant12
+  @@ -31,3 +31,3 @@
+         else loop (n-1) (inside)
+     in
+  -  loop total 0
+  +  loop total 1
+  
+  ---------------------------------------------------------------------------
+  
+
+
+Also check that MUTAML_DIFF_COMMAND doesn't affect -no-diff:
+
+  $ mutaml-report -no-diff
+  Attempting to read from mutaml-report.json...
+  
+  Mutaml report summary:
+  ----------------------
+  
+   target                          #mutations      #failed      #timeouts      #passed 
+   -------------------------------------------------------------------------------------
+   lib.ml                                13      84.6%   11     0.0%    0    15.4%    2
+   =====================================================================================
+  
+  Mutation programs passing the test suite:
+  -----------------------------------------
+  
+  Mutation "lib.ml-mutant6" passed (see "_mutations/lib.ml-mutant6.output")
+  Mutation "lib.ml-mutant12" passed (see "_mutations/lib.ml-mutant12.output")
+
+
+Now clean-up MUTAML_DIFF_COMMAND again
+
+  $ unset MUTAML_DIFF_COMMAND
+
+--------------------------------------------------------------------------------
+
+
 Now move file to a different name and retry the -no-diff option with the new name:
 
   $ mv mutaml-report.json some-report-name.json

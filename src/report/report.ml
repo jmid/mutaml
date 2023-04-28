@@ -55,6 +55,11 @@ struct
 
   let arg_spec =
     Arg.align ["-no-diff", Arg.Clear print_diff, " Don't output diffs to the console"]
+
+  let diff_cmd = match Sys.getenv_opt "MUTAML_DIFF_COMMAND", Sys.getenv_opt "CI" with
+    | Some cmd, _       -> cmd
+    | None, Some "true" -> "diff -u"
+    | None, _           -> "diff --color -u"
 end
 
 let file_contents file_name =
@@ -97,8 +102,8 @@ let print_passed print_diff (res:test_result) =
     begin
       Printf.printf "Mutation \"%s\" passed (see \"%s\"):\n\n%!" mut_name test_output_file;
       let cmd =
-        Printf.sprintf "diff --color -u --label \"%s\" %s --label \"%s\" %s 1>&2"
-          file_name file_name mut_name full_mut_name in
+        Printf.sprintf "%s --label \"%s\" %s --label \"%s\" %s 1>&2"
+          CLI.diff_cmd file_name file_name mut_name full_mut_name in
       let () = match Sys.command cmd with
         | 1 -> ()
         | 0   -> fail_and_exit "The two source code files did not differ, despite mutation"
