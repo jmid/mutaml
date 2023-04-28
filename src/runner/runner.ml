@@ -85,18 +85,21 @@ let read_all_mutations ppx_output_prefix file_name =
   List.iter (fun fname -> Printf.printf "read mut file %s\n%!" fname) mut_files;
   List.map (fun f -> (f, read_module_mutations_json ppx_output_prefix f)) mut_files
 
+let count_mutations (f,ms) =
+  if ms=[]
+  then Printf.printf "Warning: No mutations were listed in %s\n" f
+  else ();
+  List.length ms
+
+let validate_muts_file mpair =
+  if 0 = count_mutations mpair
+  then fail_and_exit "Exiting as there is no report data to write"
+
 let validate_mutants file_name muts =
   if muts=[]
   then fail_and_exit ("No files were listed in " ^ file_name)
   else
-    let counts
-      = List.map
-        (fun (f,ms) ->
-           if ms=[]
-           then Printf.printf "Warning: No mutations were listed in %s\n" f
-           else ();
-           List.length ms
-        ) muts in
+    let counts = List.map count_mutations muts in
     if 0 = List.fold_left (+) 0 counts
     then
       fail_and_exit
@@ -162,10 +165,15 @@ let () =
       | s, _opt -> s in
     let mut_file = defaults.mutaml_mut_file in
     let mutants = match !CLI.muts_file with
-      | ""        -> read_all_mutations ppx_output_prefix mut_file
-      | muts_file -> [muts_file,read_module_mutations_json ppx_output_prefix muts_file]
+      | ""        ->
+        let ms = read_all_mutations ppx_output_prefix mut_file in
+        validate_mutants mut_file ms;
+        ms
+      | muts_file ->
+        let mpair = (muts_file,read_module_mutations_json ppx_output_prefix muts_file) in
+        validate_muts_file mpair;
+        [mpair]
     in
-    validate_mutants mut_file mutants;
     ensure_output_dir defaults.output_file_prefix;
     run_all_mutation_tests !test_cmd mutants;
     write_report_file defaults.mutaml_report_file;
