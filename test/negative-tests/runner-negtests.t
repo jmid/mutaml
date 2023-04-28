@@ -16,6 +16,11 @@ and try again:
   No files were listed in mutaml-mut-files.txt
   [1]
 
+Try passing a non-existing muts-file:
+  $ mutaml-runner --muts somefile.muts scooby-doo.sh
+  Could not read file somefile.muts - _build/default/somefile.muts: No such file or directory
+  [1]
+
 Create a mutation file with a non-existing entry:
   $ cat > _build/default/mutaml-mut-files.txt <<'EOF'
   > somefile.muts
