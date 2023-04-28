@@ -20,10 +20,20 @@ Adjust env-variable value to include path+filename+mut:
  src/other/foo.ml:0    <--  path should distinguish these
 *)
 
-let usage_string = "Usage: mutaml-runner [options] <test-command>"
-let print_usage_and_exit () =
-  Printf.printf "%s\n" usage_string;
-  exit 1
+module CLI =
+struct
+  let usage_string = "Usage: mutaml-runner [options] <test-command>"
+
+  let print_usage_and_exit () =
+    Printf.printf "%s\n" usage_string;
+    exit 1
+
+  let muts_file = ref ""
+  let build_ctx = ref ""
+  let arg_spec =
+    [("-muts",          Arg.Set_string muts_file, " Run mutations in the given muts-file");
+     ("-build-context", Arg.Set_string build_ctx, "Specify the build context to read from")]
+end
 
 let ensure_output_dir dir_name =
   if 0 <> Sys.command ("mkdir -p " ^ dir_name)
@@ -138,22 +148,22 @@ let rec run_all_mutation_tests test_cmd muts = match muts with
 
 (** Executable entry point *)
 
-let build_ctx = ref ""
-let arg_spec = [ ("-build-context", Arg.Set_string build_ctx, "Specify the build context to read from") ]
-
 let () =
   if 0 <> Sys.command ("which " ^ timeout_cmd ^ " > /dev/null")
   then fail_and_exit ("Could not find time-out command: " ^ timeout_cmd)
   else
     let test_cmd = ref "" in
-    let set_test_cmd str = if "" = !test_cmd then test_cmd := str else print_usage_and_exit () in
-    let () = Arg.parse arg_spec set_test_cmd usage_string in
-    if "" = !test_cmd then print_usage_and_exit () else
-    let ppx_output_prefix = match !build_ctx, Sys.getenv_opt "MUTAML_BUILD_CONTEXT" with
+    let set_test_cmd str = if "" = !test_cmd then test_cmd := str else CLI.print_usage_and_exit () in
+    let () = Arg.parse CLI.arg_spec set_test_cmd CLI.usage_string in
+    if "" = !test_cmd then CLI.print_usage_and_exit () else
+    let ppx_output_prefix = match !CLI.build_ctx, Sys.getenv_opt "MUTAML_BUILD_CONTEXT" with
       | "", opt -> Option.fold ~some:Fun.id opt ~none:defaults.ppx_output_prefix
       | s, _opt -> s in
     let mut_file = defaults.mutaml_mut_file in
-    let mutants = read_all_mutations ppx_output_prefix mut_file in
+    let mutants = match !CLI.muts_file with
+      | ""        -> read_all_mutations ppx_output_prefix mut_file
+      | muts_file -> [muts_file,read_module_mutations_json ppx_output_prefix muts_file]
+    in
     validate_mutants mut_file mutants;
     ensure_output_dir defaults.output_file_prefix;
     run_all_mutation_tests !test_cmd mutants;
