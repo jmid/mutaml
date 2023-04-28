@@ -139,16 +139,10 @@ If you do both, the values passed as instrumentation options in the
 `dune` file takes precedence.
 
 
-Runner and Report Options and Environment Variables
----------------------------------------------------
+Runner Options and Environment Variables
+----------------------------------------
 
-`mutaml-runner` by default repeats test suite runs for all
-instrumented `lib.ml` files. An option `--muts muts-file` is available
-to enable more targeted mutation testing.  Running `mutaml-runner
---muts lib/lib2.muts _build/default/test/mytests.exe` will for example
-only consider mutations of the corresponding library `lib/lib2.ml`.
-
-By default, `mutaml-runner` also expects to find the preprocessor's output
+By default, `mutaml-runner` expects to find the preprocessor's output
 files in the default build context `_build/default`. This can be
 configured via an environment variable or a command-line option, e.g.,
 if [instrumentation is enabled via another `dune-workspace` build context](https://dune.readthedocs.io/en/stable/instrumentation.html#enabling-disabling-instrumentation):
@@ -156,6 +150,18 @@ if [instrumentation is enabled via another `dune-workspace` build context](https
 - `MUTAML_BUILD_CONTEXT` - a path prefix string (overridden by
   command-line option `--build-context`)
 
+`mutaml-runner` also repeats test suite runs for all instrumented
+`lib.ml` files by default. An option `--muts muts-file` is available
+to enable more targeted mutation testing. Running, e.g.,
+```
+mutaml-runner --muts lib/lib2.muts _build/default/test/mytests.exe
+```
+will only consider mutations of the corresponding library
+`lib/lib2.ml`, which the runner searches for in the build context.
+
+
+Report Options and Environment Variables
+----------------------------------------
 
 Currently `mutaml-report` uses `diff --color -u` as its default
 command to print `diff`s. It falls back to `diff -u` when the
