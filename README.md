@@ -173,6 +173,9 @@ configured an environment variable:
   and add 5 lines of unified context. Mutaml expects the specified
   command to support `--label` options.
 
+Passing the option `--no-diff` to `mutaml-report` prevents any
+mutation `diff`s from being printed.
+
 
 
 Status
