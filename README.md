@@ -146,7 +146,7 @@ configured via an environment variable or a command-line option, e.g.,
 if [instrumentation is enabled via another `dune-workspace` build context](https://dune.readthedocs.io/en/stable/instrumentation.html#enabling-disabling-instrumentation):
 
 - `MUTAML_BUILD_CONTEXT` - a path prefix string (overridden by
-  command-line option `-build-context`)
+  command-line option `--build-context`)
 
 
 Currently `mutaml-report` uses `diff --color -u` as its default

@@ -71,6 +71,6 @@ Run with an unknown build context passed as environment variable:
 
 
 Run with an unknown build context passed as command line option:
-  $ mutaml-runner -build-context _build/foofoo true
+  $ mutaml-runner --build-context _build/foofoo true
   Could not read file mutaml-mut-files.txt - _build/foofoo/mutaml-mut-files.txt: No such file or directory
   [1]

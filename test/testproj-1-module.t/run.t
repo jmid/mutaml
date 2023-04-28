@@ -577,7 +577,7 @@ Similar, but by passing a command line option:
   _build/mutation/ounittest.ml
 
   $ unset MUTAML_BUILD_CONTEXT
-  $ mutaml-runner -build-context "_build/mutation" _build/mutation/ounittest.exe
+  $ mutaml-runner --build-context "_build/mutation" _build/mutation/ounittest.exe
   read mut file lib.muts
   Testing mutant lib:0 ... failed
   Testing mutant lib:1 ... failed
@@ -653,7 +653,7 @@ Similar, but by passing a command line option:
   _build/mutation/ounittest.ml
 
   $ export MUTAML_BUILD_CONTEXT="_build/in-a-galaxy-far-far-away"
-  $ mutaml-runner -build-context "_build/mutation" _build/mutation/ounittest.exe
+  $ mutaml-runner --build-context "_build/mutation" _build/mutation/ounittest.exe
   read mut file lib.muts
   Testing mutant lib:0 ... failed
   Testing mutant lib:1 ... failed

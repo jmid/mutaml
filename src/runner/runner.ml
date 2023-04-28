@@ -31,8 +31,9 @@ struct
   let muts_file = ref ""
   let build_ctx = ref ""
   let arg_spec =
-    [("-muts",          Arg.Set_string muts_file, " Run mutations in the given muts-file");
-     ("-build-context", Arg.Set_string build_ctx, "Specify the build context to read from")]
+    Arg.align
+      [("--muts",          Arg.Set_string muts_file, " Run mutations in the given muts-file");
+       ("--build-context", Arg.Set_string build_ctx, " Specify the build context to read from")]
 end
 
 let ensure_output_dir dir_name =
