@@ -97,7 +97,7 @@ process.
    ```
    By default this prints `diff`s for each mutation that flew under
    the radar of your test suite. The `diff` output can be suppressed by
-   passing `-no-diff`.
+   passing `--no-diff`.
 
 
 Steps 3 and 4 output a number of additional files.
