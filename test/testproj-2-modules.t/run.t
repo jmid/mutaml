@@ -101,3 +101,55 @@ Set seed and (full) mutation rate as environment variables, for repeatability
   
   ---------------------------------------------------------------------------
   
+Now try testing only the mutations in src/lib1.muts:
+
+  $ mutaml-runner --muts src/lib1.muts _build/default/test/ounittest.exe
+  Testing mutant src/lib1:0 ... failed
+  Testing mutant src/lib1:1 ... failed
+  Testing mutant src/lib1:2 ... failed
+  Writing report data to mutaml-report.json
+
+And report a summary:
+
+  $ mutaml-report
+  Attempting to read from mutaml-report.json...
+  
+  Mutaml report summary:
+  ----------------------
+  
+   target                          #mutations      #failed      #timeouts      #passed 
+   -------------------------------------------------------------------------------------
+   src/lib1.ml                            3     100.0%    3     0.0%    0     0.0%    0
+   =====================================================================================
+  
+
+Now try the same for src/lib2.muts:
+
+  $ mutaml-runner --muts src/lib2.muts _build/default/test/ounittest.exe
+  Testing mutant src/lib2:0 ... passed
+  Testing mutant src/lib2:1 ... passed
+  Testing mutant src/lib2:2 ... passed
+  Testing mutant src/lib2:3 ... failed
+  Testing mutant src/lib2:4 ... failed
+  Testing mutant src/lib2:5 ... failed
+  Writing report data to mutaml-report.json
+
+And report a diff-free summary:
+
+  $ mutaml-report --no-diff
+  Attempting to read from mutaml-report.json...
+  
+  Mutaml report summary:
+  ----------------------
+  
+   target                          #mutations      #failed      #timeouts      #passed 
+   -------------------------------------------------------------------------------------
+   src/lib2.ml                            6      50.0%    3     0.0%    0    50.0%    3
+   =====================================================================================
+  
+  Mutation programs passing the test suite:
+  -----------------------------------------
+  
+  Mutation "src/lib2.ml-mutant0" passed (see "_mutations/src/lib2.ml-mutant0.output")
+  Mutation "src/lib2.ml-mutant1" passed (see "_mutations/src/lib2.ml-mutant1.output")
+  Mutation "src/lib2.ml-mutant2" passed (see "_mutations/src/lib2.ml-mutant2.output")

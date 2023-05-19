@@ -54,7 +54,7 @@ struct
   let print_diff = ref true
 
   let arg_spec =
-    Arg.align ["-no-diff", Arg.Clear print_diff, " Don't output diffs to the console"]
+    Arg.align ["--no-diff", Arg.Clear print_diff, " Don't output diffs to the console"]
 
   let diff_cmd = match Sys.getenv_opt "MUTAML_DIFF_COMMAND", Sys.getenv_opt "CI" with
     | Some cmd, _       -> cmd

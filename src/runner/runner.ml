@@ -20,10 +20,21 @@ Adjust env-variable value to include path+filename+mut:
  src/other/foo.ml:0    <--  path should distinguish these
 *)
 
-let usage_string = "Usage: mutaml-runner [options] <test-command>"
-let print_usage_and_exit () =
-  Printf.printf "%s\n" usage_string;
-  exit 1
+module CLI =
+struct
+  let usage_string = "Usage: mutaml-runner [options] <test-command>"
+
+  let print_usage_and_exit () =
+    Printf.printf "%s\n" usage_string;
+    exit 1
+
+  let muts_file = ref ""
+  let build_ctx = ref ""
+  let arg_spec =
+    Arg.align
+      [("--muts",          Arg.Set_string muts_file, " Run mutations in the given muts-file");
+       ("--build-context", Arg.Set_string build_ctx, " Specify the build context to read from")]
+end
 
 let ensure_output_dir dir_name =
   if 0 <> Sys.command ("mkdir -p " ^ dir_name)
@@ -74,18 +85,21 @@ let read_all_mutations ppx_output_prefix file_name =
   List.iter (fun fname -> Printf.printf "read mut file %s\n%!" fname) mut_files;
   List.map (fun f -> (f, read_module_mutations_json ppx_output_prefix f)) mut_files
 
+let count_mutations (f,ms) =
+  if ms=[]
+  then Printf.printf "Warning: No mutations were listed in %s\n" f
+  else ();
+  List.length ms
+
+let validate_muts_file mpair =
+  if 0 = count_mutations mpair
+  then fail_and_exit "Exiting as there is no report data to write"
+
 let validate_mutants file_name muts =
   if muts=[]
   then fail_and_exit ("No files were listed in " ^ file_name)
   else
-    let counts
-      = List.map
-        (fun (f,ms) ->
-           if ms=[]
-           then Printf.printf "Warning: No mutations were listed in %s\n" f
-           else ();
-           List.length ms
-        ) muts in
+    let counts = List.map count_mutations muts in
     if 0 = List.fold_left (+) 0 counts
     then
       fail_and_exit
@@ -138,23 +152,28 @@ let rec run_all_mutation_tests test_cmd muts = match muts with
 
 (** Executable entry point *)
 
-let build_ctx = ref ""
-let arg_spec = [ ("-build-context", Arg.Set_string build_ctx, "Specify the build context to read from") ]
-
 let () =
   if 0 <> Sys.command ("which " ^ timeout_cmd ^ " > /dev/null")
   then fail_and_exit ("Could not find time-out command: " ^ timeout_cmd)
   else
     let test_cmd = ref "" in
-    let set_test_cmd str = if "" = !test_cmd then test_cmd := str else print_usage_and_exit () in
-    let () = Arg.parse arg_spec set_test_cmd usage_string in
-    if "" = !test_cmd then print_usage_and_exit () else
-    let ppx_output_prefix = match !build_ctx, Sys.getenv_opt "MUTAML_BUILD_CONTEXT" with
+    let set_test_cmd str = if "" = !test_cmd then test_cmd := str else CLI.print_usage_and_exit () in
+    let () = Arg.parse CLI.arg_spec set_test_cmd CLI.usage_string in
+    if "" = !test_cmd then CLI.print_usage_and_exit () else
+    let ppx_output_prefix = match !CLI.build_ctx, Sys.getenv_opt "MUTAML_BUILD_CONTEXT" with
       | "", opt -> Option.fold ~some:Fun.id opt ~none:defaults.ppx_output_prefix
       | s, _opt -> s in
     let mut_file = defaults.mutaml_mut_file in
-    let mutants = read_all_mutations ppx_output_prefix mut_file in
-    validate_mutants mut_file mutants;
+    let mutants = match !CLI.muts_file with
+      | ""        ->
+        let ms = read_all_mutations ppx_output_prefix mut_file in
+        validate_mutants mut_file ms;
+        ms
+      | muts_file ->
+        let mpair = (muts_file,read_module_mutations_json ppx_output_prefix muts_file) in
+        validate_muts_file mpair;
+        [mpair]
+    in
     ensure_output_dir defaults.output_file_prefix;
     run_all_mutation_tests !test_cmd mutants;
     write_report_file defaults.mutaml_report_file;

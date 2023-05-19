@@ -297,9 +297,9 @@ Try without providing an explicit file name:
   
 
 
-Now try the -no-diff option while providing an explicit file name:
+Now try the --no-diff option while providing an explicit file name:
 
-  $ mutaml-report -no-diff mutaml-report.json
+  $ mutaml-report --no-diff mutaml-report.json
   Attempting to read from mutaml-report.json...
   
   Mutaml report summary:
@@ -320,9 +320,9 @@ Now try the -no-diff option while providing an explicit file name:
 --------------------------------------------------------------------------------
 
 
-And try the -no-diff option without providing an explicit file name:
+And try the --no-diff option without providing an explicit file name:
 
-  $ mutaml-report -no-diff
+  $ mutaml-report --no-diff
   Attempting to read from mutaml-report.json...
   
   Mutaml report summary:
@@ -388,9 +388,9 @@ And try with a different MUTAML_DIFF_COMMAND environment variable:
   
 
 
-Also check that MUTAML_DIFF_COMMAND doesn't affect -no-diff:
+Also check that MUTAML_DIFF_COMMAND doesn't affect --no-diff:
 
-  $ mutaml-report -no-diff
+  $ mutaml-report --no-diff
   Attempting to read from mutaml-report.json...
   
   Mutaml report summary:
@@ -415,10 +415,10 @@ Now clean-up MUTAML_DIFF_COMMAND again to default again
 --------------------------------------------------------------------------------
 
 
-Now move file to a different name and retry the -no-diff option with the new name:
+Now move file to a different name and retry the --no-diff option with the new name:
 
   $ mv mutaml-report.json some-report-name.json
-  $ mutaml-report -no-diff some-report-name.json
+  $ mutaml-report --no-diff some-report-name.json
   Attempting to read from some-report-name.json...
   
   Mutaml report summary:
@@ -577,7 +577,7 @@ Similar, but by passing a command line option:
   _build/mutation/ounittest.ml
 
   $ unset MUTAML_BUILD_CONTEXT
-  $ mutaml-runner -build-context "_build/mutation" _build/mutation/ounittest.exe
+  $ mutaml-runner --build-context "_build/mutation" _build/mutation/ounittest.exe
   read mut file lib.muts
   Testing mutant lib:0 ... failed
   Testing mutant lib:1 ... failed
@@ -653,7 +653,7 @@ Similar, but by passing a command line option:
   _build/mutation/ounittest.ml
 
   $ export MUTAML_BUILD_CONTEXT="_build/in-a-galaxy-far-far-away"
-  $ mutaml-runner -build-context "_build/mutation" _build/mutation/ounittest.exe
+  $ mutaml-runner --build-context "_build/mutation" _build/mutation/ounittest.exe
   read mut file lib.muts
   Testing mutant lib:0 ... failed
   Testing mutant lib:1 ... failed
