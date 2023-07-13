@@ -28,6 +28,7 @@ depends: [
   "ppx_yojson_conv" { >= "v0.14.0" }
   "stdlib-random"
   "conf-timeout"
+  "conf-which"
   "ounit2" {with-test}
 ]
 
