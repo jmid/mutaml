@@ -9,7 +9,7 @@ bug-reports: "https://github.com/jmid/mutaml/issues"
 dev-repo:    "git+https://github.com/jmid/mutaml.git"
 authors:     "Jan Midtgaard <mail@janmidtgaard.dk>"
 maintainer:  "Jan Midtgaard <mail@janmidtgaard.dk>"
-version:     "0.0.1"
+version:     "0.1.0"
 tags: [
   "test"
   "mutation testing"
