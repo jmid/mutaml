@@ -39,3 +39,5 @@ breaking changes to a program's source code and then runs
 the program's testsuite for each of them to catch uncaught
 misbehaviour.
 """
+
+available: os-family != "alpine"
