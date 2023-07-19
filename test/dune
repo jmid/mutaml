@@ -1,0 +1,4 @@
+(cram
+ (applies_to testproj-1-module testproj-2-modules)
+ (deps
+  (package ounit2)))
