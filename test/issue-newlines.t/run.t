@@ -4,7 +4,7 @@ Let us try something:
   filter_dune_build.sh
 
 Create the central file with initial newline characters:
-  $ cat > test.ml <<'EOF'
+  $ cat > test.ml << EOF
   > 
   > 
   > (* here's a comment *)
@@ -15,7 +15,9 @@ Create the central file with initial newline characters:
   > EOF
 
 Create the dune files:
-  $ echo "(lang dune 2.9)" > dune-project
+  $ cat > dune-project << EOF
+  > (lang dune 2.9)
+  > EOF
 
   $ cat > dune <<'EOF'
   > (executable
@@ -35,7 +37,7 @@ Set seed and (full) mutation rate as environment variables, for repeatability
   $ export MUTAML_SEED=896745231
   $ export MUTAML_MUT_RATE=100
 
-  $ bash filter_dune_build.sh ./test.exe --instrument-with mutaml
+  $ ./filter_dune_build.sh ./test.exe --instrument-with mutaml
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 1 mutation of test.ml
