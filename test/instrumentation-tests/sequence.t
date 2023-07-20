@@ -1,7 +1,7 @@
 Tests mutating sequence expressions
 ===================================
 
-  $ bash write_dune_files.sh
+  $ bash ../write_dune_files.sh
 
 Set seed and (full) mutation rate as environment variables, for repeatability
   $ export MUTAML_SEED=896745231
@@ -23,7 +23,7 @@ Test a sequence mutation:
   > assert (f() = 3)
   > EOF
 
-  $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml
+  $ bash ../filter_dune_build.sh ./test.bc --instrument-with mutaml
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 4 mutations of test.ml
@@ -86,7 +86,7 @@ Test uncaught sequence mutation:
   > assert (f() > 0)
   > EOF
 
-  $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml
+  $ bash ../filter_dune_build.sh ./test.bc --instrument-with mutaml
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 4 mutations of test.ml

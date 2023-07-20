@@ -4,8 +4,6 @@
 
 (generate_opam_files)
 
-(formatting disabled)
-
 (package
  (name mutaml)
  (synopsis "A mutation tester for OCaml")

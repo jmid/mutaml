@@ -60,7 +60,7 @@ Overall mutation:
 --------------------------------------------------------------------------------
 
 Create dune and dune-project files:
-  $ bash write_dune_files.sh
+  $ bash ../write_dune_files.sh
 
 
 Make an .ml-file:
@@ -80,7 +80,7 @@ Make an .ml-file:
   $ export MUTAML_SEED=896745231
   $ export MUTAML_MUT_RATE=100
 
-  $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml
+  $ bash ../filter_dune_build.sh ./test.bc --instrument-with mutaml
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 3 mutations of test.ml
@@ -213,7 +213,7 @@ Test that same example with a variable will be instrumented with this mutation:
 
   $ export MUTAML_SEED=896745231
 
-  $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml
+  $ bash ../filter_dune_build.sh ./test.bc --instrument-with mutaml
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 4 mutations of test.ml
@@ -369,7 +369,7 @@ Another test w/tuples and wildcards:
 
   $ export MUTAML_SEED=896745231
 
-  $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml
+  $ bash ../filter_dune_build.sh ./test.bc --instrument-with mutaml
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 2 mutations of test.ml
@@ -474,7 +474,7 @@ Same example without wildcards will not be instrumented with this mutation:
 
   $ export MUTAML_SEED=896745231
 
-  $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml
+  $ bash ../filter_dune_build.sh ./test.bc --instrument-with mutaml
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 0 mutations of test.ml
@@ -515,7 +515,7 @@ A test with exceptions:
 
   $ export MUTAML_SEED=896745231
 
-  $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml
+  $ bash ../filter_dune_build.sh ./test.bc --instrument-with mutaml
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 10 mutations of test.ml

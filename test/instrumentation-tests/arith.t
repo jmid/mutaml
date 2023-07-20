@@ -1,6 +1,6 @@
 Tests mutation of arithmetic expressions
 
-  $ bash write_dune_files.sh
+  $ bash ../write_dune_files.sh
 
 Set seed and (full) mutation rate as environment variables, for repeatability
   $ export MUTAML_SEED=896745231
@@ -14,7 +14,7 @@ Test + 1:
   > assert (f 5 = 6)
   > EOF
 
-  $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml
+  $ bash ../filter_dune_build.sh ./test.bc --instrument-with mutaml
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 1 mutation of test.ml
@@ -41,7 +41,7 @@ Test - 1:
   > assert (f 5 = 4)
   > EOF
 
-  $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml
+  $ bash ../filter_dune_build.sh ./test.bc --instrument-with mutaml
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 1 mutation of test.ml
@@ -66,7 +66,7 @@ Test 1 +:
   > assert (f 5 = 6)
   > EOF
 
-  $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml
+  $ bash ../filter_dune_build.sh ./test.bc --instrument-with mutaml
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 1 mutation of test.ml
@@ -91,7 +91,7 @@ Test addition:
   > assert (f 5 6 = 11)
   > EOF
 
-  $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml
+  $ bash ../filter_dune_build.sh ./test.bc --instrument-with mutaml
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 1 mutation of test.ml
@@ -187,7 +187,7 @@ Test subtraction mutation:
   > assert (f 6 5 = 1)
   > EOF
 
-  $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml
+  $ bash ../filter_dune_build.sh ./test.bc --instrument-with mutaml
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 1 mutation of test.ml
@@ -212,7 +212,7 @@ Test multiplication mutation:
   > assert (f 6 5 = 30)
   > EOF
 
-  $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml
+  $ bash ../filter_dune_build.sh ./test.bc --instrument-with mutaml
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 1 mutation of test.ml
@@ -233,7 +233,7 @@ Test division mutation:
   > assert (f 56 5 = 11)
   > EOF
 
-  $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml
+  $ bash ../filter_dune_build.sh ./test.bc --instrument-with mutaml
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 1 mutation of test.ml
@@ -258,7 +258,7 @@ Test modulo mutation:
   > assert (f 56 6 = 2)
   > EOF
 
-  $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml
+  $ bash ../filter_dune_build.sh ./test.bc --instrument-with mutaml
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 1 mutation of test.ml
@@ -303,7 +303,7 @@ we should use it instead.
   right
   left
 
-  $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml
+  $ bash ../filter_dune_build.sh ./test.bc --instrument-with mutaml
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 1 mutation of test.ml

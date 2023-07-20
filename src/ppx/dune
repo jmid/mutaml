@@ -3,6 +3,8 @@
  (public_name mutaml)
  (wrapped false)
  (kind ppx_rewriter)
- (instrumentation.backend (ppx mutaml))
+ (instrumentation.backend
+  (ppx mutaml))
  (libraries mutaml.common ppxlib stdlib-random.v4)
- (preprocess (pps ppxlib.metaquot)))
+ (preprocess
+  (pps ppxlib.metaquot)))

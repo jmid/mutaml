@@ -1,6 +1,0 @@
-(cram
- (deps
-   write_dune_files.sh
-   filter_dune_build.sh
-   (package mutaml))
-)
