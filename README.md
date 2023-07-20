@@ -9,13 +9,13 @@ if the changes are caught by your tests.
 
 In more detail: [Mutation testing](https://en.wikipedia.org/wiki/Mutation_testing) is
 a form of fault injection used to assess the quality of a program's
-testsuite. Mutation testing works by repeatedly making small, breaking
+test suite. Mutation testing works by repeatedly making small, breaking
 changes to a program's text, such as turning a `+` into `-`, negating
 the condition of an `if-then-else`, ..., and subsequently rerunning
-the testsuite to see if each such 'mutant program' is 'killed'
-(caught) by one or more tests in the testsuite. By finding examples of
+the test suite to see if each such 'mutant program' is 'killed'
+(caught) by one or more tests in the test suite. By finding examples of
 uncaught wrong behaviour, mutation testing can thereby reveal
-limitations of an existing testsuite and indirectly suggest
+limitations of an existing test suite and indirectly suggest
 improvements.
 
 Since OCaml already prevents many potential programming errors at compile
@@ -36,7 +36,14 @@ Mutaml consists of:
 Installation:
 -------------
 
-Installing Mutaml
+You can install `mutaml` with a single `opam` command:
+
+```
+$ opam install mutaml
+
+```
+
+Alternatively, you can also install it from a clone of the repository:
 
 ```
 $ git clone https://github.com/jmid/mutaml.git
@@ -78,7 +85,7 @@ process.
    These files are written to `dune`'s current build context.
 
 
-3. Start mutaml-runner, passing the name of the test executable to run:
+3. Start `mutaml-runner`, passing the name of the test executable to run:
    ```
    $ mutaml-runner _build/default/test/mytests.exe
    ```
@@ -136,7 +143,7 @@ variables:
   $ export MUTAML_GADT=false
 ```
 If you do both, the values passed as instrumentation options in the
-`dune` file takes precedence.
+`dune` file take precedence.
 
 
 Runner Options and Environment Variables
@@ -166,7 +173,7 @@ Report Options and Environment Variables
 Currently `mutaml-report` uses `diff --color -u` as its default
 command to print `diff`s. It falls back to `diff -u` when the
 environment variable `CI` is `true`. The used command can also be
-configured an environment variable:
+configured with an environment variable:
 
 - `MUTAML_DIFF_COMMAND` - the command and options to use instead,
   e.g. `MUTAML_DIFF_COMMAND="diff -U 5"` will disable colored outputs
@@ -216,3 +223,5 @@ Acknowledgements
 ----------------
 
 Mutaml was developed with support from the [OCaml Software Foundation](https://ocaml-sf.org/).
+While developing it, I also benefitted from studying the source code
+of [bisect_ppx](https://github.com/aantron/bisect_ppx).
