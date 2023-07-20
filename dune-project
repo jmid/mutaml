@@ -24,7 +24,7 @@
  (depends
   (ocaml (>= 4.12.0))
   (ppxlib (and (>= 0.26.0) (< 0.28.0)))
-  (ppx_yosjon_conv (>= 0.14.0))
+  (ppx_yojson_conv (>= 0.14.0))
   stdlib-random
   conf-timeout
   conf-which
