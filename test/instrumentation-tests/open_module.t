@@ -29,13 +29,11 @@ Make an b.ml-file:
   > EOF
 
 Confirm file creations
-  $ ls *.ml dune* *.sh
+  $ ls *.ml dune*
   a.ml
   b.ml
   dune
   dune-project
-  filter_dune_build.sh
-  write_dune_files.sh
 
 Set seed and (full) mutation rate as environment variables, for repeatability
   $ export MUTAML_SEED=896745231
@@ -46,7 +44,7 @@ Test mutation of an 'assert false':
 ----------------------------------------------------------------------------------
 
 #  $ dune build ./b.bc --instrument-with mutaml
-  $ bash filter_dune_build.sh ./b.bc --instrument-with mutaml
+  $ bash ../filter_dune_build.sh ./b.bc --instrument-with mutaml
   Running mutaml instrumentation on "b.ml"
   Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 1 mutation of b.ml

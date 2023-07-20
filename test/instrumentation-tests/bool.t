@@ -1,6 +1,6 @@
 Tests mutating Boolean expressions
 
-  $ bash write_dune_files.sh
+  $ bash ../write_dune_files.sh
 
 Set seed and (full) mutation rate as environment variables, for repeatability
   $ export MUTAML_SEED=896745231
@@ -14,7 +14,7 @@ Test true:
   > assert (f ())
   > EOF
 
-  $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml
+  $ bash ../filter_dune_build.sh ./test.bc --instrument-with mutaml
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 1 mutation of test.ml
@@ -42,7 +42,7 @@ Test false:
   > assert (not (f ()))
   > EOF
 
-  $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml
+  $ bash ../filter_dune_build.sh ./test.bc --instrument-with mutaml
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 1 mutation of test.ml

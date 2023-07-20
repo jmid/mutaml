@@ -1,5 +1,5 @@
 Create dune and dune-project files:
-#  $ bash write_dune_files.sh
+#  $ bash ../write_dune_files.sh
 
 Create a dune-project file:
   $ echo "(lang dune 2.9)" > dune-project
@@ -34,7 +34,7 @@ Set seed and (full) mutation rate as environment variables, for repeatability
 
 
 Preprocess, check for attribute and error
-  $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml 2>&1 > output.txt
+  $ bash ../filter_dune_build.sh ./test.bc --instrument-with mutaml 2>&1 > output.txt
   $ head -n 4 output.txt && echo "ERROR MESSAGE" && tail -n 9 output.txt
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
@@ -67,7 +67,7 @@ Try same example, but disabling warning 22 via the dune file:
 
 Preprocess, check that attribute no longer triggers an error
 
-  $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml
+  $ bash ../filter_dune_build.sh ./test.bc --instrument-with mutaml
   
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
   let greet () = print_endline ("Hello," ^ " world!")[@@ppwarning
@@ -101,7 +101,7 @@ Create a test.ml file with a module attribute
 
 Preprocess, check that attribute triggers deprecation error
 
-  $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml 2>&1 > output.txt
+  $ bash ../filter_dune_build.sh ./test.bc --instrument-with mutaml 2>&1 > output.txt
   $ head -n 4 output.txt && echo "ERROR MESSAGE" && tail -n 10 output.txt
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
@@ -142,7 +142,7 @@ Create a test.ml file with an attribute
   > EOF
 
 Preprocess, check for attribute and error
-  $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml
+  $ bash ../filter_dune_build.sh ./test.bc --instrument-with mutaml
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 0 mutations of test.ml
@@ -162,7 +162,7 @@ Create a test.ml file with an attribute
   > EOF
 
 Preprocess, check for attribute and error
-  $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml
+  $ bash ../filter_dune_build.sh ./test.bc --instrument-with mutaml
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 2 mutations of test.ml
@@ -188,7 +188,7 @@ Create a test.ml file with an attribute
   > EOF
 
 Preprocess, check for attribute and error
-  $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml
+  $ bash ../filter_dune_build.sh ./test.bc --instrument-with mutaml
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 1 mutation of test.ml
@@ -210,7 +210,7 @@ Create a test.ml file with an attribute
   > EOF
 
 Preprocess, check for attribute and error
-  $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml
+  $ bash ../filter_dune_build.sh ./test.bc --instrument-with mutaml
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 1 mutation of test.ml

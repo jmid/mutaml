@@ -3,5 +3,6 @@
  (public_name mutaml-report)
  (package mutaml)
  (libraries unix ppxlib mutaml.common)
- (promote (until-clean) (into ../..))
-)
+ (promote
+  (until-clean)
+  (into ../..)))

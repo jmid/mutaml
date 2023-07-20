@@ -1,5 +1,5 @@
 Create dune and dune-project files:
-  $ bash write_dune_files.sh
+  $ bash ../write_dune_files.sh
 
 
 An simple record example
@@ -16,7 +16,7 @@ An simple record example
 
 
   $ export MUTAML_SEED=896745231
-  $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml
+  $ bash ../filter_dune_build.sh ./test.bc --instrument-with mutaml
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 50   GADTs enabled: true
   Created 3 mutations of test.ml

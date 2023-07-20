@@ -1,5 +1,5 @@
 Create dune and dune-project files:
-  $ bash write_dune_files.sh
+  $ bash ../write_dune_files.sh
 
   $ export MUTAML_SEED=896745231
   $ export MUTAML_MUT_RATE=100
@@ -22,7 +22,7 @@ An example with only conservative, GADT-safe mutations:
   > EOF
 
   $ export MUTAML_SEED=896745231
-  $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml
+  $ bash ../filter_dune_build.sh ./test.bc --instrument-with mutaml
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 0 mutations of test.ml
@@ -54,7 +54,7 @@ Same example but allowing GADT-unsafe mutations:
   $ export MUTAML_GADT=false
   $ export MUTAML_SEED=896745231
 
-  $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml
+  $ bash ../filter_dune_build.sh ./test.bc --instrument-with mutaml
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: false
   Created 2 mutations of test.ml
@@ -180,7 +180,7 @@ Instead we trigger the collapse-consecutive-patterns mutation:
 
   $ export MUTAML_SEED=896745231
 
-  $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml
+  $ bash ../filter_dune_build.sh ./test.bc --instrument-with mutaml
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 13 mutations of test.ml
@@ -477,7 +477,7 @@ Another example would triggers merge-of-consecutive-patterns w/GADTs true
   > EOF
 
   $ export MUTAML_SEED=896745231
-  $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml
+  $ bash ../filter_dune_build.sh ./test.bc --instrument-with mutaml
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 5 mutations of test.ml
@@ -625,7 +625,7 @@ Same example that triggers merge-of-consecutive-patterns w/GADTs false
   $ export MUTAML_GADT=false
   $ export MUTAML_SEED=896745231
 
-  $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml
+  $ bash ../filter_dune_build.sh ./test.bc --instrument-with mutaml
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: false
   Created 6 mutations of test.ml

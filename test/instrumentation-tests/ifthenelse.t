@@ -1,6 +1,6 @@
 Example with a simple if-then-else:
 
-  $ bash write_dune_files.sh
+  $ bash ../write_dune_files.sh
 
   $ cat > test.ml <<'EOF'
   > let test x = if x then "true" else "false"
@@ -10,7 +10,7 @@ Example with a simple if-then-else:
 
   $ export MUTAML_SEED=896745231
   $ export MUTAML_MUT_RATE=100
-  $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml
+  $ bash ../filter_dune_build.sh ./test.bc --instrument-with mutaml
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 3 mutations of test.ml
@@ -114,7 +114,7 @@ An example with nested ifs:
   > EOF
 
   $ export MUTAML_SEED=896745231
-  $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml
+  $ bash ../filter_dune_build.sh ./test.bc --instrument-with mutaml
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 7 mutations of test.ml

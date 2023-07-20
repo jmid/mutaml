@@ -10,7 +10,9 @@
   ounittest.ml
 
 
-  $ echo "(lang dune 2.9)" > dune-project
+  $ cat > dune-project << EOF
+  > (lang dune 2.9)
+  > EOF
 
 Set seed and (full) mutation rate as environment variables, for repeatability
   $ export MUTAML_SEED=896745231

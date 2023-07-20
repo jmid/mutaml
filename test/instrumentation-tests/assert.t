@@ -1,5 +1,5 @@
 Create dune and dune-project files:
-  $ bash write_dune_files.sh
+  $ bash ../write_dune_files.sh
 
 Make an .ml-file:
   $ cat > test.ml <<'EOF'
@@ -50,7 +50,7 @@ Set seed and (full) mutation rate as environment variables, for repeatability
   $ export MUTAML_SEED=896745231
   $ export MUTAML_MUT_RATE=100
 
-  $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml
+  $ bash ../filter_dune_build.sh ./test.bc --instrument-with mutaml
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 1 mutation of test.ml
@@ -74,7 +74,7 @@ Make an .ml-file:
   >   | _  -> assert (1>0); 0
   > EOF
 
-  $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml
+  $ bash ../filter_dune_build.sh ./test.bc --instrument-with mutaml
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 3 mutations of test.ml
@@ -109,7 +109,7 @@ Make an .ml-file:
   > EOF
 
 
-  $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml
+  $ bash ../filter_dune_build.sh ./test.bc --instrument-with mutaml
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 4 mutations of test.ml

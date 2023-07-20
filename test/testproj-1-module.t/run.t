@@ -5,7 +5,9 @@ Let us try something:
   main.ml
   ounittest.ml
 
-  $ echo "(lang dune 2.9)" > dune-project
+  $ cat > dune-project << EOF
+  > (lang dune 2.9)
+  > EOF
 
   $ cat > dune <<'EOF'
   > (library

@@ -1,6 +1,6 @@
 Create dune and dune-project files:
 
-  $ bash write_dune_files.sh
+  $ bash ../write_dune_files.sh
 
 
 An example from Gabriel with GADTs (function-matching).
@@ -24,7 +24,7 @@ Check that the example typechecks
   $ export MUTAML_SEED=896745231
   $ export MUTAML_MUT_RATE=100
   $ export MUTAML_GADT=true
-  $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml
+  $ bash ../filter_dune_build.sh ./test.bc --instrument-with mutaml
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 2 mutations of test.ml
@@ -196,7 +196,7 @@ Check that the example typechecks
   $ ocamlc -stop-after typing test.ml
   $ export MUTAML_SEED=896745231
   $ export MUTAML_GADT=true
-  $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml
+  $ bash ../filter_dune_build.sh ./test.bc --instrument-with mutaml
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 2 mutations of test.ml
@@ -236,7 +236,7 @@ Check that the example typechecks
   $ ocamlc -stop-after typing test.ml
   $ export MUTAML_SEED=896745231
   $ export MUTAML_GADT=true
-  $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml
+  $ bash ../filter_dune_build.sh ./test.bc --instrument-with mutaml
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 0 mutations of test.ml
@@ -398,7 +398,7 @@ Check that the example typechecks
   $ ocamlc -stop-after typing test.ml
   $ export MUTAML_SEED=896745231
   $ export MUTAML_GADT=true
-  $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml
+  $ bash ../filter_dune_build.sh ./test.bc --instrument-with mutaml
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 0 mutations of test.ml
@@ -434,7 +434,7 @@ GADT example from manual w.match
 Check that the example typechecks
   $ ocamlc -stop-after typing test.ml
   $ export MUTAML_SEED=896745231
-  $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml
+  $ bash ../filter_dune_build.sh ./test.bc --instrument-with mutaml
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 0 mutations of test.ml
@@ -474,7 +474,7 @@ Check that the example typechecks
   $ ocamlc -stop-after typing test.ml
   $ export MUTAML_SEED=896745231
   $ export MUTAML_GADT=true
-  $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml
+  $ bash ../filter_dune_build.sh ./test.bc --instrument-with mutaml
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 4 mutations of test.ml
@@ -525,7 +525,7 @@ Check that the example typechecks
   (However, some guarded clause may match this value.)
   $ export MUTAML_SEED=896745231
   $ export MUTAML_GADT=true
-  $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml 2>&1 > output.txt
+  $ bash ../filter_dune_build.sh ./test.bc --instrument-with mutaml 2>&1 > output.txt
   $ head -n 4 output.txt && echo "ERROR MESSAGE" && tail -n 25 output.txt
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
@@ -577,7 +577,7 @@ Check that the example typechecks
   $ ocamlc -stop-after typing test.ml
   $ export MUTAML_SEED=896745231
   $ export MUTAML_GADT=true
-  $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml
+  $ bash ../filter_dune_build.sh ./test.bc --instrument-with mutaml
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 4 mutations of test.ml
@@ -614,7 +614,7 @@ Check that the example typechecks
   $ ocamlc -stop-after typing test.ml
   $ export MUTAML_SEED=896745231
   $ export MUTAML_GADT=true
-  $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml
+  $ bash ../filter_dune_build.sh ./test.bc --instrument-with mutaml
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 10 mutations of test.ml
@@ -663,7 +663,7 @@ Check that the example typechecks
   $ ocamlc -stop-after typing test.ml
   $ export MUTAML_SEED=896745231
   $ export MUTAML_GADT=true
-  $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml
+  $ bash ../filter_dune_build.sh ./test.bc --instrument-with mutaml
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 3 mutations of test.ml
@@ -710,7 +710,7 @@ Check that the example typechecks
   $ ocamlc -stop-after typing test.ml
   $ export MUTAML_SEED=896745231
   $ export MUTAML_GADT=true
-  $ bash filter_dune_build.sh ./test.bc --instrument-with mutaml
+  $ bash ../filter_dune_build.sh ./test.bc --instrument-with mutaml
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 0 mutations of test.ml
