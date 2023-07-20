@@ -2,6 +2,9 @@
 
 (name mutaml)
 
+(formatting
+ (enabled_for dune))
+
 (generate_opam_files)
 
 (package
