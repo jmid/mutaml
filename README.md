@@ -223,3 +223,5 @@ Acknowledgements
 ----------------
 
 Mutaml was developed with support from the [OCaml Software Foundation](https://ocaml-sf.org/).
+While developing it, I also benefitted from studying the source code
+of [bisect_ppx](https://github.com/aantron/bisect_ppx).
