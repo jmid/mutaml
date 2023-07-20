@@ -9,13 +9,13 @@ if the changes are caught by your tests.
 
 In more detail: [Mutation testing](https://en.wikipedia.org/wiki/Mutation_testing) is
 a form of fault injection used to assess the quality of a program's
-testsuite. Mutation testing works by repeatedly making small, breaking
+test suite. Mutation testing works by repeatedly making small, breaking
 changes to a program's text, such as turning a `+` into `-`, negating
 the condition of an `if-then-else`, ..., and subsequently rerunning
-the testsuite to see if each such 'mutant program' is 'killed'
-(caught) by one or more tests in the testsuite. By finding examples of
+the test suite to see if each such 'mutant program' is 'killed'
+(caught) by one or more tests in the test suite. By finding examples of
 uncaught wrong behaviour, mutation testing can thereby reveal
-limitations of an existing testsuite and indirectly suggest
+limitations of an existing test suite and indirectly suggest
 improvements.
 
 Since OCaml already prevents many potential programming errors at compile
