@@ -85,7 +85,7 @@ process.
    These files are written to `dune`'s current build context.
 
 
-3. Start mutaml-runner, passing the name of the test executable to run:
+3. Start `mutaml-runner`, passing the name of the test executable to run:
    ```
    $ mutaml-runner _build/default/test/mytests.exe
    ```
@@ -143,7 +143,7 @@ variables:
   $ export MUTAML_GADT=false
 ```
 If you do both, the values passed as instrumentation options in the
-`dune` file takes precedence.
+`dune` file take precedence.
 
 
 Runner Options and Environment Variables
@@ -173,7 +173,7 @@ Report Options and Environment Variables
 Currently `mutaml-report` uses `diff --color -u` as its default
 command to print `diff`s. It falls back to `diff -u` when the
 environment variable `CI` is `true`. The used command can also be
-configured an environment variable:
+configured with an environment variable:
 
 - `MUTAML_DIFF_COMMAND` - the command and options to use instead,
   e.g. `MUTAML_DIFF_COMMAND="diff -U 5"` will disable colored outputs
