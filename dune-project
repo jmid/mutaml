@@ -22,8 +22,9 @@
  (maintainers "Jan Midtgaard <mail@janmidtgaard.dk>")
  (tags ("test" "mutation testing"))
  (depends
-  ppxlib
-  ppx_yosjon_conv
+  (ocaml (>= 4.12.0))
+  (ppxlib (and (>= 0.26.0) (< 0.28.0)))
+  (ppx_yosjon_conv (>= 0.14.0))
   stdlib-random
   conf-timeout
   conf-which
