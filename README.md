@@ -36,7 +36,14 @@ Mutaml consists of:
 Installation:
 -------------
 
-Installing Mutaml
+You can install `mutaml` with a single `opam` command:
+
+```
+$ opam install mutaml
+
+```
+
+Alternatively, you can also install it from a clone of the repository:
 
 ```
 $ git clone https://github.com/jmid/mutaml.git
