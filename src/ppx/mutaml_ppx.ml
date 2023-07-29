@@ -335,13 +335,17 @@ class mutate_mapper (rs : RS.t) =
             | Some g -> Some [%expr [%e g] && [%e mut_guard] ]) in
         let case1' = { case1 with pc_guard = guard } in
 
-        if cases_contain_catch_all
+        if cases_contain_catch_all || case1.pc_guard <> None
         then
           (* drop case from pattern-match when there is a '_'-catch all case and >1 additional cases *)
           (* match f x with             match f x with
               | A -> g y                 | A when __MUTAML_MUTANT__ <> (Some "test:27") -> g y
               | B -> h z        ~~>      | B when __MUTAML_MUTANT__ <> (Some "test:45") -> h z
               | _ -> i q                 | _ -> i q   *)
+          (* or if there is pattern containing a 'when'-clause to drop *)
+          (* match f x with             match f x with
+              | B when c -> h z   ~~>    | B when c &&__MUTAML_MUTANT__ <> (Some "test:45") -> h z
+              | B        -> i q          | B -> i q   *)
           let mutation = Mutaml_common.{ number = mut_no; repl = None;
                                          loc = { loc with loc_end = case2.pc_lhs.ppat_loc.loc_start }} in
           (* | pat1 when guard1 -> rhs1  | pat2 when guard2 -> rhs2
