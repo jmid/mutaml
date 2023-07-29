@@ -28,6 +28,7 @@ Create the dune files:
   > (executable
   >  (name test)
   >  (ocamlc_flags -dsource)
+  >  (libraries unix)
   >  (instrumentation (backend mutaml))
   > )
   > EOF
