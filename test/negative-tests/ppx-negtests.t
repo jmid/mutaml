@@ -20,7 +20,7 @@ Test invalid environment variables
   > EOF
 
   $ export MUTAML_GADT=sometimes
-  $ dune build ./test.bc --instrument-with mutaml 2>&1 | head | sed -e 's/ppx\/[^\/]*\/ppx\.exe/ppx\/path\/ppx\.exe/g'
+  $ bash ../filter_dune_build.sh ./test.bc --instrument-with mutaml 2>&1 | head | sed -e 's/ppx\/[^\/]*\/ppx\.exe/ppx\/path\/ppx\.exe/g'
   File "dune", line 4, characters 1-35:
   4 |  (instrumentation (backend mutaml))
        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -30,7 +30,7 @@ Test invalid environment variables
   $ dune clean
   $ unset MUTAML_GADT
   $ export MUTAML_SEED=-4611686018427387905
-  $ dune build ./test.bc --instrument-with mutaml 2>&1 | head | sed -e 's/ppx\/[^\/]*\/ppx\.exe/ppx\/path\/ppx\.exe/g'
+  $ bash ../filter_dune_build.sh ./test.bc --instrument-with mutaml 2>&1 | head | sed -e 's/ppx\/[^\/]*\/ppx\.exe/ppx\/path\/ppx\.exe/g'
   File "dune", line 4, characters 1-35:
   4 |  (instrumentation (backend mutaml))
        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -39,7 +39,7 @@ Test invalid environment variables
 
   $ dune clean
   $ export MUTAML_SEED=4611686018427387904
-  $ dune build ./test.bc --instrument-with mutaml 2>&1 | head | sed -e 's/ppx\/[^\/]*\/ppx\.exe/ppx\/path\/ppx\.exe/g'
+  $ bash ../filter_dune_build.sh ./test.bc --instrument-with mutaml 2>&1 | head | sed -e 's/ppx\/[^\/]*\/ppx\.exe/ppx\/path\/ppx\.exe/g'
   File "dune", line 4, characters 1-35:
   4 |  (instrumentation (backend mutaml))
        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -48,7 +48,7 @@ Test invalid environment variables
 
   $ dune clean
   $ export MUTAML_SEED=12likeREEEAALLLYrandom34
-  $ dune build ./test.bc --instrument-with mutaml 2>&1 | head | sed -e 's/ppx\/[^\/]*\/ppx\.exe/ppx\/path\/ppx\.exe/g'
+  $ bash ../filter_dune_build.sh ./test.bc --instrument-with mutaml 2>&1 | head | sed -e 's/ppx\/[^\/]*\/ppx\.exe/ppx\/path\/ppx\.exe/g'
   File "dune", line 4, characters 1-35:
   4 |  (instrumentation (backend mutaml))
        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -58,7 +58,7 @@ Test invalid environment variables
   $ dune clean
   $ unset MUTAML_SEED
   $ export MUTAML_MUT_RATE=110
-  $ dune build ./test.bc --instrument-with mutaml 2>&1 | head | sed -e 's/ppx\/[^\/]*\/ppx\.exe/ppx\/path\/ppx\.exe/g'
+  $ bash ../filter_dune_build.sh ./test.bc --instrument-with mutaml 2>&1 | head | sed -e 's/ppx\/[^\/]*\/ppx\.exe/ppx\/path\/ppx\.exe/g'
   File "dune", line 4, characters 1-35:
   4 |  (instrumentation (backend mutaml))
        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -67,7 +67,7 @@ Test invalid environment variables
 
   $ dune clean
   $ export MUTAML_MUT_RATE=-10
-  $ dune build ./test.bc --instrument-with mutaml 2>&1 | head | sed -e 's/ppx\/[^\/]*\/ppx\.exe/ppx\/path\/ppx\.exe/g'
+  $ bash ../filter_dune_build.sh ./test.bc --instrument-with mutaml 2>&1 | head | sed -e 's/ppx\/[^\/]*\/ppx\.exe/ppx\/path\/ppx\.exe/g'
   File "dune", line 4, characters 1-35:
   4 |  (instrumentation (backend mutaml))
        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -76,7 +76,7 @@ Test invalid environment variables
 
   $ dune clean
   $ export MUTAML_MUT_RATE=always
-  $ dune build ./test.bc --instrument-with mutaml 2>&1 | head | sed -e 's/ppx\/[^\/]*\/ppx\.exe/ppx\/path\/ppx\.exe/g'
+  $ bash ../filter_dune_build.sh ./test.bc --instrument-with mutaml 2>&1 | head | sed -e 's/ppx\/[^\/]*\/ppx\.exe/ppx\/path\/ppx\.exe/g'
   File "dune", line 4, characters 1-35:
   4 |  (instrumentation (backend mutaml))
        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -98,7 +98,7 @@ Instrument and check that it is rejected
   > )
   > EOF
 
-  $ dune build ./test.bc --instrument-with mutaml 2>&1 | head | sed -e 's/ppx\/[^\/]*\/ppx\.exe/ppx\/path\/ppx\.exe/g'
+  $ bash ../filter_dune_build.sh ./test.bc --instrument-with mutaml 2>&1 | head | sed -e 's/ppx\/[^\/]*\/ppx\.exe/ppx\/path\/ppx\.exe/g'
   File "dune", line 4, characters 1-49:
   4 |  (instrumentation (backend mutaml -mut-rate 110))
        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -124,7 +124,7 @@ Instrument and check that it is rejected
   > )
   > EOF
 
-  $ dune build ./test.bc --instrument-with mutaml 2>&1 | head | sed -e 's/ppx\/[^\/]*\/ppx\.exe/ppx\/path\/ppx\.exe/g'
+  $ bash ../filter_dune_build.sh ./test.bc --instrument-with mutaml 2>&1 | head | sed -e 's/ppx\/[^\/]*\/ppx\.exe/ppx\/path\/ppx\.exe/g'
   File "dune", line 4, characters 1-49:
   4 |  (instrumentation (backend mutaml -mut-rate -10))
        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -150,7 +150,7 @@ Instrument and check that it is rejected
   > )
   > EOF
 
-  $ dune build ./test.bc --instrument-with mutaml 2>&1 | head | sed -e 's/ppx\/[^\/]*\/ppx\.exe/ppx\/path\/ppx\.exe/g'
+  $ bash ../filter_dune_build.sh ./test.bc --instrument-with mutaml 2>&1 | head | sed -e 's/ppx\/[^\/]*\/ppx\.exe/ppx\/path\/ppx\.exe/g'
   File "dune", line 4, characters 1-66:
   4 |  (instrumentation (backend mutaml -mut-rate eeeEEEEEXTREMELYHIGH))
        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -176,7 +176,7 @@ Instrument and check that it is rejected
   > )
   > EOF
 
-  $ dune build ./test.bc --instrument-with mutaml 2>&1 | head | sed -e 's/ppx\/[^\/]*\/ppx\.exe/ppx\/path\/ppx\.exe/g'
+  $ bash ../filter_dune_build.sh ./test.bc --instrument-with mutaml 2>&1 | head | sed -e 's/ppx\/[^\/]*\/ppx\.exe/ppx\/path\/ppx\.exe/g'
   File "dune", line 4, characters 1-61:
   4 |  (instrumentation (backend mutaml -seed 4611686018427387904))
        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -202,7 +202,7 @@ Instrument and check that it is rejected
   > )
   > EOF
 
-  $ dune build ./test.bc --instrument-with mutaml 2>&1 | head | sed -e 's/ppx\/[^\/]*\/ppx\.exe/ppx\/path\/ppx\.exe/g'
+  $ bash ../filter_dune_build.sh ./test.bc --instrument-with mutaml 2>&1 | head | sed -e 's/ppx\/[^\/]*\/ppx\.exe/ppx\/path\/ppx\.exe/g'
   File "dune", line 4, characters 1-54:
   4 |  (instrumentation (backend mutaml -seed 324random345))
        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -228,7 +228,7 @@ Instrument and check that it was received
   > )
   > EOF
 
-  $ dune build ./test.bc --instrument-with mutaml 2>&1 | grep -v "no-merge"
+  $ bash ../filter_dune_build.sh ./test.bc --instrument-with mutaml 2>&1 | grep -v "no-merge"
   ppx.exe [extra_args] [<files>]
     -as-ppx                     Run as a -ppx rewriter (must be the first argument)
     --as-ppx                    Same as -as-ppx
