@@ -45,7 +45,7 @@ Set seed and (full) mutation rate as environment variables, for repeatability
   $ export MUTAML_SEED=896745231
   $ export MUTAML_MUT_RATE=100
 
-  $ dune build ./ounittest.exe --instrument-with mutaml
+  $ bash ../filter_dune_build.sh ./ounittest.exe --instrument-with mutaml
   Running mutaml instrumentation on "lib.ml"
   Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 13 mutations of lib.ml
@@ -454,7 +454,7 @@ Create a dune-workspace file with another build context:
   $ dune clean
   $ unset MUTAML_MUT_RATE
   $ export MUTAML_SEED=896745231
-  $ dune build ./ounittest.exe
+  $ bash ../filter_dune_build.sh ./ounittest.exe
   Running mutaml instrumentation on "lib.ml"
   Randomness seed: 896745231   Mutation rate: 50   GADTs enabled: true
   Created 9 mutations of lib.ml
@@ -564,7 +564,7 @@ Create a dune-workspace file with another build context:
 Similar, but by passing a command line option:
 
   $ dune clean
-  $ dune build ./ounittest.exe
+  $ bash ../filter_dune_build.sh ./ounittest.exe
   Running mutaml instrumentation on "lib.ml"
   Randomness seed: 896745231   Mutation rate: 50   GADTs enabled: true
   Created 9 mutations of lib.ml
@@ -640,7 +640,7 @@ Finally, test overriding:
 Similar, but by passing a command line option:
 
   $ dune clean
-  $ dune build ./ounittest.exe
+  $ bash ../filter_dune_build.sh ./ounittest.exe
   Running mutaml instrumentation on "lib.ml"
   Randomness seed: 896745231   Mutation rate: 50   GADTs enabled: true
   Created 9 mutations of lib.ml
