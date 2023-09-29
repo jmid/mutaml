@@ -22,7 +22,7 @@ Test default behaviour when passing only seed as environment variable
   > )
   > EOF
 
-  $ dune build ./test.bc --instrument-with mutaml
+  $ bash ../filter_dune_build.sh ./test.bc --instrument-with mutaml
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 50   GADTs enabled: true
   Created 1 mutation of test.ml
@@ -34,7 +34,7 @@ Try passing another seed value:
   $ dune clean
   $ export MUTAML_SEED=4231
 
-  $ dune build ./test.bc --instrument-with mutaml
+  $ bash ../filter_dune_build.sh ./test.bc --instrument-with mutaml
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 4231   Mutation rate: 50   GADTs enabled: true
   Created 1 mutation of test.ml
@@ -66,7 +66,7 @@ Instrument and check that it was received
   > )
   > EOF
 
-  $ dune build ./test.bc --instrument-with mutaml
+  $ bash ../filter_dune_build.sh ./test.bc --instrument-with mutaml
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 50   GADTs enabled: true
   Created 1 mutation of test.ml
@@ -88,7 +88,7 @@ Instrument and check that it was received
   > )
   > EOF
 
-  $ dune build ./test.bc --instrument-with mutaml
+  $ bash ../filter_dune_build.sh ./test.bc --instrument-with mutaml
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 50   GADTs enabled: true
   Created 1 mutation of test.ml
@@ -111,7 +111,7 @@ Instrument and check that it was received
   > )
   > EOF
 
-  $ dune build ./test.bc --instrument-with mutaml
+  $ bash ../filter_dune_build.sh ./test.bc --instrument-with mutaml
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 50   GADTs enabled: false
   Created 1 mutation of test.ml
@@ -128,7 +128,7 @@ Force dune to rebuild
 
   $ export MUTAML_GADT=false
 
-  $ dune build ./test.bc --force --instrument-with mutaml
+  $ bash ../filter_dune_build.sh ./test.bc --force --instrument-with mutaml
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 50   GADTs enabled: false
   Created 1 mutation of test.ml
@@ -161,7 +161,7 @@ Instrument and check that it was received
   > )
   > EOF
 
-  $ dune build ./test.bc --instrument-with mutaml
+  $ bash ../filter_dune_build.sh ./test.bc --instrument-with mutaml
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 42   Mutation rate: 50   GADTs enabled: true
   Created 0 mutations of test.ml
@@ -177,7 +177,7 @@ Force dune to rebuild
 
   $ export MUTAML_SEED=896745231
 
-  $ dune build ./test.bc --force --instrument-with mutaml
+  $ bash ../filter_dune_build.sh ./test.bc --force --instrument-with mutaml
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 42   Mutation rate: 50   GADTs enabled: true
   Created 0 mutations of test.ml
@@ -208,7 +208,7 @@ Instrument and check that it was received
   > )
   > EOF
 
-  $ dune build ./test.bc --instrument-with mutaml
+  $ bash ../filter_dune_build.sh ./test.bc --instrument-with mutaml
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 1 mutation of test.ml
@@ -218,7 +218,7 @@ Try with another value - 33:
 
   $ dune clean
   $ export MUTAML_MUT_RATE=33
-  $ dune build ./test.bc --instrument-with mutaml
+  $ bash ../filter_dune_build.sh ./test.bc --instrument-with mutaml
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 33   GADTs enabled: true
   Created 0 mutations of test.ml
@@ -228,7 +228,7 @@ Try with another value - 0:
 
   $ dune clean
   $ export MUTAML_MUT_RATE=0
-  $ dune build ./test.bc --instrument-with mutaml
+  $ bash ../filter_dune_build.sh ./test.bc --instrument-with mutaml
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 0   GADTs enabled: true
   Created 0 mutations of test.ml
@@ -250,7 +250,7 @@ Instrument and check that it was received
   > )
   > EOF
 
-  $ dune build ./test.bc --instrument-with mutaml
+  $ bash ../filter_dune_build.sh ./test.bc --instrument-with mutaml
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 75   GADTs enabled: true
   Created 1 mutation of test.ml
@@ -265,7 +265,7 @@ Here the dune file parameter should take precedence
 
   $ export MUTAML_MUT_RATE=100
 
-  $ dune build ./test.bc --instrument-with mutaml
+  $ bash ../filter_dune_build.sh ./test.bc --instrument-with mutaml
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 75   GADTs enabled: true
   Created 1 mutation of test.ml
@@ -286,7 +286,7 @@ Instrument and check that they were received
   > EOF
 
 
-  $ dune build ./test.bc --instrument-with mutaml
+  $ bash ../filter_dune_build.sh ./test.bc --instrument-with mutaml
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 42   Mutation rate: 75   GADTs enabled: true
   Created 0 mutations of test.ml
@@ -323,7 +323,7 @@ Instrument and check that it was received - with no mutation
   > )
   > EOF
 
-  $ dune build ./test.bc --instrument-with mutaml
+  $ bash ../filter_dune_build.sh ./test.bc --instrument-with mutaml
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 0   GADTs enabled: true
   Created 0 mutations of test.ml
@@ -334,7 +334,7 @@ Repeat with a few other seeds:
 
   $ dune clean
   $ export MUTAML_SEED=325
-  $ dune build ./test.bc --instrument-with mutaml
+  $ bash ../filter_dune_build.sh ./test.bc --instrument-with mutaml
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 325   Mutation rate: 0   GADTs enabled: true
   Created 0 mutations of test.ml
@@ -343,7 +343,7 @@ Repeat with a few other seeds:
 
   $ dune clean
   $ export MUTAML_SEED=87324
-  $ dune build ./test.bc --instrument-with mutaml
+  $ bash ../filter_dune_build.sh ./test.bc --instrument-with mutaml
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 87324   Mutation rate: 0   GADTs enabled: true
   Created 0 mutations of test.ml
@@ -352,7 +352,7 @@ Repeat with a few other seeds:
 
   $ dune clean
   $ export MUTAML_SEED=9825453
-  $ dune build ./test.bc --instrument-with mutaml
+  $ bash ../filter_dune_build.sh ./test.bc --instrument-with mutaml
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 9825453   Mutation rate: 0   GADTs enabled: true
   Created 0 mutations of test.ml
@@ -382,7 +382,7 @@ And a dune file:
 
   $ dune clean
   $ export MUTAML_SEED=896745231
-  $ dune build _build/mutation/test.bc --force
+  $ bash ../filter_dune_build.sh _build/mutation/test.bc --force
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 50   GADTs enabled: true
   Created 7 mutations of test.ml
