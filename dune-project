@@ -32,4 +32,8 @@
   conf-timeout
   conf-which
   conf-diffutils
+  ;; transitive lower versions to avoid CI errors
+  (ocaml-compiler-libs (>= v0.12.0))
+  (ppx_derivers (>= 1.2.1))
+  (yojson (>= 2.0.0))
   (ounit2 :with-test)))
