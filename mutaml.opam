@@ -15,7 +15,7 @@ license: "BSD-2-Clause"
 tags: ["test" "mutation testing"]
 homepage: "https://github.com/jmid/mutaml"
 doc: "https://github.com/jmid/mutaml"
-bug-reports: "https://github.com/jmid/mutaml"
+bug-reports: "https://github.com/jmid/mutaml/issues"
 depends: [
   "dune" {>= "3.0"}
   "ocaml" {>= "4.12.0"}
@@ -45,3 +45,4 @@ build: [
     "@doc" {with-doc}
   ]
 ]
+dev-repo: "git+https://github.com/jmid/mutaml.git"

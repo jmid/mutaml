@@ -19,9 +19,8 @@
   "\| the program's testsuite for each of them to catch uncaught
   "\| misbehaviour.
   )
- (homepage "https://github.com/jmid/mutaml")
+ (source (github jmid/mutaml))
  (documentation "https://github.com/jmid/mutaml")
- (bug_reports "https://github.com/jmid/mutaml")
  (authors "Jan Midtgaard <mail@janmidtgaard.dk>")
  (maintainers "Jan Midtgaard <mail@janmidtgaard.dk>")
  (tags ("test" "mutation testing"))
