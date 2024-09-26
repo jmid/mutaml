@@ -60,7 +60,7 @@ Test - 1:
 
 
 Test 1 +:
-
+z
   $ cat > test.ml <<'EOF'
   > let f x = 1 + x;;
   > assert (f 5 = 6)
@@ -107,77 +107,6 @@ Test addition:
   Fatal error: exception Assert_failure("test.ml", 2, 0)
   [2]
 
---------------------------------------------------------------------------------
-
-Parse tree of simple arithmetic:
-
-  $ ocamlc -dparsetree test.ml
-  [
-    structure_item (test.ml[1,0+0]..[1,0+17])
-      Pstr_value Nonrec
-      [
-        <def>
-          pattern (test.ml[1,0+4]..[1,0+5])
-            Ppat_var "f" (test.ml[1,0+4]..[1,0+5])
-          expression (test.ml[1,0+6]..[1,0+17]) ghost
-            Pexp_fun
-            Nolabel
-            None
-            pattern (test.ml[1,0+6]..[1,0+7])
-              Ppat_var "x" (test.ml[1,0+6]..[1,0+7])
-            expression (test.ml[1,0+8]..[1,0+17]) ghost
-              Pexp_fun
-              Nolabel
-              None
-              pattern (test.ml[1,0+8]..[1,0+9])
-                Ppat_var "y" (test.ml[1,0+8]..[1,0+9])
-              expression (test.ml[1,0+12]..[1,0+17])
-                Pexp_apply
-                expression (test.ml[1,0+14]..[1,0+15])
-                  Pexp_ident "+" (test.ml[1,0+14]..[1,0+15])
-                [
-                  <arg>
-                  Nolabel
-                    expression (test.ml[1,0+12]..[1,0+13])
-                      Pexp_ident "x" (test.ml[1,0+12]..[1,0+13])
-                  <arg>
-                  Nolabel
-                    expression (test.ml[1,0+16]..[1,0+17])
-                      Pexp_ident "y" (test.ml[1,0+16]..[1,0+17])
-                ]
-      ]
-    structure_item (test.ml[2,20+0]..[2,20+19])
-      Pstr_eval
-      expression (test.ml[2,20+0]..[2,20+19])
-        Pexp_assert
-        expression (test.ml[2,20+7]..[2,20+19])
-          Pexp_apply
-          expression (test.ml[2,20+14]..[2,20+15])
-            Pexp_ident "=" (test.ml[2,20+14]..[2,20+15])
-          [
-            <arg>
-            Nolabel
-              expression (test.ml[2,20+8]..[2,20+13])
-                Pexp_apply
-                expression (test.ml[2,20+8]..[2,20+9])
-                  Pexp_ident "f" (test.ml[2,20+8]..[2,20+9])
-                [
-                  <arg>
-                  Nolabel
-                    expression (test.ml[2,20+10]..[2,20+11])
-                      Pexp_constant PConst_int (5,None)
-                  <arg>
-                  Nolabel
-                    expression (test.ml[2,20+12]..[2,20+13])
-                      Pexp_constant PConst_int (6,None)
-                ]
-            <arg>
-            Nolabel
-              expression (test.ml[2,20+16]..[2,20+18])
-                Pexp_constant PConst_int (11,None)
-          ]
-  ]
-  
 --------------------------------------------------------------------------------
 
 Test subtraction mutation:

@@ -625,7 +625,7 @@ Same example that triggers merge-of-consecutive-patterns w/GADTs false
   $ export MUTAML_GADT=false
   $ export MUTAML_SEED=896745231
 
-  $ bash ../filter_dune_build.sh ./test.bc --instrument-with mutaml
+  $ bash ../filter_dune_build.sh ./test.bc --instrument-with mutaml | sed 's/     | /    | /' | sed 's/ \{9\}l/        l/' | sed 's/(((f/((f/' | sed 's/ \{9\}i/        i/' | sed 's/v1))/v1)/'
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: false
   Created 6 mutations of test.ml

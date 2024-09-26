@@ -190,9 +190,14 @@ module Match =
   end
 
 
+(* Monadic Ppxlib error handling *)
+let return = Ppxlib.With_errors.return
+let (>>=) = Ppxlib.With_errors.(>>=)
+let (>>|) = Ppxlib.With_errors.(>>|)
+
 class mutate_mapper (rs : RS.t) =
   object (self)
-  inherit Ppxlib.Ast_traverse.map_with_expansion_context as super
+  inherit Ppxlib.Ast_traverse.map_with_expansion_context_and_errors as super
 
   val mutable mut_count     = 0
   val mutable mutations     = []
@@ -235,7 +240,7 @@ class mutate_mapper (rs : RS.t) =
       then [%e e_new]
       else [%e e_rec]]
 
-  method! constant _ctx e = e
+  method! constant _ctx e = return e
   method mutate_constant _ctx c = match c with
     | Pconst_integer (i,None) ->
       (match i with
@@ -262,7 +267,7 @@ class mutate_mapper (rs : RS.t) =
     match e with
     (* A special case mutations: omit 1+ *)
     | [%expr 1 + [%e? exp]] ->
-      let exp' = super#expression ctx exp in (* super avoids mut of exp in  1 + exp *)
+      super#expression ctx exp >>| fun exp' -> (* super avoids mut of exp in  1 + exp *)
       let k, tmp_var = self#let_bind ~loc:exp.pexp_loc exp' in
       k (self#mutaml_mutant ctx loc
            { e with pexp_desc = tmp_var.pexp_desc }
@@ -272,7 +277,7 @@ class mutate_mapper (rs : RS.t) =
     | [%expr [%e? exp] + 1]
     | [%expr [%e? exp] - 1] ->
       let op = (match e.pexp_desc with | Pexp_apply (op, _args) -> op | _ -> assert false) in
-      let exp' = super#expression ctx exp in (* super avoids mut of exp in  exp +/- 1 *)
+      super#expression ctx exp >>| fun exp' -> (* super avoids mut of exp in  exp +/- 1 *)
       let k, tmp_var = self#let_bind ~loc:exp.pexp_loc exp' in
       k (self#mutaml_mutant ctx loc
            { e with pexp_desc = tmp_var.pexp_desc }
@@ -291,8 +296,10 @@ class mutate_mapper (rs : RS.t) =
             failwith ("mutaml_ppx, mutate_arithmetic: found some other operator case: " ^  (string_of_exp op))
         )} in
          (* Note: we bind exp2 before exp1 to preserve the current (unspecified) OCaml evaluation order. *)
-         let k2, tmp_var2 = self#let_bind ~loc:exp2.pexp_loc (self#expression ctx exp2) in
-         let k1, tmp_var1 = self#let_bind ~loc:exp1.pexp_loc (self#expression ctx exp1) in
+         self#expression ctx exp2 >>= fun exp2' ->
+         let k2, tmp_var2 = self#let_bind ~loc:exp2.pexp_loc exp2' in
+         self#expression ctx exp1 >>| fun exp1' ->
+         let k1, tmp_var1 = self#let_bind ~loc:exp1.pexp_loc exp1' in
          k2 (k1 (self#mutaml_mutant ctx loc
                    { e with pexp_desc = [%expr [%e mut_op] [%e tmp_var1] [%e tmp_var2]].pexp_desc }
                    { e with pexp_desc = [%expr [%e op]     [%e tmp_var1] [%e tmp_var2]].pexp_desc }
@@ -300,7 +307,7 @@ class mutate_mapper (rs : RS.t) =
     | _ -> failwith "mutaml_ppx, mutate_arithmetic: pattern matching on case is was not applied to"
 
   method! cases ctx cases =
-    let cases = super#cases ctx cases in  (* visit individual cases first *)
+    super#cases ctx cases >>| fun cases -> (* visit individual cases first *)
     let cases_exc, cases_pure =
       List.partition (fun c -> Match.pat_matches_exception c.pc_lhs) cases in
     let cases_contain_catch_all
@@ -395,15 +402,15 @@ class mutate_mapper (rs : RS.t) =
           | Some x -> i+1
           | None   -> assert false
        which is another reason to avoid mutating that particular form. *)
-    | [%expr assert [%e? _]], _-> e
+    | [%expr assert [%e? _]], _-> return e
 
     (* swap bool constructors *)
     | [%expr true],_ when self#choose_to_mutate ->
       let false_exp = { e with pexp_desc = [%expr false].pexp_desc } in
-      self#mutaml_mutant ctx loc false_exp e (string_of_exp false_exp)
+      return (self#mutaml_mutant ctx loc false_exp e (string_of_exp false_exp))
     | [%expr false],_ when self#choose_to_mutate ->
       let true_exp = { e with pexp_desc = [%expr true].pexp_desc } in
-      self#mutaml_mutant ctx loc true_exp e (string_of_exp true_exp)
+      return (self#mutaml_mutant ctx loc true_exp e (string_of_exp true_exp))
 
     | [%expr [%e? _] + [%e? _]],_
     | [%expr [%e? _] - [%e? _]],_
@@ -414,9 +421,9 @@ class mutate_mapper (rs : RS.t) =
 
     | _, Pexp_constant c when self#choose_to_mutate ->
       let c' = self#mutate_constant ctx c in
-      if c = c' then e else
+      if c = c' then return e else
         let e_new = { e with pexp_desc = Pexp_constant c' } in
-        self#mutaml_mutant ctx loc e_new e (string_of_exp e_new)
+        return (self#mutaml_mutant ctx loc e_new e (string_of_exp e_new))
 
     (* we negate an if's condition rather than swapping its branches:
         * it avoids duplication
@@ -428,9 +435,9 @@ class mutate_mapper (rs : RS.t) =
                                            then e1
                                            else e2       *)
     | _, Pexp_ifthenelse (e0,e1,e2_opt) when self#choose_to_mutate ->
-      let e0' = self#expression ctx e0 in
-      let e1' = self#expression ctx e1 in
-      let e2_opt' = Option.map (self#expression ctx) e2_opt in
+      self#expression ctx e0 >>= fun e0' ->
+      self#expression ctx e1 >>= fun e1' ->
+      let cont e2_opt' =
       let k, tmp_var = self#let_bind ~loc:e0.pexp_loc e0' in
       let e0'_guarded =
         k (self#mutaml_mutant ctx e0.pexp_loc (*loc*)
@@ -438,6 +445,10 @@ class mutate_mapper (rs : RS.t) =
              [%expr [%e tmp_var]]
              (string_of_exp [%expr not [%e e0]])) in
         { e with pexp_desc = Pexp_ifthenelse (e0'_guarded,e1',e2_opt') }
+      in
+      (match e2_opt with
+       | None -> return (cont None)
+       | Some e2 -> self#expression ctx e2 >>| fun e2' -> cont (Some e2'))
 
     (* omit a unit-expression in a sequence:
 
@@ -445,14 +456,14 @@ class mutate_mapper (rs : RS.t) =
        e0; e1  ~~>            then ()
                               else e0'); e'  *)
     | _, Pexp_sequence (e0,e1) when self#choose_to_mutate ->
-      let e0' = self#expression ctx e0 in
-      let e1' = self#expression ctx e1 in
+      self#expression ctx e0 >>= fun e0' ->
+      self#expression ctx e1 >>| fun e1' ->
       let e0'' =
         self#mutaml_mutant ctx loc(*e0.pexp_loc*) [%expr ()] e0' (string_of_exp e1) in
       { e0 with pexp_desc = Pexp_sequence (e0'',e1') }
 
     | _, Pexp_function cases ->
-      let cases_pure = self#cases ctx cases in (* all cases are pure in 'function' *)
+      self#cases ctx cases >>| fun cases_pure -> (* all cases are pure in 'function' *)
       let function_ = { e with pexp_desc = Pexp_function cases_pure } in
       if Match.cases_contain_matching_patterns cases_pure
       then
@@ -463,8 +474,8 @@ class mutate_mapper (rs : RS.t) =
       else function_
 
     | _, Pexp_match (me,cases) ->
-      let me = super#expression ctx me in
-      let cases = self#cases ctx cases in
+      super#expression ctx me >>= fun me ->
+      self#cases ctx cases >>| fun cases ->
       let cases_pure = List.filter (fun c -> not (Match.pat_matches_exception c.pc_lhs)) cases in
       let match_ = { e with pexp_desc = Pexp_match (me, cases) } in
       if Match.cases_contain_matching_patterns cases_pure
@@ -485,11 +496,17 @@ class mutate_mapper (rs : RS.t) =
     Printf.printf "Mutation rate: %i   %!"   !Options.mut_rate;
     Printf.printf "GADTs enabled: %s\n%!"    (Bool.to_string !Options.gadt);
 
-    let instrumented_ast = super#structure ctx impl_ast in
+    let instrumented_ast,errs = super#structure ctx impl_ast in
+    let errs =
+      List.map (fun error ->
+          Ast_builder.Default.pstr_extension
+            ~loc:(Location.Error.get_location error)
+            (Location.Error.to_extension error)
+            []) errs in
     let mut_count = List.length mutations in
     Printf.printf "Created %i mutation%s of %s\n%!" mut_count (if mut_count=1 then "" else "s") input_name;
 
     let output_name = write_muts_file input_name mutations in
     let () = append_muts_file_to_log output_name in
-    add_preamble instrumented_ast input_name
+    errs @ (add_preamble instrumented_ast input_name)
 end
