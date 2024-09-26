@@ -228,7 +228,7 @@ Instrument and check that it was received
   > )
   > EOF
 
-  $ bash ../filter_dune_build.sh ./test.bc --instrument-with mutaml 2>&1 | grep -v "no-merge"
+  $ bash ../filter_dune_build.sh ./test.bc --instrument-with mutaml 2>&1 | grep -v "no-merge" | grep -v "Embed errors"
   ppx.exe [extra_args] [<files>]
     -as-ppx                     Run as a -ppx rewriter (must be the first argument)
     --as-ppx                    Same as -as-ppx
@@ -239,7 +239,6 @@ Instrument and check that it was received
     -dump-ast                   Dump the marshaled ast to the output file instead of pretty-printing it
     --dump-ast                  Same as -dump-ast
     -dparsetree                 Print the parsetree (same as ocamlc -dparsetree)
-    -embed-errors               Embed errors in the output AST (default: true when -dump-ast, false otherwise)
     -null                       Produce no output, except for errors
     -impl <file>                Treat the input as a .ml file
     --impl <file>               Same as -impl
