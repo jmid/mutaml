@@ -1,7 +1,7 @@
 Next version
 ------------
 
-- ...
+- Avoid mutations in attribute parameters #29
 
 0.2
 ---
