@@ -488,6 +488,8 @@ class mutate_mapper (rs : RS.t) =
     | _ ->
       super#expression ctx e
 
+  (* don't mutate attribute parameters such as 'false' in [@@deriving show {with_path=false}] *)
+  method! attributes _ctx attrs = return attrs
 
   method transform_impl_file ctx impl_ast =
     let input_name = Base_exp_context.input_name ctx in
