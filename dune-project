@@ -36,4 +36,5 @@
   (ocaml-compiler-libs (>= v0.12.0))
   (ppx_derivers (>= 1.2.1))
   (yojson (>= 2.0.0))
+  (ppx_deriving :with-test)
   (ounit2 :with-test)))
