@@ -2,6 +2,7 @@ Next version
 ------------
 
 - Avoid mutations in attribute parameters #29
+- Avoid polymorphic equality which is incompatible with Core #30
 
 0.2
 ---
