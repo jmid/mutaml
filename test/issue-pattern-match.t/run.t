@@ -50,14 +50,17 @@ Set seed and (full) mutation rate as environment variables, for repeatability
   Writing mutation info to test.muts
   
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
-  let accepted_codes n =
-    n = (if __MUTAML_MUTANT__ = (Some "test:0") then 43 else 42)
+  let __is_mutaml_mutant__ m =
+    match __MUTAML_MUTANT__ with
+    | None -> false
+    | Some mutant -> String.equal m mutant
+  let accepted_codes n = n = (if __is_mutaml_mutant__ "test:0" then 43 else 42)
   let make status =
     let open Unix in
       let exit_status =
         ((match status with
           | WEXITED n when
-              (accepted_codes n) && (__MUTAML_MUTANT__ <> (Some "test:1")) ->
+              (accepted_codes n) && (not (__is_mutaml_mutant__ "test:1")) ->
               Ok n
           | WEXITED n -> Error (Printf.sprintf "Exited %n" n)
           | WSIGNALED n -> Error (Printf.sprintf "Signaled %n" n)

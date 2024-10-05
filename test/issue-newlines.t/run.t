@@ -44,7 +44,11 @@ Set seed and (full) mutation rate as environment variables, for repeatability
   Writing mutation info to test.muts
   
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
-  let add a b = if __MUTAML_MUTANT__ = (Some "test:0") then a - b else a + b
+  let __is_mutaml_mutant__ m =
+    match __MUTAML_MUTANT__ with
+    | None -> false
+    | Some mutant -> String.equal m mutant
+  let add a b = if __is_mutaml_mutant__ "test:0" then a - b else a + b
   ;;assert ((add 4 3) >= 0)
 
   $ ls _build

@@ -55,20 +55,27 @@ Test mutation of an 'assert false':
   Writing mutation info to a.muts
   
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
+  let __is_mutaml_mutant__ m =
+    match __MUTAML_MUTANT__ with
+    | None -> false
+    | Some mutant -> String.equal m mutant
   let () = Printf.printf "hello from A!\n"
-  let x = if __MUTAML_MUTANT__ = (Some "a:0") then 4 else 3
+  let x = if __is_mutaml_mutant__ "a:0" then 4 else 3
   let res =
-    (let __MUTAML_TMP0__ = if __MUTAML_MUTANT__ = (Some "a:1") then 3 else 2 in
-     if __MUTAML_MUTANT__ = (Some "a:2")
+    (let __MUTAML_TMP0__ = if __is_mutaml_mutant__ "a:1" then 3 else 2 in
+     if __is_mutaml_mutant__ "a:2"
      then __MUTAML_TMP0__ + x
-     else __MUTAML_TMP0__ * x) =
-      (if __MUTAML_MUTANT__ = (Some "a:3") then 7 else 6)
+     else __MUTAML_TMP0__ * x) = (if __is_mutaml_mutant__ "a:3" then 7 else 6)
   let () = assert res
   
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
+  let __is_mutaml_mutant__ m =
+    match __MUTAML_MUTANT__ with
+    | None -> false
+    | Some mutant -> String.equal m mutant
   open A
   let () = Printf.printf "hello from B!\n"
-  let res = x = (if __MUTAML_MUTANT__ = (Some "b:0") then 2 else 1 + 2)
+  let res = x = (if __is_mutaml_mutant__ "b:0" then 2 else 1 + 2)
   let () = assert res
 
 

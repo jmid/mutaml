@@ -21,7 +21,11 @@ Test + 1:
   Writing mutation info to test.muts
   
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
-  let f x = if __MUTAML_MUTANT__ = (Some "test:0") then x else x + 1
+  let __is_mutaml_mutant__ m =
+    match __MUTAML_MUTANT__ with
+    | None -> false
+    | Some mutant -> String.equal m mutant
+  let f x = if __is_mutaml_mutant__ "test:0" then x else x + 1
   ;;assert ((f 5) = 6)
 
 Check that instrumentation hasn't changed the program's behaviour
@@ -48,7 +52,11 @@ Test - 1:
   Writing mutation info to test.muts
   
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
-  let f x = if __MUTAML_MUTANT__ = (Some "test:0") then x else x - 1
+  let __is_mutaml_mutant__ m =
+    match __MUTAML_MUTANT__ with
+    | None -> false
+    | Some mutant -> String.equal m mutant
+  let f x = if __is_mutaml_mutant__ "test:0" then x else x - 1
   ;;assert ((f 5) = 4)
 
   $ dune exec --no-build ./test.bc
@@ -73,7 +81,11 @@ z
   Writing mutation info to test.muts
   
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
-  let f x = if __MUTAML_MUTANT__ = (Some "test:0") then x else 1 + x
+  let __is_mutaml_mutant__ m =
+    match __MUTAML_MUTANT__ with
+    | None -> false
+    | Some mutant -> String.equal m mutant
+  let f x = if __is_mutaml_mutant__ "test:0" then x else 1 + x
   ;;assert ((f 5) = 6)
 
   $ dune exec --no-build ./test.bc
@@ -98,7 +110,11 @@ Test addition:
   Writing mutation info to test.muts
   
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
-  let f x y = if __MUTAML_MUTANT__ = (Some "test:0") then x - y else x + y
+  let __is_mutaml_mutant__ m =
+    match __MUTAML_MUTANT__ with
+    | None -> false
+    | Some mutant -> String.equal m mutant
+  let f x y = if __is_mutaml_mutant__ "test:0" then x - y else x + y
   ;;assert ((f 5 6) = 11)
 
   $ dune exec --no-build ./test.bc
@@ -123,7 +139,11 @@ Test subtraction mutation:
   Writing mutation info to test.muts
   
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
-  let f x y = if __MUTAML_MUTANT__ = (Some "test:0") then x + y else x - y
+  let __is_mutaml_mutant__ m =
+    match __MUTAML_MUTANT__ with
+    | None -> false
+    | Some mutant -> String.equal m mutant
+  let f x y = if __is_mutaml_mutant__ "test:0" then x + y else x - y
   ;;assert ((f 6 5) = 1)
 
   $ dune exec --no-build ./test.bc
@@ -148,7 +168,11 @@ Test multiplication mutation:
   Writing mutation info to test.muts
   
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
-  let f x y = if __MUTAML_MUTANT__ = (Some "test:0") then x + y else x * y
+  let __is_mutaml_mutant__ m =
+    match __MUTAML_MUTANT__ with
+    | None -> false
+    | Some mutant -> String.equal m mutant
+  let f x y = if __is_mutaml_mutant__ "test:0" then x + y else x * y
   ;;assert ((f 6 5) = 30)
 
   $ dune exec --no-build ./test.bc
@@ -169,7 +193,11 @@ Test division mutation:
   Writing mutation info to test.muts
   
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
-  let f x y = if __MUTAML_MUTANT__ = (Some "test:0") then x mod y else x / y
+  let __is_mutaml_mutant__ m =
+    match __MUTAML_MUTANT__ with
+    | None -> false
+    | Some mutant -> String.equal m mutant
+  let f x y = if __is_mutaml_mutant__ "test:0" then x mod y else x / y
   ;;assert ((f 56 5) = 11)
 
   $ dune exec --no-build ./test.bc
@@ -194,7 +222,11 @@ Test modulo mutation:
   Writing mutation info to test.muts
   
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
-  let f x y = if __MUTAML_MUTANT__ = (Some "test:0") then x / y else x mod y
+  let __is_mutaml_mutant__ m =
+    match __MUTAML_MUTANT__ with
+    | None -> false
+    | Some mutant -> String.equal m mutant
+  let f x y = if __is_mutaml_mutant__ "test:0" then x / y else x mod y
   ;;assert ((f 56 6) = 2)
 
   $ dune exec --no-build ./test.bc
@@ -239,10 +271,14 @@ we should use it instead.
   Writing mutation info to test.muts
   
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
+  let __is_mutaml_mutant__ m =
+    match __MUTAML_MUTANT__ with
+    | None -> false
+    | Some mutant -> String.equal m mutant
   let f x y =
     let __MUTAML_TMP0__ = let () = print_endline "right" in y in
     let __MUTAML_TMP1__ = let () = print_endline "left" in x in
-    if __MUTAML_MUTANT__ = (Some "test:0")
+    if __is_mutaml_mutant__ "test:0"
     then __MUTAML_TMP1__ - __MUTAML_TMP0__
     else __MUTAML_TMP1__ + __MUTAML_TMP0__
   ;;assert ((f 5 6) = 11)

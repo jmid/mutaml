@@ -57,9 +57,13 @@ Set seed and (full) mutation rate as environment variables, for repeatability
   Writing mutation info to test.muts
   
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
+  let __is_mutaml_mutant__ m =
+    match __MUTAML_MUTANT__ with
+    | None -> false
+    | Some mutant -> String.equal m mutant
   let foo =
     match Sys.word_size with
-    | 32 -> if __MUTAML_MUTANT__ = (Some "test:0") then 33 else 32
+    | 32 -> if __is_mutaml_mutant__ "test:0" then 33 else 32
     | _ -> assert false
 
 
@@ -81,12 +85,16 @@ Make an .ml-file:
   Writing mutation info to test.muts
   
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
+  let __is_mutaml_mutant__ m =
+    match __MUTAML_MUTANT__ with
+    | None -> false
+    | Some mutant -> String.equal m mutant
   let foo =
     match Sys.word_size with
-    | 32 -> if __MUTAML_MUTANT__ = (Some "test:0") then 33 else 32
+    | 32 -> if __is_mutaml_mutant__ "test:0" then 33 else 32
     | _ ->
-        (if __MUTAML_MUTANT__ = (Some "test:2") then () else assert (1 > 0);
-         if __MUTAML_MUTANT__ = (Some "test:1") then 1 else 0)
+        (if __is_mutaml_mutant__ "test:2" then () else assert (1 > 0);
+         if __is_mutaml_mutant__ "test:1" then 1 else 0)
 
 
   $ MUTAML_MUTANT="test:0" dune exec --no-build -- ./test.bc
@@ -116,17 +124,20 @@ Make an .ml-file:
   Writing mutation info to test.muts
   
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
+  let __is_mutaml_mutant__ m =
+    match __MUTAML_MUTANT__ with
+    | None -> false
+    | Some mutant -> String.equal m mutant
   let () =
     let tmp =
-      (if __MUTAML_MUTANT__ = (Some "test:0") then false else true) =
-        (not (if __MUTAML_MUTANT__ = (Some "test:1") then true else false)) in
+      (if __is_mutaml_mutant__ "test:0" then false else true) =
+        (not (if __is_mutaml_mutant__ "test:1" then true else false)) in
     assert tmp
   let () =
     let tmp =
-      (String.length (if __MUTAML_MUTANT__ = (Some "test:2") then "" else " "))
-        =
+      (String.length (if __is_mutaml_mutant__ "test:2" then "" else " ")) =
         (let __MUTAML_TMP0__ = String.length "" in
-         if __MUTAML_MUTANT__ = (Some "test:3")
+         if __is_mutaml_mutant__ "test:3"
          then __MUTAML_TMP0__
          else 1 + __MUTAML_TMP0__) in
     assert tmp

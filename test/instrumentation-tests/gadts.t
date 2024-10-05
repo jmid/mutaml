@@ -31,13 +31,17 @@ Check that the example typechecks
   Writing mutation info to test.muts
   
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
+  let __is_mutaml_mutant__ m =
+    match __MUTAML_MUTANT__ with
+    | None -> false
+    | Some mutant -> String.equal m mutant
   type _ t =
     | Int: int t 
     | Bool: bool t 
   let f (type a) =
     (function
-     | Int -> if __MUTAML_MUTANT__ = (Some "test:0") then 1 else 0
-     | Bool -> if __MUTAML_MUTANT__ = (Some "test:1") then false else true : 
+     | Int -> if __is_mutaml_mutant__ "test:0" then 1 else 0
+     | Bool -> if __is_mutaml_mutant__ "test:1" then false else true : 
     a t -> a)
   let () = (f Int) |> (Printf.printf "%i\n")
 
@@ -72,14 +76,18 @@ Check that the example typechecks
   Writing mutation info to test.muts
   
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
+  let __is_mutaml_mutant__ m =
+    match __MUTAML_MUTANT__ with
+    | None -> false
+    | Some mutant -> String.equal m mutant
   type _ t =
     | Int: int t 
     | Bool: bool t 
   let f (type a) =
     (fun x ->
        match x with
-       | Int -> if __MUTAML_MUTANT__ = (Some "test:0") then 1 else 0
-       | Bool -> if __MUTAML_MUTANT__ = (Some "test:1") then false else true : 
+       | Int -> if __is_mutaml_mutant__ "test:0" then 1 else 0
+       | Bool -> if __is_mutaml_mutant__ "test:1" then false else true : 
     a t -> a)
   let () = (f Int) |> (Printf.printf "%i\n")
 
@@ -112,6 +120,10 @@ Check that the example typechecks
   Writing mutation info to test.muts
   
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
+  let __is_mutaml_mutant__ m =
+    match __MUTAML_MUTANT__ with
+    | None -> false
+    | Some mutant -> String.equal m mutant
   type _ t =
     | Int: int t 
     | Bool: bool t 
@@ -148,6 +160,10 @@ Check that the example typechecks
   Writing mutation info to test.muts
   
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
+  let __is_mutaml_mutant__ m =
+    match __MUTAML_MUTANT__ with
+    | None -> false
+    | Some mutant -> String.equal m mutant
   type _ t =
     | Int: int t 
     | Bool: bool t 
@@ -184,6 +200,10 @@ Check that the example typechecks
   Writing mutation info to test.muts
   
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
+  let __is_mutaml_mutant__ m =
+    match __MUTAML_MUTANT__ with
+    | None -> false
+    | Some mutant -> String.equal m mutant
   type _ t =
     | Int: int t 
     | Bool: bool t 
@@ -224,15 +244,19 @@ Check that the example typechecks
   Writing mutation info to test.muts
   
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
+  let __is_mutaml_mutant__ m =
+    match __MUTAML_MUTANT__ with
+    | None -> false
+    | Some mutant -> String.equal m mutant
   type _ t =
     | Int: int t 
     | Bool: bool t 
   let f (type a) =
     (function
-     | [|Int;Int|] when __MUTAML_MUTANT__ <> (Some "test:3") ->
-         if __MUTAML_MUTANT__ = (Some "test:0") then 1 else 0
-     | [|Bool|] when __MUTAML_MUTANT__ <> (Some "test:2") ->
-         if __MUTAML_MUTANT__ = (Some "test:1") then false else true
+     | [|Int;Int|] when not (__is_mutaml_mutant__ "test:3") ->
+         if __is_mutaml_mutant__ "test:0" then 1 else 0
+     | [|Bool|] when not (__is_mutaml_mutant__ "test:2") ->
+         if __is_mutaml_mutant__ "test:1" then false else true
      | _ -> failwith "ouch" : a t array -> a)
 
 
@@ -269,25 +293,29 @@ Check that the example typechecks
   $ export MUTAML_SEED=896745231
   $ export MUTAML_GADT=true
   $ bash ../filter_dune_build.sh ./test.bc --instrument-with mutaml 2>&1 > output.txt
-  $ head -n 4 output.txt && echo "ERROR MESSAGE" && tail -n 25 output.txt
+  $ head -n 4 output.txt && echo "ERROR MESSAGE" && tail -n 29 output.txt
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 4 mutations of test.ml
   Writing mutation info to test.muts
   ERROR MESSAGE
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
+  let __is_mutaml_mutant__ m =
+    match __MUTAML_MUTANT__ with
+    | None -> false
+    | Some mutant -> String.equal m mutant
   type _ t =
     | Int: int t 
     | Bool: bool t 
     | Char: char t 
   let f (type a) =
     (function
-     | [|Int|] -> if __MUTAML_MUTANT__ = (Some "test:0") then 1 else 0
-     | [|Bool|] -> if __MUTAML_MUTANT__ = (Some "test:1") then false else true
+     | [|Int|] -> if __is_mutaml_mutant__ "test:0" then 1 else 0
+     | [|Bool|] -> if __is_mutaml_mutant__ "test:1" then false else true
      | [|Char|] -> 'c'
-     | _ when if __MUTAML_MUTANT__ = (Some "test:2") then false else true ->
+     | _ when if __is_mutaml_mutant__ "test:2" then false else true ->
          failwith "empty"
-     | _ when if __MUTAML_MUTANT__ = (Some "test:3") then true else false ->
+     | _ when if __is_mutaml_mutant__ "test:3" then true else false ->
          failwith "dead" : a t array -> a)
   File "test.ml", lines 6-11, characters 34-34:
    6 | ..................................function
@@ -327,15 +355,19 @@ Check that the example typechecks
   Writing mutation info to test.muts
   
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
+  let __is_mutaml_mutant__ m =
+    match __MUTAML_MUTANT__ with
+    | None -> false
+    | Some mutant -> String.equal m mutant
   type _ t =
     | Int: int t 
     | Bool: bool t 
   let f (type a) =
     (function
-     | [|_x;Int|] when __MUTAML_MUTANT__ <> (Some "test:3") ->
-         if __MUTAML_MUTANT__ = (Some "test:0") then 3 else 2
-     | [|Bool;_x|] when __MUTAML_MUTANT__ <> (Some "test:2") ->
-         if __MUTAML_MUTANT__ = (Some "test:1") then false else true
+     | [|_x;Int|] when not (__is_mutaml_mutant__ "test:3") ->
+         if __is_mutaml_mutant__ "test:0" then 3 else 2
+     | [|Bool;_x|] when not (__is_mutaml_mutant__ "test:2") ->
+         if __is_mutaml_mutant__ "test:1" then false else true
      | _ -> failwith "eww" : a t array -> a)
 
 
@@ -364,27 +396,27 @@ Check that the example typechecks
   Writing mutation info to test.muts
   
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
+  let __is_mutaml_mutant__ m =
+    match __MUTAML_MUTANT__ with
+    | None -> false
+    | Some mutant -> String.equal m mutant
   type _ t =
     | Int: int t 
     | Bool: bool t 
   let _f (type a) (type b) =
     (function
-     | (Int, _) when __MUTAML_MUTANT__ <> (Some "test:4") ->
-         if __MUTAML_MUTANT__ = (Some "test:0") then 1 else 0
-     | (_, Bool) when __MUTAML_MUTANT__ <> (Some "test:3") ->
-         if __MUTAML_MUTANT__ = (Some "test:1") then 0 else 1
-     | _ -> if __MUTAML_MUTANT__ = (Some "test:2") then 3 else 2 : (a t * b t)
-                                                                     -> 
-                                                                     int)
+     | (Int, _) when not (__is_mutaml_mutant__ "test:4") ->
+         if __is_mutaml_mutant__ "test:0" then 1 else 0
+     | (_, Bool) when not (__is_mutaml_mutant__ "test:3") ->
+         if __is_mutaml_mutant__ "test:1" then 0 else 1
+     | _ -> if __is_mutaml_mutant__ "test:2" then 3 else 2 : (a t * b t) -> int)
   let _f (type a) (type b) =
     (function
-     | (Int, Int) when __MUTAML_MUTANT__ <> (Some "test:9") ->
-         if __MUTAML_MUTANT__ = (Some "test:5") then 1 else 0
-     | (Bool, Bool) when __MUTAML_MUTANT__ <> (Some "test:8") ->
-         if __MUTAML_MUTANT__ = (Some "test:6") then 0 else 1
-     | _ -> if __MUTAML_MUTANT__ = (Some "test:7") then 3 else 2 : (a t * b t)
-                                                                     -> 
-                                                                     int)
+     | (Int, Int) when not (__is_mutaml_mutant__ "test:9") ->
+         if __is_mutaml_mutant__ "test:5" then 1 else 0
+     | (Bool, Bool) when not (__is_mutaml_mutant__ "test:8") ->
+         if __is_mutaml_mutant__ "test:6" then 0 else 1
+     | _ -> if __is_mutaml_mutant__ "test:7" then 3 else 2 : (a t * b t) -> int)
 
 
 
@@ -413,20 +445,24 @@ Check that the example typechecks
   Writing mutation info to test.muts
   
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
+  let __is_mutaml_mutant__ m =
+    match __MUTAML_MUTANT__ with
+    | None -> false
+    | Some mutant -> String.equal m mutant
   type _ t =
     | Int: int t 
     | Bool: bool t 
   let _f : (int t * bool t) -> int =
     function
-    | (Int, _) -> if __MUTAML_MUTANT__ = (Some "test:0") then 1 else 0
+    | (Int, _) -> if __is_mutaml_mutant__ "test:0" then 1 else 0
     | (_, Bool) -> .
     | _ -> .
   let _f : (int t * bool t) -> int =
     function
-    | (Int, _) -> if __MUTAML_MUTANT__ = (Some "test:1") then 1 else 0
+    | (Int, _) -> if __is_mutaml_mutant__ "test:1" then 1 else 0
     | (_, Bool) -> .
   let _f : (int t * bool t) -> int =
-    function | (Int, _) -> if __MUTAML_MUTANT__ = (Some "test:2") then 1 else 0
+    function | (Int, _) -> if __is_mutaml_mutant__ "test:2" then 1 else 0
 
 
 
@@ -460,6 +496,10 @@ Check that the example typechecks
   Writing mutation info to test.muts
   
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
+  let __is_mutaml_mutant__ m =
+    match __MUTAML_MUTANT__ with
+    | None -> false
+    | Some mutant -> String.equal m mutant
   type _ typ =
     | Int: int typ 
     | String: string typ 

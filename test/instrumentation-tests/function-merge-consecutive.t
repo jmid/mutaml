@@ -29,6 +29,10 @@ An example with only conservative, GADT-safe mutations:
   Writing mutation info to test.muts
   
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
+  let __is_mutaml_mutant__ m =
+    match __MUTAML_MUTANT__ with
+    | None -> false
+    | Some mutant -> String.equal m mutant
   type t =
     | A 
     | B 
@@ -61,14 +65,18 @@ Same example but allowing GADT-unsafe mutations:
   Writing mutation info to test.muts
   
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
+  let __is_mutaml_mutant__ m =
+    match __MUTAML_MUTANT__ with
+    | None -> false
+    | Some mutant -> String.equal m mutant
   type t =
     | A 
     | B 
     | C 
   let f =
     ((function
-      | A when __MUTAML_MUTANT__ <> (Some "test:1") -> "A"
-      | A | B when __MUTAML_MUTANT__ <> (Some "test:0") -> "B"
+      | A when not (__is_mutaml_mutant__ "test:1") -> "A"
+      | A | B when not (__is_mutaml_mutant__ "test:0") -> "B"
       | B | C -> "C")
     [@ocaml.warning "-8"])
   let () = (f A) |> print_endline
@@ -187,12 +195,16 @@ Instead we trigger the collapse-consecutive-patterns mutation:
   Writing mutation info to test.muts
   
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
+  let __is_mutaml_mutant__ m =
+    match __MUTAML_MUTANT__ with
+    | None -> false
+    | Some mutant -> String.equal m mutant
   let rec count_zeroes =
     ((function
-      | [] -> if __MUTAML_MUTANT__ = (Some "test:0") then 1 else 0
-      | 0::xs when __MUTAML_MUTANT__ <> (Some "test:2") ->
+      | [] -> if __is_mutaml_mutant__ "test:0" then 1 else 0
+      | 0::xs when not (__is_mutaml_mutant__ "test:2") ->
           let __MUTAML_TMP0__ = count_zeroes xs in
-          if __MUTAML_MUTANT__ = (Some "test:1")
+          if __is_mutaml_mutant__ "test:1"
           then __MUTAML_TMP0__
           else 1 + __MUTAML_TMP0__
       | 0::xs | _::xs -> count_zeroes xs)
@@ -200,22 +212,22 @@ Instead we trigger the collapse-consecutive-patterns mutation:
   let () = (count_zeroes []) |> (Printf.printf "%i\n")
   let () =
     (count_zeroes
-       [if __MUTAML_MUTANT__ = (Some "test:3") then 0 else 1;
-       if __MUTAML_MUTANT__ = (Some "test:4") then 1 else 0])
+       [if __is_mutaml_mutant__ "test:3" then 0 else 1;
+       if __is_mutaml_mutant__ "test:4" then 1 else 0])
       |> (Printf.printf "%i\n")
   let () =
     (count_zeroes
-       [if __MUTAML_MUTANT__ = (Some "test:5") then 1 else 0;
-       if __MUTAML_MUTANT__ = (Some "test:6") then 0 else 1;
-       if __MUTAML_MUTANT__ = (Some "test:7") then 1 else 0])
+       [if __is_mutaml_mutant__ "test:5" then 1 else 0;
+       if __is_mutaml_mutant__ "test:6" then 0 else 1;
+       if __is_mutaml_mutant__ "test:7" then 1 else 0])
       |> (Printf.printf "%i\n")
   let () =
     (count_zeroes
-       [if __MUTAML_MUTANT__ = (Some "test:8") then 0 else 1;
-       if __MUTAML_MUTANT__ = (Some "test:9") then 1 else 0;
-       if __MUTAML_MUTANT__ = (Some "test:10") then 1 else 0;
-       if __MUTAML_MUTANT__ = (Some "test:11") then 0 else 1;
-       if __MUTAML_MUTANT__ = (Some "test:12") then 1 else 0])
+       [if __is_mutaml_mutant__ "test:8" then 0 else 1;
+       if __is_mutaml_mutant__ "test:9" then 1 else 0;
+       if __is_mutaml_mutant__ "test:10" then 1 else 0;
+       if __is_mutaml_mutant__ "test:11" then 0 else 1;
+       if __is_mutaml_mutant__ "test:12" then 1 else 0])
       |> (Printf.printf "%i\n")
 
 
@@ -484,6 +496,10 @@ Another example would triggers merge-of-consecutive-patterns w/GADTs true
   Writing mutation info to test.muts
   
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
+  let __is_mutaml_mutant__ m =
+    match __MUTAML_MUTANT__ with
+    | None -> false
+    | Some mutant -> String.equal m mutant
   type binop =
     | Add 
     | Mul 
@@ -498,18 +514,17 @@ Another example would triggers merge-of-consecutive-patterns w/GADTs true
     | Binop (ae0, Add, ae1) ->
         let v0 = interpret xval ae0 in
         let v1 = interpret xval ae1 in
-        if __MUTAML_MUTANT__ = (Some "test:0") then v0 - v1 else v0 + v1
+        if __is_mutaml_mutant__ "test:0" then v0 - v1 else v0 + v1
     | Binop (ae0, Mul, ae1) ->
         let v0 = interpret xval ae0 in
         let v1 = interpret xval ae1 in
-        if __MUTAML_MUTANT__ = (Some "test:1") then v0 + v1 else v0 * v1
+        if __is_mutaml_mutant__ "test:1" then v0 + v1 else v0 * v1
   let () =
-    (interpret (if __MUTAML_MUTANT__ = (Some "test:2") then 3 else 2)
+    (interpret (if __is_mutaml_mutant__ "test:2" then 3 else 2)
        (Binop
-          ((Lit (if __MUTAML_MUTANT__ = (Some "test:3") then 0 else 1)), Add,
+          ((Lit (if __is_mutaml_mutant__ "test:3" then 0 else 1)), Add,
             (Binop
-               (X, Mul,
-                 (Lit (if __MUTAML_MUTANT__ = (Some "test:4") then 4 else 3)))))))
+               (X, Mul, (Lit (if __is_mutaml_mutant__ "test:4" then 4 else 3)))))))
       |> (Printf.printf "1 + x*3 = %i\n")
 
 
@@ -632,6 +647,10 @@ Same example that triggers merge-of-consecutive-patterns w/GADTs false
   Writing mutation info to test.muts
   
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
+  let __is_mutaml_mutant__ m =
+    match __MUTAML_MUTANT__ with
+    | None -> false
+    | Some mutant -> String.equal m mutant
   type binop =
     | Add 
     | Mul 
@@ -643,22 +662,21 @@ Same example that triggers merge-of-consecutive-patterns w/GADTs false
     ((function
       | X -> xval
       | Lit i -> i
-      | Binop (ae0, Add, ae1) when __MUTAML_MUTANT__ <> (Some "test:2") ->
+      | Binop (ae0, Add, ae1) when not (__is_mutaml_mutant__ "test:2") ->
           let v0 = interpret xval ae0 in
           let v1 = interpret xval ae1 in
-          if __MUTAML_MUTANT__ = (Some "test:0") then v0 - v1 else v0 + v1
+          if __is_mutaml_mutant__ "test:0" then v0 - v1 else v0 + v1
       | Binop (ae0, Add, ae1) | Binop (ae0, Mul, ae1) ->
           let v0 = interpret xval ae0 in
           let v1 = interpret xval ae1 in
-          if __MUTAML_MUTANT__ = (Some "test:1") then v0 + v1 else v0 * v1)
+          if __is_mutaml_mutant__ "test:1" then v0 + v1 else v0 * v1)
     [@ocaml.warning "-8"])
   let () =
-    (interpret (if __MUTAML_MUTANT__ = (Some "test:3") then 3 else 2)
+    (interpret (if __is_mutaml_mutant__ "test:3" then 3 else 2)
        (Binop
-          ((Lit (if __MUTAML_MUTANT__ = (Some "test:4") then 0 else 1)), Add,
+          ((Lit (if __is_mutaml_mutant__ "test:4" then 0 else 1)), Add,
             (Binop
-               (X, Mul,
-                 (Lit (if __MUTAML_MUTANT__ = (Some "test:5") then 4 else 3)))))))
+               (X, Mul, (Lit (if __is_mutaml_mutant__ "test:5" then 4 else 3)))))))
       |> (Printf.printf "1 + x*3 = %i\n")
 
 

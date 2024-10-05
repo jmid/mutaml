@@ -87,13 +87,17 @@ Make an .ml-file:
   Writing mutation info to test.muts
   
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
+  let __is_mutaml_mutant__ m =
+    match __MUTAML_MUTANT__ with
+    | None -> false
+    | Some mutant -> String.equal m mutant
   let identify_char c =
     ((match c with
-      | 'a'..'z' when __MUTAML_MUTANT__ <> (Some "test:2") ->
+      | 'a'..'z' when not (__is_mutaml_mutant__ "test:2") ->
           "lower-case letter"
-      | 'A'..'Z' when __MUTAML_MUTANT__ <> (Some "test:1") ->
+      | 'A'..'Z' when not (__is_mutaml_mutant__ "test:1") ->
           "upper-case letter"
-      | '0'..'9' when __MUTAML_MUTANT__ <> (Some "test:0") -> "digit"
+      | '0'..'9' when not (__is_mutaml_mutant__ "test:0") -> "digit"
       | _ -> "other")
     [@ocaml.warning "-8"])
   let () = print_endline (identify_char 'e')
@@ -220,17 +224,20 @@ Test that same example with a variable will be instrumented with this mutation:
   Writing mutation info to test.muts
   
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
+  let __is_mutaml_mutant__ m =
+    match __MUTAML_MUTANT__ with
+    | None -> false
+    | Some mutant -> String.equal m mutant
   let identify_char c =
     ((match c with
-      | 'a'..'z' when __MUTAML_MUTANT__ <> (Some "test:3") ->
+      | 'a'..'z' when not (__is_mutaml_mutant__ "test:3") ->
           "lower-case letter"
-      | 'A'..'Z' when __MUTAML_MUTANT__ <> (Some "test:2") ->
+      | 'A'..'Z' when not (__is_mutaml_mutant__ "test:2") ->
           "upper-case letter"
-      | '0'..'9' when __MUTAML_MUTANT__ <> (Some "test:1") -> "digit"
+      | '0'..'9' when not (__is_mutaml_mutant__ "test:1") -> "digit"
       | c ->
           "other char: " ^
-            (String.make (if __MUTAML_MUTANT__ = (Some "test:0") then 0 else 1)
-               c))
+            (String.make (if __is_mutaml_mutant__ "test:0" then 0 else 1) c))
     [@ocaml.warning "-8"])
   let () = print_endline (identify_char 'e')
   let () = print_endline (identify_char 'U')
@@ -376,10 +383,14 @@ Another test w/tuples and wildcards:
   Writing mutation info to test.muts
   
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
+  let __is_mutaml_mutant__ m =
+    match __MUTAML_MUTANT__ with
+    | None -> false
+    | Some mutant -> String.equal m mutant
   let prioritize p fallback =
     match p with
-    | (Some x, _) when __MUTAML_MUTANT__ <> (Some "test:1") -> x
-    | (_, Some y) when __MUTAML_MUTANT__ <> (Some "test:0") -> y
+    | (Some x, _) when not (__is_mutaml_mutant__ "test:1") -> x
+    | (_, Some y) when not (__is_mutaml_mutant__ "test:0") -> y
     | (_, _) -> fallback
   ;;(prioritize ((Some "1st"), (Some "2nd")) "3rd") |> print_endline
   ;;(prioritize ((Some "1st"), None) "3rd") |> print_endline
@@ -481,6 +492,10 @@ Same example without wildcards will not be instrumented with this mutation:
   Writing mutation info to test.muts
   
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
+  let __is_mutaml_mutant__ m =
+    match __MUTAML_MUTANT__ with
+    | None -> false
+    | Some mutant -> String.equal m mutant
   let prioritize p fallback =
     match p with
     | (Some x, _) -> x
@@ -522,28 +537,29 @@ A test with exceptions:
   Writing mutation info to test.muts
   
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
+  let __is_mutaml_mutant__ m =
+    match __MUTAML_MUTANT__ with
+    | None -> false
+    | Some mutant -> String.equal m mutant
   let my_find h key =
     match Hashtbl.find h key with
-    | Some "" when __MUTAML_MUTANT__ <> (Some "test:1") ->
+    | Some "" when not (__is_mutaml_mutant__ "test:1") ->
         "Present with weird special case Some \"\""
-    | Some s when __MUTAML_MUTANT__ <> (Some "test:0") ->
+    | Some s when not (__is_mutaml_mutant__ "test:0") ->
         "Present with Some " ^ s
     | _ -> "Present with None"
     | exception Not_found -> "Key not present"
-  let h =
-    Hashtbl.create (if __MUTAML_MUTANT__ = (Some "test:2") then 43 else 42)
-  ;;Hashtbl.add h (if __MUTAML_MUTANT__ = (Some "test:3") then 1 else 0) None
-  ;;Hashtbl.add h (if __MUTAML_MUTANT__ = (Some "test:4") then 0 else 1)
-      (Some "1")
-  ;;Hashtbl.add h (if __MUTAML_MUTANT__ = (Some "test:5") then 3 else 2)
-      (Some "")
-  ;;(my_find h (if __MUTAML_MUTANT__ = (Some "test:6") then 1 else 0)) |>
+  let h = Hashtbl.create (if __is_mutaml_mutant__ "test:2" then 43 else 42)
+  ;;Hashtbl.add h (if __is_mutaml_mutant__ "test:3" then 1 else 0) None
+  ;;Hashtbl.add h (if __is_mutaml_mutant__ "test:4" then 0 else 1) (Some "1")
+  ;;Hashtbl.add h (if __is_mutaml_mutant__ "test:5" then 3 else 2) (Some "")
+  ;;(my_find h (if __is_mutaml_mutant__ "test:6" then 1 else 0)) |>
       print_endline
-  ;;(my_find h (if __MUTAML_MUTANT__ = (Some "test:7") then 0 else 1)) |>
+  ;;(my_find h (if __is_mutaml_mutant__ "test:7" then 0 else 1)) |>
       print_endline
-  ;;(my_find h (if __MUTAML_MUTANT__ = (Some "test:8") then 3 else 2)) |>
+  ;;(my_find h (if __is_mutaml_mutant__ "test:8" then 3 else 2)) |>
       print_endline
-  ;;(my_find h (if __MUTAML_MUTANT__ = (Some "test:9") then 4 else 3)) |>
+  ;;(my_find h (if __is_mutaml_mutant__ "test:9" then 4 else 3)) |>
       print_endline
 
 

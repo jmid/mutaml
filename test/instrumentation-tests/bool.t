@@ -21,7 +21,11 @@ Test true:
   Writing mutation info to test.muts
   
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
-  let f () = if __MUTAML_MUTANT__ = (Some "test:0") then false else true
+  let __is_mutaml_mutant__ m =
+    match __MUTAML_MUTANT__ with
+    | None -> false
+    | Some mutant -> String.equal m mutant
+  let f () = if __is_mutaml_mutant__ "test:0" then false else true
   ;;assert (f ())
 
 
@@ -49,7 +53,11 @@ Test false:
   Writing mutation info to test.muts
   
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
-  let f () = if __MUTAML_MUTANT__ = (Some "test:0") then true else false
+  let __is_mutaml_mutant__ m =
+    match __MUTAML_MUTANT__ with
+    | None -> false
+    | Some mutant -> String.equal m mutant
+  let f () = if __is_mutaml_mutant__ "test:0" then true else false
   ;;assert (not (f ()))
 
   $ dune exec --no-build ./test.bc
