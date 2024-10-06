@@ -26,13 +26,17 @@ Make an .ml-file:
   Writing mutation info to test.muts
   
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
+  let __is_mutaml_mutant__ m =
+    match __MUTAML_MUTANT__ with
+    | None -> false
+    | Some mutant -> String.equal m mutant
   let identify_char =
     ((function
-      | 'a'..'z' when __MUTAML_MUTANT__ <> (Some "test:2") ->
+      | 'a'..'z' when not (__is_mutaml_mutant__ "test:2") ->
           "lower-case letter"
-      | 'A'..'Z' when __MUTAML_MUTANT__ <> (Some "test:1") ->
+      | 'A'..'Z' when not (__is_mutaml_mutant__ "test:1") ->
           "upper-case letter"
-      | '0'..'9' when __MUTAML_MUTANT__ <> (Some "test:0") -> "digit"
+      | '0'..'9' when not (__is_mutaml_mutant__ "test:0") -> "digit"
       | _ -> "other")
     [@ocaml.warning "-8"])
   let () = print_endline (identify_char 'e')
@@ -157,17 +161,20 @@ Test that same example with a variable will be instrumented with this mutation:
   Writing mutation info to test.muts
   
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
+  let __is_mutaml_mutant__ m =
+    match __MUTAML_MUTANT__ with
+    | None -> false
+    | Some mutant -> String.equal m mutant
   let identify_char =
     ((function
-      | 'a'..'z' when __MUTAML_MUTANT__ <> (Some "test:3") ->
+      | 'a'..'z' when not (__is_mutaml_mutant__ "test:3") ->
           "lower-case letter"
-      | 'A'..'Z' when __MUTAML_MUTANT__ <> (Some "test:2") ->
+      | 'A'..'Z' when not (__is_mutaml_mutant__ "test:2") ->
           "upper-case letter"
-      | '0'..'9' when __MUTAML_MUTANT__ <> (Some "test:1") -> "digit"
+      | '0'..'9' when not (__is_mutaml_mutant__ "test:1") -> "digit"
       | c ->
           "other char: " ^
-            (String.make (if __MUTAML_MUTANT__ = (Some "test:0") then 0 else 1)
-               c))
+            (String.make (if __is_mutaml_mutant__ "test:0" then 0 else 1) c))
     [@ocaml.warning "-8"])
   let () = print_endline (identify_char 'e')
   let () = print_endline (identify_char 'U')
@@ -311,10 +318,14 @@ Another test w/tuples and wildcards:
   Writing mutation info to test.muts
   
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
+  let __is_mutaml_mutant__ m =
+    match __MUTAML_MUTANT__ with
+    | None -> false
+    | Some mutant -> String.equal m mutant
   let prioritize fallback =
     function
-    | (Some x, _) when __MUTAML_MUTANT__ <> (Some "test:1") -> x
-    | (_, Some y) when __MUTAML_MUTANT__ <> (Some "test:0") -> y
+    | (Some x, _) when not (__is_mutaml_mutant__ "test:1") -> x
+    | (_, Some y) when not (__is_mutaml_mutant__ "test:0") -> y
     | (_, _) -> fallback
   ;;(prioritize "3rd" ((Some "1st"), (Some "2nd"))) |> print_endline
   ;;(prioritize "3rd" ((Some "1st"), None)) |> print_endline
@@ -414,6 +425,10 @@ Same example without wildcards will not be instrumented with this mutation:
   Writing mutation info to test.muts
   
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
+  let __is_mutaml_mutant__ m =
+    match __MUTAML_MUTANT__ with
+    | None -> false
+    | Some mutant -> String.equal m mutant
   let prioritize fallback =
     function | (Some x, _) -> x | (_, Some y) -> y | (None, None) -> fallback
   ;;(prioritize "3rd" ((Some "1st"), (Some "2nd"))) |> print_endline

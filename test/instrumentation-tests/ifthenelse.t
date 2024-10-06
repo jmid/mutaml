@@ -17,15 +17,19 @@ Example with a simple if-then-else:
   Writing mutation info to test.muts
   
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
+  let __is_mutaml_mutant__ m =
+    match __MUTAML_MUTANT__ with
+    | None -> false
+    | Some mutant -> String.equal m mutant
   let test x =
-    if (if __MUTAML_MUTANT__ = (Some "test:0") then not x else x)
+    if (if __is_mutaml_mutant__ "test:0" then not x else x)
     then "true"
     else "false"
   let () =
-    (test (if __MUTAML_MUTANT__ = (Some "test:1") then false else true)) |>
+    (test (if __is_mutaml_mutant__ "test:1" then false else true)) |>
       print_endline
   let () =
-    (test (if __MUTAML_MUTANT__ = (Some "test:2") then true else false)) |>
+    (test (if __is_mutaml_mutant__ "test:2" then true else false)) |>
       print_endline
 
 
@@ -121,32 +125,34 @@ An example with nested ifs:
   Writing mutation info to test.muts
   
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
+  let __is_mutaml_mutant__ m =
+    match __MUTAML_MUTANT__ with
+    | None -> false
+    | Some mutant -> String.equal m mutant
   let test i =
     if
       let __MUTAML_TMP1__ =
-        i < (if __MUTAML_MUTANT__ = (Some "test:0") then 1 else 0) in
-      (if __MUTAML_MUTANT__ = (Some "test:3")
+        i < (if __is_mutaml_mutant__ "test:0" then 1 else 0) in
+      (if __is_mutaml_mutant__ "test:3"
        then not __MUTAML_TMP1__
        else __MUTAML_TMP1__)
     then "negative"
     else
       if
         (let __MUTAML_TMP0__ =
-           i > (if __MUTAML_MUTANT__ = (Some "test:1") then 1 else 0) in
-         if __MUTAML_MUTANT__ = (Some "test:2")
+           i > (if __is_mutaml_mutant__ "test:1" then 1 else 0) in
+         if __is_mutaml_mutant__ "test:2"
          then not __MUTAML_TMP0__
          else __MUTAML_TMP0__)
       then "positive"
       else "zero"
   let () =
-    (test (- (if __MUTAML_MUTANT__ = (Some "test:4") then 6 else 5))) |>
+    (test (- (if __is_mutaml_mutant__ "test:4" then 6 else 5))) |>
       print_endline
   let () =
-    (test (if __MUTAML_MUTANT__ = (Some "test:5") then 1 else 0)) |>
-      print_endline
+    (test (if __is_mutaml_mutant__ "test:5" then 1 else 0)) |> print_endline
   let () =
-    (test (if __MUTAML_MUTANT__ = (Some "test:6") then 6 else 5)) |>
-      print_endline
+    (test (if __is_mutaml_mutant__ "test:6" then 6 else 5)) |> print_endline
 
 
   $ _build/default/test.bc

@@ -3,11 +3,9 @@ Let us try something:
   $ ls ../filter_dune_build.sh
   ../filter_dune_build.sh
 
-Create the central file with initial newline characters:
+Create the central file overriding polymorphic equality:
   $ cat > test.ml << EOF
-  > 
-  > 
-  > (* here's a comment *)
+  > let (=) = Int.equal
   > 
   > let add a b = a + b
   > ;;
@@ -48,6 +46,7 @@ Set seed and (full) mutation rate as environment variables, for repeatability
     match __MUTAML_MUTANT__ with
     | None -> false
     | Some mutant -> String.equal m mutant
+  let (=) = Int.equal
   let add a b = if __is_mutaml_mutant__ "test:0" then a - b else a + b
   ;;assert ((add 4 3) >= 0)
 
@@ -85,9 +84,8 @@ Set seed and (full) mutation rate as environment variables, for repeatability
   
   --- test.ml
   +++ test.ml-mutant0
-  @@ -2,6 +2,6 @@
-   
-   (* here's a comment *)
+  @@ -1,5 +1,5 @@
+   let (=) = Int.equal
    
   -let add a b = a + b
   +let add a b = a - b
@@ -96,26 +94,3 @@ Set seed and (full) mutation rate as environment variables, for repeatability
   
   ---------------------------------------------------------------------------
   
-
-
-
-
-  $ ls _mutations
-  test.ml-mutant0
-  test.muts-mutant0.output
-
-
-Here's an example of a manual diff from the console:
-
-  $ diff -u --label "test.ml" -u test.ml --label "test.ml-mutant0" _mutations/test.ml-mutant0
-  --- test.ml
-  +++ test.ml-mutant0
-  @@ -2,6 +2,6 @@
-   
-   (* here's a comment *)
-   
-  -let add a b = a + b
-  +let add a b = a - b
-   ;;
-   assert (add 4 3 >= 0)
-  [1]

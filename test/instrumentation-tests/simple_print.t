@@ -30,12 +30,15 @@ Compile with instrumentation and filter result:
   Writing mutation info to test.muts
   
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
+  let __is_mutaml_mutant__ m =
+    match __MUTAML_MUTANT__ with
+    | None -> false
+    | Some mutant -> String.equal m mutant
   let () =
     print_string
-      (string_of_bool
-         (if __MUTAML_MUTANT__ = (Some "test:0") then false else true))
+      (string_of_bool (if __is_mutaml_mutant__ "test:0" then false else true))
   let () = print_newline ()
-  let () = print_int (if __MUTAML_MUTANT__ = (Some "test:1") then 6 else 5)
+  let () = print_int (if __is_mutaml_mutant__ "test:1" then 6 else 5)
   let () = print_newline ()
 
 

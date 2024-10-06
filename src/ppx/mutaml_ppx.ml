@@ -14,7 +14,7 @@ module Vb    = Ppxlib.Ast_helper.Vb
    into a test
 
      [%expr
-      if __MUTAML_MUTANT__ = Some "src/lib:42"
+      if __is_mutaml_mutant__ "src/lib:42"
       then e
       else e+1]
 
@@ -30,15 +30,16 @@ module Vb    = Ppxlib.Ast_helper.Vb
    - a generation-time counter (42)
    - a reserved OCaml variable __MUTAML_MUTANT__, containing the value of
    - an environment variable MUTAML_MUTANT
+   - a predicate __is_mutaml_mutant
    - a store of mutations for each instrumented file
 *)
 
 (** Returns a new structure with an added mutaml preamble *)
 let add_preamble structure input_name =
   let loc = Location.in_file input_name in
-  let preamble =
-    [%stri let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"] in
-  preamble::structure
+  [%stri let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"]::
+  [%stri let __is_mutaml_mutant__ m = match __MUTAML_MUTANT__ with None -> false | Some mutant -> String.equal m mutant]::
+  structure
 
 (** Write mutations of a file 'src/lib.ml' to a 'src/lib.muts' *)
 let write_muts_file input_name mutations =
@@ -236,7 +237,7 @@ class mutate_mapper (rs : RS.t) =
     let mutation = Mutaml_common.{ number = mut_no; repl = Some repl_str; loc } in
     mutations <- mutation::mutations;
     [%expr
-      if __MUTAML_MUTANT__ = Some [%e mut_id_exp]
+      if __is_mutaml_mutant__ [%e mut_id_exp]
       then [%e e_new]
       else [%e e_rec]]
 
@@ -261,7 +262,7 @@ class mutate_mapper (rs : RS.t) =
        solution: let-name locally:
                  let __mutaml_tmp25 = exp2 in
                  let __mutaml_tmp26 = exp1 in
-                 if __MUTAML_MUTANT__ = Some 17
+                 if __is_mutaml_mutant__ 17
                  then __mutaml_tmp26 - __mutaml_tmp25
                  else __mutaml_tmp26 + __mutaml_tmp25  *)
     match e with
@@ -336,7 +337,7 @@ class mutate_mapper (rs : RS.t) =
         let loc = { case1.pc_lhs.ppat_loc with (* location of entire case: lhs with guard -> rhs *)
                     loc_end = case1.pc_rhs.pexp_loc.loc_end } in
         let mut_no,mut_id_exp = self#make_mut_number_and_id loc ctx in
-        let mut_guard = [%expr __MUTAML_MUTANT__ <> Some [%e mut_id_exp] ] in
+        let mut_guard = [%expr not (__is_mutaml_mutant__ [%e mut_id_exp]) ] in
         let guard = (match case1.pc_guard with
             | None   -> Some mut_guard
             | Some g -> Some [%expr [%e g] && [%e mut_guard] ]) in
@@ -346,12 +347,12 @@ class mutate_mapper (rs : RS.t) =
         then
           (* drop case from pattern-match when there is a '_'-catch all case and >1 additional cases *)
           (* match f x with             match f x with
-              | A -> g y                 | A when __MUTAML_MUTANT__ <> (Some "test:27") -> g y
-              | B -> h z        ~~>      | B when __MUTAML_MUTANT__ <> (Some "test:45") -> h z
+              | A -> g y                 | A when not (__is_mutaml_mutant__ "test:27") -> g y
+              | B -> h z        ~~>      | B when not (__is_mutaml_mutant__ "test:45") -> h z
               | _ -> i q                 | _ -> i q   *)
           (* or if there is pattern containing a 'when'-clause to drop *)
           (* match f x with             match f x with
-              | B when c -> h z   ~~>    | B when c &&__MUTAML_MUTANT__ <> (Some "test:45") -> h z
+              | B when c -> h z   ~~>    | B when c && not (__is_mutaml_mutant__ "test:45") -> h z
               | B        -> i q          | B -> i q   *)
           let mutation = Mutaml_common.{ number = mut_no; repl = None;
                                          loc = { loc with loc_end = case2.pc_lhs.ppat_loc.loc_start }} in
@@ -365,8 +366,8 @@ class mutate_mapper (rs : RS.t) =
           (* merge consecutive cases into an or-pattern  | p1 -> r1 | p2 -> r2  ~~> |p1|p2 -> r2 *)
           (* when no/same variables are bound in each pattern *)
           (* match f x with           match f x with
-              | A -> g y               | A when __MUTAML_MUTANT__ <> (Some "test:27") -> g y
-              | B -> h z      ~~>      | A | B when __MUTAML_MUTANT__ <> (Some "test:45") -> h z
+              | A -> g y               | A when not (__is_mutaml_mutant__ "test:27") -> g y
+              | B -> h z      ~~>      | A | B when not (__is_mutaml_mutant__ "test:45") -> h z
               | C -> i q               | B | C -> i q *)
           (match cases' with (* recurse and glue or-pattern on case2' *)
            | [] -> failwith "mutaml_ppx, mutate_pure_cases: recursing on a non-empty list yielded back an empty one"
@@ -430,7 +431,7 @@ class mutate_mapper (rs : RS.t) =
         * it works for 1-armed ifs too
                                            if
                                              (let __MUTAML_TMP__ = e0 in
-           if e0 then e1 else e2     ~~>      if __MUTAML_MUTANT__ = Some [%e mut_id_exp]
+           if e0 then e1 else e2     ~~>      if __is_mutaml_mutant__ [%e mut_id_exp]
                                               then not __MUTAML_TMP__ else __MUTAML_TMP__)
                                            then e1
                                            else e2       *)
@@ -452,7 +453,7 @@ class mutate_mapper (rs : RS.t) =
 
     (* omit a unit-expression in a sequence:
 
-                             (if __MUTAML_MUTANT__ = Some [%e mut_id_exp]
+                             (if __is_mutaml_mutant__ [%e mut_id_exp]
        e0; e1  ~~>            then ()
                               else e0'); e'  *)
     | _, Pexp_sequence (e0,e1) when self#choose_to_mutate ->

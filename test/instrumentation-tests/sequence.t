@@ -30,11 +30,15 @@ Test a sequence mutation:
   Writing mutation info to test.muts
   
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
+  let __is_mutaml_mutant__ m =
+    match __MUTAML_MUTANT__ with
+    | None -> false
+    | Some mutant -> String.equal m mutant
   let f () =
-    let c = ref (if __MUTAML_MUTANT__ = (Some "test:0") then 1 else 0) in
-    if __MUTAML_MUTANT__ = (Some "test:3") then () else incr c;
-    if __MUTAML_MUTANT__ = (Some "test:2") then () else incr c;
-    if __MUTAML_MUTANT__ = (Some "test:1") then () else incr c;
+    let c = ref (if __is_mutaml_mutant__ "test:0" then 1 else 0) in
+    if __is_mutaml_mutant__ "test:3" then () else incr c;
+    if __is_mutaml_mutant__ "test:2" then () else incr c;
+    if __is_mutaml_mutant__ "test:1" then () else incr c;
     !c
   ;;assert ((f ()) = 3)
 
@@ -93,11 +97,15 @@ Test uncaught sequence mutation:
   Writing mutation info to test.muts
   
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
+  let __is_mutaml_mutant__ m =
+    match __MUTAML_MUTANT__ with
+    | None -> false
+    | Some mutant -> String.equal m mutant
   let f () =
-    let c = ref (if __MUTAML_MUTANT__ = (Some "test:0") then 1 else 0) in
-    if __MUTAML_MUTANT__ = (Some "test:3") then () else incr c;
-    if __MUTAML_MUTANT__ = (Some "test:2") then () else incr c;
-    if __MUTAML_MUTANT__ = (Some "test:1") then () else incr c;
+    let c = ref (if __is_mutaml_mutant__ "test:0" then 1 else 0) in
+    if __is_mutaml_mutant__ "test:3" then () else incr c;
+    if __is_mutaml_mutant__ "test:2" then () else incr c;
+    if __is_mutaml_mutant__ "test:1" then () else incr c;
     !c
   ;;assert ((f ()) > 0)
 

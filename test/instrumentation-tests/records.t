@@ -23,13 +23,17 @@ An simple record example
   Writing mutation info to test.muts
   
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
+  let __is_mutaml_mutant__ m =
+    match __MUTAML_MUTANT__ with
+    | None -> false
+    | Some mutant -> String.equal m mutant
   type t = {
     x: int ;
     y: int }
   let f =
     function
-    | { x = v; y = 0 } when __MUTAML_MUTANT__ <> (Some "test:2") -> v
-    | { x = 0; y = v } when __MUTAML_MUTANT__ <> (Some "test:1") -> v
-    | { x; y } -> if __MUTAML_MUTANT__ = (Some "test:0") then x - y else x + y
+    | { x = v; y = 0 } when not (__is_mutaml_mutant__ "test:2") -> v
+    | { x = 0; y = v } when not (__is_mutaml_mutant__ "test:1") -> v
+    | { x; y } -> if __is_mutaml_mutant__ "test:0" then x - y else x + y
 
 

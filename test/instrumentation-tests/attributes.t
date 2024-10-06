@@ -35,14 +35,17 @@ Set seed and (full) mutation rate as environment variables, for repeatability
 
 Preprocess, check for attribute and error
   $ bash ../filter_dune_build.sh ./test.bc --instrument-with mutaml 2>&1 > output.txt
-  $ head -n 4 output.txt && echo "ERROR MESSAGE" && tail -n 9 output.txt
+  $ head -n 4 output.txt && echo "ERROR MESSAGE" && tail -n 12 output.txt
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 0 mutations of test.ml
   Writing mutation info to test.muts
   ERROR MESSAGE
-  
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
+  let __is_mutaml_mutant__ m =
+    match __MUTAML_MUTANT__ with
+    | None -> false
+    | Some mutant -> String.equal m mutant
   let greet () = print_endline ("Hello," ^ " world!")[@@ppwarning
                                                        "Stop using hello world!"]
   let () = greet ()
@@ -70,6 +73,10 @@ Preprocess, check that attribute no longer triggers an error
   $ bash ../filter_dune_build.sh ./test.bc --instrument-with mutaml
   
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
+  let __is_mutaml_mutant__ m =
+    match __MUTAML_MUTANT__ with
+    | None -> false
+    | Some mutant -> String.equal m mutant
   let greet () = print_endline ("Hello," ^ " world!")[@@ppwarning
                                                        "Stop using hello world!"]
   let () = greet ()
@@ -102,13 +109,17 @@ Create a test.ml file with a module attribute
 Preprocess, check that attribute triggers deprecation error
 
   $ bash ../filter_dune_build.sh ./test.bc --instrument-with mutaml 2>&1 > output.txt
-  $ head -n 4 output.txt && echo "ERROR MESSAGE" && tail -n 10 output.txt
+  $ head -n 4 output.txt && echo "ERROR MESSAGE" && tail -n 14 output.txt
   Running mutaml instrumentation on "test.ml"
   Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
   Created 0 mutations of test.ml
   Writing mutation info to test.muts
   ERROR MESSAGE
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
+  let __is_mutaml_mutant__ m =
+    match __MUTAML_MUTANT__ with
+    | None -> false
+    | Some mutant -> String.equal m mutant
   module T :
     sig val greet : unit -> unit[@@deprecated "Please stop using that example"]
     end = struct let greet () = print_endline ("Hello," ^ " world!") end 
@@ -149,6 +160,10 @@ Preprocess, check for attribute and error
   Writing mutation info to test.muts
   
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
+  let __is_mutaml_mutant__ m =
+    match __MUTAML_MUTANT__ with
+    | None -> false
+    | Some mutant -> String.equal m mutant
   let v = ((())[@testattr "unit attr"])
 
 
@@ -169,12 +184,16 @@ Preprocess, check for attribute and error
   Writing mutation info to test.muts
   
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
+  let __is_mutaml_mutant__ m =
+    match __MUTAML_MUTANT__ with
+    | None -> false
+    | Some mutant -> String.equal m mutant
   let t =
-    if __MUTAML_MUTANT__ = (Some "test:0")
+    if __is_mutaml_mutant__ "test:0"
     then ((false)[@testattr "true attr"])
     else ((true)[@testattr "true attr"])
   let f =
-    if __MUTAML_MUTANT__ = (Some "test:1")
+    if __is_mutaml_mutant__ "test:1"
     then ((true)[@testattr "false attr"])
     else ((false)[@testattr "false attr"])
 
@@ -195,8 +214,12 @@ Preprocess, check for attribute and error
   Writing mutation info to test.muts
   
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
+  let __is_mutaml_mutant__ m =
+    match __MUTAML_MUTANT__ with
+    | None -> false
+    | Some mutant -> String.equal m mutant
   let str =
-    if __MUTAML_MUTANT__ = (Some "test:0")
+    if __is_mutaml_mutant__ "test:0"
     then (("")[@testattr "str attr"])
     else ((" ")[@testattr "str attr"])
 
@@ -217,8 +240,12 @@ Preprocess, check for attribute and error
   Writing mutation info to test.muts
   
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
+  let __is_mutaml_mutant__ m =
+    match __MUTAML_MUTANT__ with
+    | None -> false
+    | Some mutant -> String.equal m mutant
   let f x =
-    if __MUTAML_MUTANT__ = (Some "test:0")
+    if __is_mutaml_mutant__ "test:0"
     then ((x)[@testattr "str attr"])
     else ((x + 1)[@testattr "str attr"])
 
