@@ -42,7 +42,7 @@ build: [
     "-j"
     jobs
     "@install"
-    "@runtest" {with-test}
+    "@runtest" {with-test & arch != "ppc64" & arch != "riscv64" }
     "@doc" {with-doc}
   ]
 ]
