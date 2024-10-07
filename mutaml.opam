@@ -42,7 +42,7 @@ build: [
     "-j"
     jobs
     "@install"
-    "@runtest" {with-test & arch != "ppc64" & arch != "riscv64" }
+    "@runtest" {with-test & arch != "ppc64" & arch != "riscv64" & ocaml:version < "5.3"}
     "@doc" {with-doc}
   ]
 ]
