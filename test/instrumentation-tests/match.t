@@ -11,61 +11,59 @@ Make an .ml-file:
 
 This gets parsed to the following syntax tree:
 
-  $ ocamlc -dparsetree test.ml
-  [
-    structure_item (test.ml[1,0+0]..[3,88+50])
-      Pstr_value Nonrec
-      [
-        <def>
-          pattern (test.ml[1,0+4]..[1,0+6])
-            Ppat_construct "()" (test.ml[1,0+4]..[1,0+6])
-            None
-          expression (test.ml[1,0+9]..[3,88+50])
-            Pexp_match
-            expression (test.ml[1,0+15]..[1,0+31])
-              Pexp_apply
-              expression (test.ml[1,0+15]..[1,0+16])
-                Pexp_ident "!" (test.ml[1,0+15]..[1,0+16])
-              [
-                <arg>
-                Nolabel
-                  expression (test.ml[1,0+16]..[1,0+31])
-                    Pexp_ident "Sys.interactive" (test.ml[1,0+16]..[1,0+31])
-              ]
-            [
-              <case>
-                pattern (test.ml[2,37+4]..[2,37+9])
-                  Ppat_construct "false" (test.ml[2,37+4]..[2,37+9])
-                  None
-                expression (test.ml[2,37+13]..[2,37+50])
-                  Pexp_apply
-                  expression (test.ml[2,37+13]..[2,37+26])
-                    Pexp_ident "print_endline" (test.ml[2,37+13]..[2,37+26])
-                  [
-                    <arg>
-                    Nolabel
-                      expression (test.ml[2,37+27]..[2,37+50])
-                        Pexp_constant PConst_string("Running in batch mode",(test.ml[2,37+28]..[2,37+49]),None)
-                  ]
-              <case>
-                pattern (test.ml[3,88+4]..[3,88+8])
-                  Ppat_construct "true" (test.ml[3,88+4]..[3,88+8])
-                  None
-                expression (test.ml[3,88+13]..[3,88+50])
-                  Pexp_apply
-                  expression (test.ml[3,88+13]..[3,88+26])
-                    Pexp_ident "print_endline" (test.ml[3,88+13]..[3,88+26])
-                  [
-                    <arg>
-                    Nolabel
-                      expression (test.ml[3,88+27]..[3,88+50])
-                        Pexp_constant PConst_string("Running interactively",(test.ml[3,88+28]..[3,88+49]),None)
-                  ]
-            ]
-      ]
-  ]
-  
-
+;  $ ocamlc -dparsetree test.ml
+;  [
+;    structure_item (test.ml[1,0+0]..[3,88+50])
+;      Pstr_value Nonrec
+;      [
+;        <def>
+;          pattern (test.ml[1,0+4]..[1,0+6])
+;            Ppat_construct "()" (test.ml[1,0+4]..[1,0+6])
+;            None
+;          expression (test.ml[1,0+9]..[3,88+50])
+;            Pexp_match
+;            expression (test.ml[1,0+15]..[1,0+31])
+;              Pexp_apply
+;              expression (test.ml[1,0+15]..[1,0+16])
+;                Pexp_ident "!" (test.ml[1,0+15]..[1,0+16])
+;              [
+;                <arg>
+;                Nolabel
+;                  expression (test.ml[1,0+16]..[1,0+31])
+;                    Pexp_ident "Sys.interactive" (test.ml[1,0+16]..[1,0+31])
+;              ]
+;            [
+;              <case>
+;                pattern (test.ml[2,37+4]..[2,37+9])
+;                  Ppat_construct "false" (test.ml[2,37+4]..[2,37+9])
+;                  None
+;                expression (test.ml[2,37+13]..[2,37+50])
+;                  Pexp_apply
+;                  expression (test.ml[2,37+13]..[2,37+26])
+;                    Pexp_ident "print_endline" (test.ml[2,37+13]..[2,37+26])
+;                  [
+;                    <arg>
+;                    Nolabel
+;                      expression (test.ml[2,37+27]..[2,37+50])
+;                        Pexp_constant PConst_string("Running in batch mode",(test.ml[2,37+28]..[2,37+49]),None)
+;                  ]
+;              <case>
+;                pattern (test.ml[3,88+4]..[3,88+8])
+;                  Ppat_construct "true" (test.ml[3,88+4]..[3,88+8])
+;                  None
+;                expression (test.ml[3,88+13]..[3,88+50])
+;                  Pexp_apply
+;                  expression (test.ml[3,88+13]..[3,88+26])
+;                    Pexp_ident "print_endline" (test.ml[3,88+13]..[3,88+26])
+;                  [
+;                    <arg>
+;                    Nolabel
+;                      expression (test.ml[3,88+27]..[3,88+50])
+;                        Pexp_constant PConst_string("Running interactively",(test.ml[3,88+28]..[3,88+49]),None)
+;                  ]
+;            ]
+;      ]
+;  ]
 
 
 Let's first compile and run the example

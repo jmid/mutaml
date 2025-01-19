@@ -12,36 +12,36 @@ Make an .ml-file:
 Quick interlude:  This can be useful to observe the parse tree:
 ---------------------------------------------------------------
 
-  $ ocamlc -dparsetree test.ml
-  [
-    structure_item (test.ml[1,0+0]..[3,48+22])
-      Pstr_value Nonrec
-      [
-        <def>
-          pattern (test.ml[1,0+4]..[1,0+7])
-            Ppat_var "foo" (test.ml[1,0+4]..[1,0+7])
-          expression (test.ml[1,0+10]..[3,48+22])
-            Pexp_match
-            expression (test.ml[1,0+16]..[1,0+29])
-              Pexp_ident "Sys.word_size" (test.ml[1,0+16]..[1,0+29])
-            [
-              <case>
-                pattern (test.ml[2,35+4]..[2,35+6])
-                  Ppat_constant PConst_int (32,None)
-                expression (test.ml[2,35+10]..[2,35+12])
-                  Pexp_constant PConst_int (32,None)
-              <case>
-                pattern (test.ml[3,48+4]..[3,48+5])
-                  Ppat_any
-                expression (test.ml[3,48+10]..[3,48+22])
-                  Pexp_assert
-                  expression (test.ml[3,48+17]..[3,48+22])
-                    Pexp_construct "false" (test.ml[3,48+17]..[3,48+22])
-                    None
-            ]
-      ]
-  ]
-  
+;  $ ocamlc -dparsetree test.ml
+;  [
+;    structure_item (test.ml[1,0+0]..[3,48+22])
+;      Pstr_value Nonrec
+;      [
+;        <def>
+;          pattern (test.ml[1,0+4]..[1,0+7])
+;            Ppat_var "foo" (test.ml[1,0+4]..[1,0+7])
+;          expression (test.ml[1,0+10]..[3,48+22])
+;            Pexp_match
+;            expression (test.ml[1,0+16]..[1,0+29])
+;              Pexp_ident "Sys.word_size" (test.ml[1,0+16]..[1,0+29])
+;            [
+;              <case>
+;                pattern (test.ml[2,35+4]..[2,35+6])
+;                  Ppat_constant PConst_int (32,None)
+;                expression (test.ml[2,35+10]..[2,35+12])
+;                  Pexp_constant PConst_int (32,None)
+;              <case>
+;                pattern (test.ml[3,48+4]..[3,48+5])
+;                  Ppat_any
+;                expression (test.ml[3,48+10]..[3,48+22])
+;                  Pexp_assert
+;                  expression (test.ml[3,48+17]..[3,48+22])
+;                    Pexp_construct "false" (test.ml[3,48+17]..[3,48+22])
+;                    None
+;            ]
+;      ]
+;  ]
+
 ----------------------------------------------------------------------------------
 Test mutation of the 'assert false':
 ----------------------------------------------------------------------------------
