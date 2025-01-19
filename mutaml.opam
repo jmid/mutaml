@@ -47,3 +47,4 @@ build: [
   ]
 ]
 dev-repo: "git+https://github.com/jmid/mutaml.git"
+x-maintenance-intent: ["(latest)"]
