@@ -46,7 +46,7 @@ jobs:
           echo "$(brew --prefix)/opt/coreutils/libexec/gnubin" >> $GITHUB_PATH
           echo "$PATH"
           echo `which timeout`
-          ls /usr/local/opt/coreutils/libexec/gnubin
+#         ls /usr/local/opt/coreutils/libexec/gnubin
 
       - run: opam install . --deps-only --with-test
 
