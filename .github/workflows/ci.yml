@@ -3,9 +3,6 @@ name: Main CI workflow
 on:
   pull_request:
   push:
-  schedule:
-    # Prime the caches every Monday
-    - cron: 0 1 * * MON
 
 jobs:
   build:
@@ -23,6 +20,8 @@ jobs:
 #          - 4.11.x
           - 4.12.x
 #          - 4.13.x
+          - 4.14.x
+          - 5.3.x
 
     runs-on: ${{ matrix.os }}
 
@@ -31,7 +30,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Use OCaml ${{ matrix.ocaml-compiler }}
-        uses: ocaml/setup-ocaml@v2
+        uses: ocaml/setup-ocaml@v3
         with:
           ocaml-compiler: ${{ matrix.ocaml-compiler }}
 
@@ -47,7 +46,7 @@ jobs:
           echo "$(brew --prefix)/opt/coreutils/libexec/gnubin" >> $GITHUB_PATH
           echo "$PATH"
           echo `which timeout`
-          ls /usr/local/opt/coreutils/libexec/gnubin
+#         ls /usr/local/opt/coreutils/libexec/gnubin
 
       - run: opam install . --deps-only --with-test
 
