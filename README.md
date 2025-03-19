@@ -1,4 +1,4 @@
-Mutaml: A Mutation Tester for OCaml [![Main CI workflow](https://github.com/jmid/mutaml/actions/workflows/ci.yaml/badge.svg)](https://github.com/jmid/mutaml/actions/workflows/ci.yaml)
+Mutaml: A Mutation Tester for OCaml [![Main CI workflow](https://github.com/jmid/mutaml/actions/workflows/ci.yml/badge.svg)](https://github.com/jmid/mutaml/actions/workflows/ci.yml)
 ===============================================
 
 Mutaml is a mutation testing tool for OCaml.  
