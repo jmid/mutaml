@@ -1,7 +1,7 @@
 (* driver for mutation testing *)
 
 let timeout_cmd  = "timeout"
-let timeout      = 20
+let timeout      = 40
 
 open Mutaml_common
 
