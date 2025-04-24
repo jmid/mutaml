@@ -228,7 +228,7 @@ Instrument and check that it was received
   > )
   > EOF
 
-  $ bash ../filter_dune_build.sh ./test.bc --instrument-with mutaml 2>&1 | grep -v "use-compiler-pp\|no-merge\|Embed errors\|keywords"
+  $ bash ../filter_dune_build.sh ./test.bc --instrument-with mutaml 2>&1 | grep -v "use-compiler-pp" | grep -v "no-merge" | grep -v "Embed errors" | grep -v "keywords"
   ppx.exe [extra_args] [<files>]
     -as-ppx                     Run as a -ppx rewriter (must be the first argument)
     --as-ppx                    Same as -as-ppx
