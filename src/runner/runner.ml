@@ -153,7 +153,7 @@ let rec run_all_mutation_tests test_cmd muts = match muts with
 (** Executable entry point *)
 
 let () =
-  if 0 <> Sys.command ("which " ^ timeout_cmd ^ " > /dev/null")
+  if 0 <> Sys.command ("command -v " ^ timeout_cmd ^ " > /dev/null")
   then fail_and_exit ("Could not find time-out command: " ^ timeout_cmd)
   else
     let test_cmd = ref "" in
