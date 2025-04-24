@@ -31,6 +31,7 @@ depends: [
   "ounit2" {with-test}
   "odoc" {with-doc}
 ]
+dev-repo: "git+https://github.com/jmid/mutaml.git"
 build: [
   ["dune" "subst"] {dev}
   [
@@ -45,5 +46,4 @@ build: [
     "@doc" {with-doc}
   ]
 ]
-dev-repo: "git+https://github.com/jmid/mutaml.git"
 x-maintenance-intent: ["(latest)"]
