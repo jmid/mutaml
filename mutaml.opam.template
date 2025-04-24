@@ -1,1 +1,15 @@
+build: [
+  ["dune" "subst"] {dev}
+  [
+    "dune"
+    "build"
+    "-p"
+    name
+    "-j"
+    jobs
+    "@install"
+    "@runtest" {with-test & arch != "ppc64" & arch != "riscv64"}
+    "@doc" {with-doc}
+  ]
+]
 x-maintenance-intent: ["(latest)"]
