@@ -30,7 +30,6 @@
   (ppx_yojson_conv (>= 0.14.0))
   stdlib-random
   conf-timeout
-  conf-which
   conf-diffutils
   ;; transitive lower versions to avoid CI errors
   (ocaml-compiler-libs (>= v0.12.0))
