@@ -1,7 +1,11 @@
 Next release
 ------------
 
-- ...
+- Patch `ppx_yojson_conv` dependency which was missing a `v`-prefix
+- Introduce a `mutaml.opam.template` to avoid opam linting failure #41
+- Adjust RE to support `runtest` on OpenBSD too #40
+- Remove `which` and `conf-which` dependency #39
+- Support ppxlib.0.34 and runtest on OCaml 5.3 #36
 
 0.3
 ---
