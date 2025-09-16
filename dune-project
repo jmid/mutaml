@@ -1,4 +1,4 @@
-(lang dune 3.0)
+(lang dune 3.18)
 
 (name mutaml)
 
@@ -36,4 +36,6 @@
   (ppx_derivers (>= 1.2.1))
   (yojson (>= 2.0.0))
   (ppx_deriving :with-test)
-  (ounit2 :with-test)))
+  (ounit2 :with-test))
+ (maintenance_intent "(latest)")
+)
