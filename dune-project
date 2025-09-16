@@ -1,4 +1,4 @@
-(lang dune 3.0)
+(lang dune 3.18)
 
 (name mutaml)
 
@@ -27,7 +27,7 @@
  (depends
   (ocaml (>= 4.12.0))
   (ppxlib (>= 0.28.0))
-  (ppx_yojson_conv (>= 0.14.0))
+  (ppx_yojson_conv (>= v0.14.0))
   stdlib-random
   conf-timeout
   conf-diffutils
@@ -36,4 +36,6 @@
   (ppx_derivers (>= 1.2.1))
   (yojson (>= 2.0.0))
   (ppx_deriving :with-test)
-  (ounit2 :with-test)))
+  (ounit2 :with-test))
+ (maintenance_intent "(latest)")
+)
