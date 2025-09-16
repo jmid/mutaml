@@ -17,7 +17,7 @@ homepage: "https://github.com/jmid/mutaml"
 doc: "https://github.com/jmid/mutaml"
 bug-reports: "https://github.com/jmid/mutaml/issues"
 depends: [
-  "dune" {>= "3.0"}
+  "dune" {>= "3.18"}
   "ocaml" {>= "4.12.0"}
   "ppxlib" {>= "0.28.0"}
   "ppx_yojson_conv" {>= "v0.14.0"}
@@ -32,6 +32,7 @@ depends: [
   "odoc" {with-doc}
 ]
 dev-repo: "git+https://github.com/jmid/mutaml.git"
+x-maintenance-intent: ["(latest)"]
 build: [
   ["dune" "subst"] {dev}
   [
@@ -46,4 +47,3 @@ build: [
     "@doc" {with-doc}
   ]
 ]
-x-maintenance-intent: ["(latest)"]
