@@ -12,7 +12,7 @@
  (synopsis "A mutation tester for OCaml")
  (license "BSD-2-Clause")
  (version "0.3")
- (description  
+ (description
   "\| Mutaml is a mutation testing tool for OCaml.
   "\| It uses a ppxlib-based preprocessor to make a series of small
   "\| breaking changes to a program's source code and then runs
@@ -27,7 +27,7 @@
  (depends
   (ocaml (>= 4.12.0))
   (ppxlib (>= 0.28.0))
-  (ppx_yojson_conv (>= v0.14.0))
+  (ppx_deriving_yojson (>= 3.7.0))
   stdlib-random
   conf-timeout
   conf-diffutils
