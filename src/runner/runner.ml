@@ -73,12 +73,14 @@ let read_module_mutations_json ppx_output_prefix file_name =
   try
     let ch = open_in (full_ppx_path ppx_output_prefix file_name) in
     let mutants = match Yojson.Safe.from_channel ch with
-      | `List ys -> List.map mutant_of_yojson ys
+      | `List ys -> List.map mutant_of_yojson_exn ys
       | _        -> fail_and_exit ("Could not parse " ^ file_name)
     in
     mutants
   with Sys_error msg ->
     fail_and_exit (Printf.sprintf "Could not read file %s - %s" file_name msg)
+     | Failure msg ->
+       fail_and_exit (Printf.sprintf "Failure while reading file %s - %s" file_name msg)
 
 let read_all_mutations ppx_output_prefix file_name =
   let mut_files = read_instrumentation_overview ppx_output_prefix file_name in
@@ -112,7 +114,7 @@ let save_test_outcome ret mut =
 let write_report_file file_name =
   Printf.printf "Writing report data to %s\n" file_name;
   let ch = open_out file_name in
-  let ys = !test_results |> List.rev |> List.map yojson_of_test_result in
+  let ys = !test_results |> List.rev |> List.map test_result_to_yojson in
   let () = Yojson.Safe.to_channel ch (`List ys) in
   let () = close_out ch in
   ()

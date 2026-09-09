@@ -4,4 +4,4 @@
  (synopsis "Mutaml internal functions (internal)")
  (libraries ppxlib)
  (preprocess
-  (pps ppx_yojson_conv)))
+  (pps ppx_deriving_yojson)))

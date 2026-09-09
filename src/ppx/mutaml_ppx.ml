@@ -46,7 +46,7 @@ let write_muts_file input_name mutations =
   let output_name = Filename.(remove_extension input_name) ^ ".muts" in
   Printf.printf "Writing mutation info to %s\n%!"  output_name;
   let ch = open_out output_name in
-  let ys = mutations |> List.rev |> List.map Mutaml_common.yojson_of_mutant in
+  let ys = mutations |> List.rev |> List.map Mutaml_common.mutant_to_yojson in
   Yojson.Safe.to_channel ch (`List ys);
   close_out ch;
   output_name
