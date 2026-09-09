@@ -15,9 +15,9 @@ let read_reports report_file =
   let mutants_opt =
     try
       match Yojson.Safe.from_channel ch with
-      | `List ys -> Ok (List.map test_result_of_yojson ys)
+      | `List ys -> Ok (List.map test_result_of_yojson_exn ys)
       | _        -> Error "Did not find the expected JSON list"
-    with Yojson.Json_error _ -> Error "Invalid JSON"
+    with Yojson.Json_error _ | Failure _ -> Error "Invalid JSON"
   in match mutants_opt with
   | Error msg ->
     close_in ch;
