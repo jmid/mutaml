@@ -7,6 +7,8 @@
 
 (generate_opam_files)
 
+(warnings (duplicate_deps disabled))
+
 (package
  (name mutaml)
  (synopsis "A mutation tester for OCaml")
@@ -26,6 +28,8 @@
  (tags ("test" "mutation testing"))
  (depends
   (ocaml (>= 4.12.0))
+  (dune (>= 3.18))
+  (dune (and (>= 3.22.0) :with-test))
   (ppxlib (and (>= 0.28.0) (< 0.36.0)))
   (ppx_deriving_yojson (>= 3.7.0))
   stdlib-random

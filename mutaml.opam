@@ -19,7 +19,7 @@ bug-reports: "https://github.com/jmid/mutaml/issues"
 depends: [
   "ocaml" {>= "4.12.0"}
   "dune" {>= "3.18"}
-  "dune" {< "3.22.0" & with-test}
+  "dune" {>= "3.22.0" & with-test}
   "ppxlib" {>= "0.28.0" & < "0.36.0"}
   "ppx_deriving_yojson" {>= "3.7.0"}
   "stdlib-random"
