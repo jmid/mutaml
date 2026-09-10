@@ -1,8 +1,10 @@
 Next release
 ------------
 
-- Use dune.3.18 support to generate `x-maintenance-intent` entry
-- Patch `ppx_yojson_conv` dependency which was missing a `v`-prefix
+- Adjust test suite to be compatible with >= dune.3.22.0 #48
+- Switch to using `ppx_deriving_yojson` instead of `ppx_yojson_conv` #47
+- Use dune.3.18 support to generate `x-maintenance-intent` entry #45
+- Patch `ppx_yojson_conv` dependency which was missing a `v`-prefix #43
 - Introduce a `mutaml.opam.template` to avoid opam linting failure #41
 - Adjust RE to support `runtest` on OpenBSD too #40
 - Remove `which` and `conf-which` dependency #39
