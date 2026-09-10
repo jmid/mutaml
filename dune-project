@@ -28,7 +28,7 @@
  (tags ("test" "mutation testing"))
  (depends
   (ocaml (>= 4.12.0))
-  (ocaml (and (< 5.4.0) :with-test))
+  (ocaml (and (< 5.3.0) :with-test))
   (ppxlib (>= 0.37.0))
   (ppx_deriving_yojson (>= 3.7.0))
   stdlib-random
