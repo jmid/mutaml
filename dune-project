@@ -1,4 +1,4 @@
-(lang dune 3.18)
+(lang dune 3.22)
 
 (name mutaml)
 
@@ -28,8 +28,6 @@
  (tags ("test" "mutation testing"))
  (depends
   (ocaml (>= 4.12.0))
-  (dune (>= 3.18))
-  (dune (and (>= 3.22.0) :with-test))
   (ppxlib (>= 0.37.0))
   (ppx_deriving_yojson (>= 3.7.0))
   stdlib-random
