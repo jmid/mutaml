@@ -658,18 +658,19 @@ Same example that triggers merge-of-consecutive-patterns w/GADTs false
     | X 
     | Lit of int 
     | Binop of aexp * binop * aexp 
-  let rec interpret xval =
-    ((function
-      | X -> xval
-      | Lit i -> i
-      | Binop (ae0, Add, ae1) when not (__is_mutaml_mutant__ "test:2") ->
-          let v0 = interpret xval ae0 in
-          let v1 = interpret xval ae1 in
-          if __is_mutaml_mutant__ "test:0" then v0 - v1 else v0 + v1
-      | Binop (ae0, Add, ae1) | Binop (ae0, Mul, ae1) ->
-          let v0 = interpret xval ae0 in
-          let v1 = interpret xval ae1 in
-          if __is_mutaml_mutant__ "test:1" then v0 + v1 else v0 * v1)
+  let rec interpret =
+    ((fun xval ->
+        function
+       | X -> xval
+       | Lit i -> i
+       | Binop (ae0, Add, ae1) when not (__is_mutaml_mutant__ "test:2") ->
+           let v0 = interpret xval ae0 in
+           let v1 = interpret xval ae1 in
+           if __is_mutaml_mutant__ "test:0" then v0 - v1 else v0 + v1
+       | Binop (ae0, Add, ae1) | Binop (ae0, Mul, ae1) ->
+           let v0 = interpret xval ae0 in
+           let v1 = interpret xval ae1 in
+           if __is_mutaml_mutant__ "test:1" then v0 + v1 else v0 * v1)
     [@ocaml.warning "-8"])
   let () =
     (interpret (if __is_mutaml_mutant__ "test:3" then 3 else 2)

@@ -269,6 +269,8 @@ Instrument and check that it was received
     -dont-apply <names>         Exclude these transformations
     -cookie NAME=EXPR           Set the cookie NAME to EXPR
     --cookie                    Same as -cookie
+    -raise-embedded-errors      Raise the first embedded error found in the processed AST
+    -allow-deriving-end         Whether to allow [@@@deriving.end], which will soon be deprecated.
     -seed                       Set randomness seed for mutaml's instrumentation
     -mut-rate                   Set probability in % of mutating a syntax tree node (default: 50%)
     -gadt                       Allow only pattern mutations compatible with GADTs (default: true)
