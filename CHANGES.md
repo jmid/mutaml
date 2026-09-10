@@ -1,6 +1,7 @@
 Next release
 ------------
 
+- Support ppxlib 0.37 and 0.38 and require dune.3.22.0 #49
 - Adjust test suite to be compatible with >= dune.3.22.0 #48
 - Switch to using `ppx_deriving_yojson` instead of `ppx_yojson_conv` #47
 - Use dune.3.18 support to generate `x-maintenance-intent` entry #45
