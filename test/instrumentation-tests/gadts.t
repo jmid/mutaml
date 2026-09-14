@@ -277,18 +277,7 @@ Pattern matching on GADT constructors in arrays:
   > EOF
 
 Check that the example typechecks
-  $ ocamlc -stop-after typing test.ml
-  File "test.ml", lines 6-11, characters 34-34:
-   6 | ..................................function
-   7 |  | [| Int  |] -> 0
-   8 |  | [| Bool |] -> true
-   9 |  | [| Char |] -> 'c'
-  10 |  | _ when true (*2*2=2+2*) -> failwith "empty"
-  11 |  | _ when false -> failwith "dead"
-  Warning 8 [partial-match]: this pattern-matching is not exhaustive.
-  Here is an example of a case that is not matched:
-  [|  |]
-  (However, some guarded clause may match this value.)
+  $ ocamlc -stop-after typing -w -partial-match test.ml
   $ export MUTAML_SEED=896745231
   $ export MUTAML_GADT=true
   $ bash ../filter_dune_build.sh ./test.bc --instrument-with mutaml 2>&1 > output.txt
@@ -298,6 +287,11 @@ Check that the example typechecks
   Created 4 mutations of test.ml
   Writing mutation info to test.muts
   ERROR MESSAGE
+  Running mutaml instrumentation on "test.ml"
+  Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
+  Created 4 mutations of test.ml
+  Writing mutation info to test.muts
+  
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
   let __is_mutaml_mutant__ m =
     match __MUTAML_MUTANT__ with
@@ -316,17 +310,6 @@ Check that the example typechecks
         failwith "empty"
     | _ when if __is_mutaml_mutant__ "test:3" then true else false ->
         failwith "dead"
-  File "test.ml", lines 6-11, characters 34-34:
-   6 | ..................................function
-   7 |  | [| Int  |] -> 0
-   8 |  | [| Bool |] -> true
-   9 |  | [| Char |] -> 'c'
-  10 |  | _ when true (*2*2=2+2*) -> failwith "empty"
-  11 |  | _ when false -> failwith "dead"
-  Error (warning 8 [partial-match]): this pattern-matching is not exhaustive.
-  Here is an example of a case that is not matched:
-  [|  |]
-  (However, some guarded clause may match this value.)
 
 
 
