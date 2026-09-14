@@ -48,8 +48,10 @@ jobs:
           echo `which timeout`
 #         ls /usr/local/opt/coreutils/libexec/gnubin
 
-      - run: opam install . --deps-only --with-test
+      - run: opam install . --deps-only
 
-      - run: opam exec -- dune build @all
+      - run: opam install .
 
-      - run: opam exec -- dune build @runtest
+      - run: opam reinstall . --deps-only --with-test
+
+      - run: opam reinstall . --with-test
