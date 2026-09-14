@@ -55,6 +55,7 @@ jobs:
       - run: opam install .
 
       - run: |
+          set +e
           opam reinstall . --with-test
           exit_code="$?"
           if [[ "$exit_code" == "20" ]]; then echo "Not able to run --with-test on this version"; exit 0; fi
