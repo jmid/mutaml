@@ -946,6 +946,11 @@ Another example that would trigger merge-of-consecutive-patterns:
   Created 6 mutations of test.ml
   Writing mutation info to test.muts
   ERROR MESSAGE
+  Running mutaml instrumentation on "test.ml"
+  Randomness seed: 896745231   Mutation rate: 100   GADTs enabled: true
+  Created 6 mutations of test.ml
+  Writing mutation info to test.muts
+  
   let __MUTAML_MUTANT__ = Stdlib.Sys.getenv_opt "MUTAML_MUTANT"
   let __is_mutaml_mutant__ m =
     match __MUTAML_MUTANT__ with
@@ -959,17 +964,6 @@ Another example that would trigger merge-of-consecutive-patterns:
     | [|_;_;_|] -> if __is_mutaml_mutant__ "test:3" then 4 else 3
     | _ when if __is_mutaml_mutant__ "test:4" then false else true ->
         if __is_mutaml_mutant__ "test:5" then 1001 else 1000
-  File "test.ml", lines 1-6, characters 11-23:
-  1 | ...........match x with
-  2 |   | [| |] -> 0
-  3 |   | [| _ |] -> 1
-  4 |   | [| _;_ |] -> 2
-  5 |   | [| _;_;_ |] -> 3
-  6 |   | _ when true -> 1000
-  Error (warning 8 [partial-match]): this pattern-matching is not exhaustive.
-  Here is an example of a case that is not matched:
-  [| _ ; _ ; _ ; _ |]
-  (However, some guarded clause may match this value.)
 
 
 
