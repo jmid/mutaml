@@ -38,11 +38,10 @@ Check that the example typechecks
   type _ t =
     | Int: int t 
     | Bool: bool t 
-  let f (type a) =
-    (function
-     | Int -> if __is_mutaml_mutant__ "test:0" then 1 else 0
-     | Bool -> if __is_mutaml_mutant__ "test:1" then false else true : 
-    a t -> a)
+  let f (type a) : a t -> a=
+    function
+    | Int -> if __is_mutaml_mutant__ "test:0" then 1 else 0
+    | Bool -> if __is_mutaml_mutant__ "test:1" then false else true
   let () = (f Int) |> (Printf.printf "%i\n")
 
 This shouldn't fail. It should just fail to mutate the patterns.
@@ -251,13 +250,13 @@ Check that the example typechecks
   type _ t =
     | Int: int t 
     | Bool: bool t 
-  let f (type a) =
-    (function
-     | [|Int;Int|] when not (__is_mutaml_mutant__ "test:3") ->
-         if __is_mutaml_mutant__ "test:0" then 1 else 0
-     | [|Bool|] when not (__is_mutaml_mutant__ "test:2") ->
-         if __is_mutaml_mutant__ "test:1" then false else true
-     | _ -> failwith "ouch" : a t array -> a)
+  let f (type a) : a t array -> a=
+    function
+    | [|Int;Int|] when not (__is_mutaml_mutant__ "test:3") ->
+        if __is_mutaml_mutant__ "test:0" then 1 else 0
+    | [|Bool|] when not (__is_mutaml_mutant__ "test:2") ->
+        if __is_mutaml_mutant__ "test:1" then false else true
+    | _ -> failwith "ouch"
 
 
 
@@ -308,15 +307,15 @@ Check that the example typechecks
     | Int: int t 
     | Bool: bool t 
     | Char: char t 
-  let f (type a) =
-    (function
-     | [|Int|] -> if __is_mutaml_mutant__ "test:0" then 1 else 0
-     | [|Bool|] -> if __is_mutaml_mutant__ "test:1" then false else true
-     | [|Char|] -> 'c'
-     | _ when if __is_mutaml_mutant__ "test:2" then false else true ->
-         failwith "empty"
-     | _ when if __is_mutaml_mutant__ "test:3" then true else false ->
-         failwith "dead" : a t array -> a)
+  let f (type a) : a t array -> a=
+    function
+    | [|Int|] -> if __is_mutaml_mutant__ "test:0" then 1 else 0
+    | [|Bool|] -> if __is_mutaml_mutant__ "test:1" then false else true
+    | [|Char|] -> 'c'
+    | _ when if __is_mutaml_mutant__ "test:2" then false else true ->
+        failwith "empty"
+    | _ when if __is_mutaml_mutant__ "test:3" then true else false ->
+        failwith "dead"
   File "test.ml", lines 6-11, characters 34-34:
    6 | ..................................function
    7 |  | [| Int  |] -> 0
@@ -362,13 +361,13 @@ Check that the example typechecks
   type _ t =
     | Int: int t 
     | Bool: bool t 
-  let f (type a) =
-    (function
-     | [|_x;Int|] when not (__is_mutaml_mutant__ "test:3") ->
-         if __is_mutaml_mutant__ "test:0" then 3 else 2
-     | [|Bool;_x|] when not (__is_mutaml_mutant__ "test:2") ->
-         if __is_mutaml_mutant__ "test:1" then false else true
-     | _ -> failwith "eww" : a t array -> a)
+  let f (type a) : a t array -> a=
+    function
+    | [|_x;Int|] when not (__is_mutaml_mutant__ "test:3") ->
+        if __is_mutaml_mutant__ "test:0" then 3 else 2
+    | [|Bool;_x|] when not (__is_mutaml_mutant__ "test:2") ->
+        if __is_mutaml_mutant__ "test:1" then false else true
+    | _ -> failwith "eww"
 
 
 
@@ -403,20 +402,20 @@ Check that the example typechecks
   type _ t =
     | Int: int t 
     | Bool: bool t 
-  let _f (type a) (type b) =
-    (function
-     | (Int, _) when not (__is_mutaml_mutant__ "test:4") ->
-         if __is_mutaml_mutant__ "test:0" then 1 else 0
-     | (_, Bool) when not (__is_mutaml_mutant__ "test:3") ->
-         if __is_mutaml_mutant__ "test:1" then 0 else 1
-     | _ -> if __is_mutaml_mutant__ "test:2" then 3 else 2 : (a t * b t) -> int)
-  let _f (type a) (type b) =
-    (function
-     | (Int, Int) when not (__is_mutaml_mutant__ "test:9") ->
-         if __is_mutaml_mutant__ "test:5" then 1 else 0
-     | (Bool, Bool) when not (__is_mutaml_mutant__ "test:8") ->
-         if __is_mutaml_mutant__ "test:6" then 0 else 1
-     | _ -> if __is_mutaml_mutant__ "test:7" then 3 else 2 : (a t * b t) -> int)
+  let _f (type a) (type b) : (a t * b t) -> int=
+    function
+    | (Int, _) when not (__is_mutaml_mutant__ "test:4") ->
+        if __is_mutaml_mutant__ "test:0" then 1 else 0
+    | (_, Bool) when not (__is_mutaml_mutant__ "test:3") ->
+        if __is_mutaml_mutant__ "test:1" then 0 else 1
+    | _ -> if __is_mutaml_mutant__ "test:2" then 3 else 2
+  let _f (type a) (type b) : (a t * b t) -> int=
+    function
+    | (Int, Int) when not (__is_mutaml_mutant__ "test:9") ->
+        if __is_mutaml_mutant__ "test:5" then 1 else 0
+    | (Bool, Bool) when not (__is_mutaml_mutant__ "test:8") ->
+        if __is_mutaml_mutant__ "test:6" then 0 else 1
+    | _ -> if __is_mutaml_mutant__ "test:7" then 3 else 2
 
 
 
