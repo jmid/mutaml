@@ -54,6 +54,4 @@ jobs:
 
       - run: opam install .
 
-      - run: opam reinstall . --deps-only --with-test
-
       - run: opam reinstall . --with-test
