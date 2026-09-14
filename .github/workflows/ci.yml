@@ -2,7 +2,11 @@ name: Main CI workflow
 
 on:
   pull_request:
+    branches:
+      - main
   push:
+    branches:
+      - main
 
 jobs:
   build:
@@ -14,20 +18,18 @@ jobs:
           - ubuntu-latest
 
         ocaml-compiler:
-#          - 4.08.x
-#          - 4.09.x
-#          - 4.10.x
-#          - 4.11.x
           - 4.12.x
 #          - 4.13.x
           - 4.14.x
           - 5.3.x
+          - 5.4.x
+          - 5.5.x
 
     runs-on: ${{ matrix.os }}
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Use OCaml ${{ matrix.ocaml-compiler }}
         uses: ocaml/setup-ocaml@v3
@@ -48,8 +50,13 @@ jobs:
           echo `which timeout`
 #         ls /usr/local/opt/coreutils/libexec/gnubin
 
-      - run: opam install . --deps-only --with-test
+      - run: opam install . --deps-only
 
-      - run: opam exec -- dune build @all
+      - run: opam install .
 
-      - run: opam exec -- dune build @runtest
+      - run: |
+          set +e
+          opam reinstall . --with-test
+          exit_code="$?"
+          if [[ "$exit_code" == "20" ]]; then echo "Not able to run --with-test on this version"; exit 0; fi
+          exit $exit_code
