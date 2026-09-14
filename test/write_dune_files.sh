@@ -10,6 +10,6 @@ cat > dune <<EOF
 (executable
  (name test)
  (modes byte)
- (ocamlc_flags -dsource)
+ (ocamlc_flags -dsource -w -partial-match)
  (instrumentation (backend mutaml)))
 EOF
