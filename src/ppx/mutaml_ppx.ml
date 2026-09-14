@@ -463,10 +463,13 @@ class mutate_mapper (rs : RS.t) =
         self#mutaml_mutant ctx loc(*e0.pexp_loc*) [%expr ()] e0' (string_of_exp e1) in
       { e0 with pexp_desc = Pexp_sequence (e0'',e1') }
 
-    | _, Pexp_function cases ->
-      self#cases ctx cases >>| fun cases_pure -> (* all cases are pure in 'function' *)
-      let function_ = { e with pexp_desc = Pexp_function cases_pure } in
-      if Match.cases_contain_matching_patterns cases_pure
+    | _, Pexp_function (params, constrs, fbody) ->
+      self#function_body ctx fbody >>| fun fbody ->
+      let function_ = { e with pexp_desc = Pexp_function (params, constrs, fbody) } in
+      let contains_matching_patterns = (match fbody with
+          | Pfunction_body _ -> false
+          | Pfunction_cases (cases_pure,_,_) -> Match.cases_contain_matching_patterns cases_pure) in
+      if contains_matching_patterns
       then
         Exp.attr function_ (* disable pattern-match warning *)
           { attr_name = {txt = "ocaml.warning"; loc};
@@ -488,6 +491,14 @@ class mutate_mapper (rs : RS.t) =
       else match_
     | _ ->
       super#expression ctx e
+
+  method! function_body ctx body = match body with
+    | Pfunction_body e ->
+      self#expression ctx e >>| fun e ->
+      Pfunction_body e
+    | Pfunction_cases (cases,loc,attrs) ->
+      self#cases ctx cases >>| fun cases_pure -> (* all cases are pure in 'function' *)
+      Pfunction_cases (cases_pure,loc,attrs)
 
   (* don't mutate attribute parameters such as 'false' in [@@deriving show {with_path=false}] *)
   method! attributes _ctx attrs = return attrs
