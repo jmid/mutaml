@@ -13,7 +13,7 @@
  (name mutaml)
  (synopsis "A mutation tester for OCaml")
  (license "BSD-2-Clause")
- (version "0.3")
+ (version "0.4")
  (description
   "\| Mutaml is a mutation testing tool for OCaml.
   "\| It uses a ppxlib-based preprocessor to make a series of small

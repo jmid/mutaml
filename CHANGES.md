@@ -1,5 +1,5 @@
-Next release
-------------
+0.4
+---
 
 - Support ppxlib 0.37 and 0.38 and require dune.3.22.0 #49
 - Adjust test suite to be compatible with >= dune.3.22.0 #48
