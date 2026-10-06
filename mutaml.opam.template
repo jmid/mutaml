@@ -1,7 +1,6 @@
 build: [
   ["dune" "subst"] {dev}
   [
-    "MUTAML_DIFF_COMMAND='gdiff -u'" {os = "freebsd"}
     "dune"
     "build"
     "-p"
