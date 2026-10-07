@@ -1,7 +1,7 @@
 NEXT RELEASE
 ------------
 
-...
+- Use `MUTAML_DIFF_COMMAND="gdiff -u"` in cram tests on FreeBSD for consistent output #53
 
 0.4
 ---
