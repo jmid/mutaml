@@ -2,7 +2,7 @@ Create dune and dune-project files:
   $ bash ../write_dune_files.sh
 
 Use gdiff on FreeBSD:
-  $ if [ $(opam var os) = "freebsd" ]; then export MUTAML_DIFF_COMMAND="gdiff -u"; fi
+  $ if [ -x "$(command -v uname)" ] && [ $(uname -s) = "FreeBSD" ]; then export MUTAML_DIFF_COMMAND="gdiff -u"; fi
 
 Make an .ml-file:
   $ cat > test.ml <<'EOF'
