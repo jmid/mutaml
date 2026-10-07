@@ -4,6 +4,9 @@ Create dune and dune-project files:
   $ export MUTAML_SEED=896745231
   $ export MUTAML_MUT_RATE=100
 
+Use gdiff on FreeBSD:
+  $ if [ $(opam var os) = "freebsd" ]; then export MUTAML_DIFF_COMMAND="gdiff -u"; fi
+
 
 An example with only conservative, GADT-safe mutations:
 --------------------------------------------------------------------------------
