@@ -32,8 +32,6 @@ depends: [
   "ounit2" {with-test}
   "odoc" {with-doc}
 ]
-dev-repo: "git+https://github.com/jmid/mutaml.git"
-x-maintenance-intent: ["(latest)"]
 build: [
   ["dune" "subst"] {dev}
   [
@@ -44,7 +42,9 @@ build: [
     "-j"
     jobs
     "@install"
-    "@runtest" {with-test & arch != "ppc64" & arch != "riscv64"}
+    "@runtest" {with-test}
     "@doc" {with-doc}
   ]
 ]
+dev-repo: "git+https://github.com/jmid/mutaml.git"
+x-maintenance-intent: ["(latest)"]

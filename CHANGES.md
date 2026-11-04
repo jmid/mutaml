@@ -1,6 +1,7 @@
 NEXT RELEASE
 ------------
 
+- Reenable `with-test` from `mutaml.opam` on ppc64 and riscv64 platforms #54
 - Use `MUTAML_DIFF_COMMAND="gdiff -u"` in cram tests on FreeBSD for consistent output #53
 
 0.4
